@@ -5,6 +5,6 @@ Created using Java Swing and includes a database. This application uses a clean 
 
 Critics and suggestions will still be received for the development of this application, thank you.
 
-XII RPL 2 | SMKN 4 Kuningan
+RPL  |  SMKN 4 Kuningan
 
 - a_lpha

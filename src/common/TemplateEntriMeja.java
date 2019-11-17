@@ -11,9 +11,9 @@ import styles.Colors;
  * @author a_lpha
  */
 public class TemplateEntriMeja extends RoundedPanel {
-    
+
     private final EntriMeja currentMeja;
-    
+
     private final int borderRadius = 16;
     private final int[] borderInsets = {0, 0, 0, 0};
     private final Color inactiveBorderColor = Colors.borderColor;
@@ -22,21 +22,21 @@ public class TemplateEntriMeja extends RoundedPanel {
     private final Color inactiveTextColor = Colors.blackTextColor;
     private final Color activeBackgroundColor = Colors.blueBackgroundColor;
     private final Color activeTextColor = Colors.accentColor;
-    
+
     private final EntriMejaPanel context;
     private final Connection connection;
-    
+
     public TemplateEntriMeja(Connection connection, EntriMejaPanel context, EntriMeja entriMeja) {
         super(16);
         this.context = context;
         this.currentMeja = entriMeja;
         this.connection = connection;
         initComponents();
-        
+
         tv_noMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
         tv_noMeja.setForeground(entriMeja.getAtasNama() != null ? activeTextColor : Color.BLACK);
     }
-    
+
     public void setSelected(boolean isSelected) {
         if (isSelected) {
             setBackground(activeBackgroundColor);
@@ -48,7 +48,7 @@ public class TemplateEntriMeja extends RoundedPanel {
             tv_meja.setForeground(inactiveTextColor);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,11 +85,12 @@ public class TemplateEntriMeja extends RoundedPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(13, 13, 13)
-                .addComponent(tv_meja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(13, 13, 13))
-            .addComponent(tv_noMeja, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(tv_noMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_meja, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -107,15 +108,15 @@ public class TemplateEntriMeja extends RoundedPanel {
             setBorder(new RoundedBorder(borderRadius, borderInsets, activeBorderColor));
         }
     }//GEN-LAST:event_formMouseEntered
-    
+
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         if (getBackground() != Colors.blueBackgroundColor) {
             setBorder(new RoundedBorder(borderRadius, borderInsets, inactiveBorderColor));
         }
     }//GEN-LAST:event_formMouseExited
-    
+
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        context.setTableInformation(this, currentMeja);
+        context.showInfoMeja(this, currentMeja);
     }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -254,7 +254,7 @@ public class LoginPageWhiteTheme extends javax.swing.JFrame {
 
         jLabel8.setFont(new java.awt.Font("Product Sans", 0, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 24, 44));
-        jLabel8.setText("Receptionist App v0.4");
+        jLabel8.setText("Restaurant v0.62");
         jLabel8.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
         jLabel9.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N

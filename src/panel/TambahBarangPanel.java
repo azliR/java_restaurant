@@ -5,6 +5,8 @@ import common.RoundedButton;
 import common.a_;
 import common.a_TextField;
 import java.awt.Color;
+import java.awt.FileDialog;
+import java.awt.Frame;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -13,8 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
 import model.Barang;
+import pages.MainPageWhiteTheme;
 import services.DBHelper;
 import styles.Colors;
 
@@ -185,34 +187,21 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_b_clearActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        final JFileChooser fileChooser = new JFileChooser();
-        fileChooser.addChoosableFileFilter(new javax.swing.filechooser.FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                if (file.isDirectory()) {
-                    return true;
-                }
-
-                String extension = getExtension(file);
-                if (extension != null) {
-                    return extension.equals("jpeg")
-                            || extension.equals("jpg")
-                            || extension.equals("png");
-                }
-                return false;
-            }
-
-            @Override
-            public String getDescription() {
-                return "Image File";
-            }
+        FileDialog fileDialog = new FileDialog((Frame) MainPageWhiteTheme.parent, "Pilih Gambar Produk", FileDialog.LOAD);
+        fileDialog.setFilenameFilter((dir, name) -> {
+            return name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".png");
         });
-        fileChooser.setAcceptAllFileFilterUsed(false);
-        int returnVal = fileChooser.showOpenDialog(this);
+        fileDialog.setAlwaysOnTop(true);
+        fileDialog.setLocationRelativeTo(MainPageWhiteTheme.parent);
+        fileDialog.setVisible(true);
+        fileDialog.toFront();
 
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+        String fileDirectory = fileDialog.getDirectory() + fileDialog.getFile();
+
+        if (fileDialog.getFile() != null) {
+            fileDialog.dispose();
             try {
-                File selectedFile = fileChooser.getSelectedFile();
+                File selectedFile = new File(fileDirectory);
 
                 BufferedImage image = ImageIO.read(selectedFile);
                 File resizedImageFile = new File(System.getProperty("user.dir") + "/bin.png");

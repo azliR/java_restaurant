@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  */
 public class EntriMeja {
 
-    int id, idTipeMeja, nomorMeja;
-    String atasNama, maksOrang;
+    int id = -1, idTipeMeja = -1, nomorMeja = -1;
+    String atasNama, maksOrang, waktuPesanan;
 
     public static enum GET_TYPE {
         SEMUA, KOSONG, TERISI, DIPESAN
@@ -25,12 +25,13 @@ public class EntriMeja {
     public EntriMeja() {
     }
 
-    public EntriMeja(int id, int idTipeMeja, int nomorMeja, String atasNama, String jumlahOrang) {
+    public EntriMeja(int id, int idTipeMeja, int nomorMeja, String atasNama, String maksOrang, String waktuPesanan) {
         this.id = id;
         this.idTipeMeja = idTipeMeja;
         this.nomorMeja = nomorMeja;
         this.atasNama = atasNama;
-        this.maksOrang = jumlahOrang;
+        this.maksOrang = maksOrang;
+        this.waktuPesanan = waktuPesanan;
     }
 
     public List<EntriMeja> get(Connection connection, GET_TYPE type) {
@@ -95,6 +96,36 @@ public class EntriMeja {
         return entriMeja;
     }
 
+    public boolean update(Connection c) {
+        StringBuilder sql = new StringBuilder("UPDATE entri_meja SET ");
+        if (idTipeMeja != -1) {
+            sql.append("id_tipe_meja = '").append(idTipeMeja).append("', ");
+        }
+        if (nomorMeja != -1) {
+            sql.append("nomor_meja = '").append(nomorMeja).append("', ");
+        }
+        if (atasNama != null) {
+            sql.append("atas_nama = '").append(atasNama).append("', ");
+        }
+        if (maksOrang != null) {
+            sql.append("maks_orang = '").append(maksOrang).append("', ");
+        }
+        if (waktuPesanan != null) {
+            sql.append("waktu_pesanan = '").append(waktuPesanan).append("', ");
+        }
+        sql.deleteCharAt(sql.length() - 2);
+        sql.append("WHERE id = '").append(id).append("'");
+        System.out.println(sql);
+        try (Statement s = c.createStatement()) {
+            s.executeUpdate(sql.toString());
+
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }
@@ -133,5 +164,13 @@ public class EntriMeja {
 
     public void setMaksOrang(String maksOrang) {
         this.maksOrang = maksOrang;
+    }
+
+    public String getWaktuPesanan() {
+        return waktuPesanan;
+    }
+
+    public void setWaktuPesanan(String waktuPesanan) {
+        this.waktuPesanan = waktuPesanan;
     }
 }

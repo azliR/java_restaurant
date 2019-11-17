@@ -4,6 +4,7 @@ import common.RoundedBorder;
 import common.RoundedButton;
 import common.TemplateEntriMeja;
 import common.a_TextField;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -18,54 +19,81 @@ import styles.Colors;
  * @author a_lpha
  */
 public class EntriMejaPanel extends javax.swing.JPanel {
-
+    
     private final List<TemplateEntriMeja> templateEntriMejas = new ArrayList<>();
     private List<EntriMeja> entriMejas = new ArrayList<>();
-
+    
     private final int buttonRadius = 8;
-
-    public int idMeja = -1;
-
+    private final int padding = 16;
+    
+    public int selectedMeja = -1;
+    
+    private GridLayout gridLayout;
+    
     private final MainPageWhiteTheme context;
     private final Connection connection;
-
+    
     public EntriMejaPanel(MainPageWhiteTheme context, Connection connection) {
         this.connection = connection;
         this.context = context;
         initComponents();
         init();
     }
-
+    
     private void init() {
-        GridLayout gridLayout = new GridLayout(0, 3);
+        gridLayout = new GridLayout(0, 4);
         gridLayout.setHgap(12);
         gridLayout.setVgap(12);
         entriMejaPanel.setLayout(gridLayout);
         entriMejaScroll.getVerticalScrollBar().setUnitIncrement(12);
-
+        
+        infoMejaPanel.setVisible(false);
         loadEntriMeja(new EntriMeja().get(connection, EntriMeja.GET_TYPE.SEMUA));
-        setTableInformation(templateEntriMejas.get(0), entriMejas.get(0));
     }
-
+    
     public void loadEntriMeja(List<EntriMeja> entriMejas) {
         entriMejaPanel.removeAll();
+        templateEntriMejas.clear();
         this.entriMejas = entriMejas;
-
+        
+        final int width = context.content.getWidth() / 4 - padding;
+        
         entriMejas.forEach((_entriMeja) -> {
             TemplateEntriMeja templateEntriMeja = new TemplateEntriMeja(connection, this, _entriMeja);
+            templateEntriMeja.setPreferredSize(new Dimension(width, (int) templateEntriMeja.getPreferredSize().getHeight()));
             templateEntriMejas.add(templateEntriMeja);
             entriMejaPanel.add(templateEntriMeja);
         });
-        entriMejaPanel.revalidate();
+        if (infoMejaPanel.isVisible()) {
+            hideInfoMeja();
+        } else {
+            entriMejaPanel.revalidate();
+        }
     }
-
-    public void setTableInformation(TemplateEntriMeja templateEntriMeja, EntriMeja entriMeja) {
-        idMeja = entriMeja.getId();
-
+    
+    public void showInfoMeja(TemplateEntriMeja templateEntriMeja, EntriMeja entriMeja) {
+        selectedMeja = entriMeja.getId();
+        
+        final int width = (context.content.getWidth() - infoMejaPanel.getPreferredSize().width) / 3 - padding;
+        
+        templateEntriMejas.forEach(((_templateEntriMeja) -> {
+            _templateEntriMeja.setSelected(_templateEntriMeja == templateEntriMeja);
+            if (!infoMejaPanel.isVisible()) {
+                _templateEntriMeja.setPreferredSize(new Dimension(width, _templateEntriMeja.getHeight()));
+                _templateEntriMeja.revalidate();
+            }
+        }));
+        
+        if (!infoMejaPanel.isVisible()) {
+            gridLayout.setColumns(3);
+            infoMejaPanel.setVisible(true);
+            entriMejaPanel.revalidate();
+        }
+        
         tv_atasNama.setText(entriMeja.getAtasNama());
         tv_jumlahOrang.setText(entriMeja.getMaksOrang());
         tv_nomorMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
-
+        
         tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.getIdTipeMeja()).getNamaTipe());
         b_pilihMeja.setText(entriMeja.getAtasNama() != null ? "Sudah Dipesan" : "Pesan Meja");
         b_pilihMeja.setEnabled(entriMeja.getAtasNama() == null);
@@ -73,17 +101,29 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_atasNama.setVisible(entriMeja.getAtasNama() != null);
         l_atasNama.setVisible(entriMeja.getAtasNama() != null);
         s_atasNama.setVisible(entriMeja.getAtasNama() != null);
-
+    }
+    
+    private void hideInfoMeja() {
+        selectedMeja = -1;
+        
+        infoMejaPanel.setVisible(false);
+        gridLayout.setColumns(4);
+        entriMejaPanel.revalidate();
+        
+        final int width = context.content.getWidth() / 4 - padding;
+        
         templateEntriMejas.forEach(((_templateEntriMeja) -> {
-            _templateEntriMeja.setSelected(_templateEntriMeja == templateEntriMeja);
+            _templateEntriMeja.setSelected(false);
+            _templateEntriMeja.setPreferredSize(new Dimension(width, _templateEntriMeja.getHeight()));
+            _templateEntriMeja.revalidate();
         }));
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialog1 = new javax.swing.JDialog();
+        atasNamaDialog = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         et_atasNama = new a_TextField("Atas Nama");
         jLabel5 = new javax.swing.JLabel();
@@ -91,7 +131,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         entriMejaScroll = new common.a_ScrollPane(jPanel2);
         jPanel2 = new javax.swing.JPanel();
         entriMejaPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        infoMejaPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -107,11 +147,12 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         s_atasNama = new javax.swing.JSeparator();
         jSeparator5 = new javax.swing.JSeparator();
         b_detailPesanan = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        jDialog1.setPreferredSize(new java.awt.Dimension(318, 220));
-        jDialog1.setSize(new java.awt.Dimension(318, 187));
-        jDialog1.setType(java.awt.Window.Type.UTILITY);
+        atasNamaDialog.setTitle("Atas Nama");
+        atasNamaDialog.setPreferredSize(new java.awt.Dimension(318, 220));
+        atasNamaDialog.setSize(new java.awt.Dimension(318, 220));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(318, 220));
@@ -161,18 +202,20 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
-        jDialog1.getContentPane().setLayout(jDialog1Layout);
-        jDialog1Layout.setHorizontalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialog1Layout.createSequentialGroup()
+        javax.swing.GroupLayout atasNamaDialogLayout = new javax.swing.GroupLayout(atasNamaDialog.getContentPane());
+        atasNamaDialog.getContentPane().setLayout(atasNamaDialogLayout);
+        atasNamaDialogLayout.setHorizontalGroup(
+            atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(atasNamaDialogLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
-        jDialog1Layout.setVerticalGroup(
-            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+        atasNamaDialogLayout.setVerticalGroup(
+            atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        atasNamaDialog.setLocationRelativeTo(MainPageWhiteTheme.parent);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -199,8 +242,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         entriMejaScroll.setViewportView(jPanel2);
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setMinimumSize(new java.awt.Dimension(360, 360));
+        infoMejaPanel.setBackground(new java.awt.Color(255, 255, 255));
+        infoMejaPanel.setMinimumSize(new java.awt.Dimension(360, 360));
 
         jLabel1.setFont(new java.awt.Font("Product Sans", 0, 24)); // NOI18N
         jLabel1.setForeground(Colors.blackTextColor);
@@ -270,17 +313,30 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         b_detailPesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         b_detailPesanan.setFocusPainted(false);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jButton1.setBackground(new java.awt.Color(255, 255, 255));
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close_grey.png"))); // NOI18N
+        jButton1.setBorderPainted(false);
+        jButton1.setContentAreaFilled(false);
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.setFocusPainted(false);
+        jButton1.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close.png"))); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout infoMejaPanelLayout = new javax.swing.GroupLayout(infoMejaPanel);
+        infoMejaPanel.setLayout(infoMejaPanelLayout);
+        infoMejaPanelLayout.setHorizontalGroup(
+            infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoMejaPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator2)
                     .addComponent(jSeparator5)
                     .addComponent(jSeparator3)
-                    .addComponent(b_pilihMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addComponent(b_pilihMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addComponent(s_atasNama)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_nomorMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -290,17 +346,22 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                     .addComponent(tv_jumlahOrang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(l_atasNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_atasNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel1)
+                    .addGroup(infoMejaPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(b_detailPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        infoMejaPanelLayout.setVerticalGroup(
+            infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(infoMejaPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(23, 23, 23)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel2)
                 .addGap(8, 8, 8)
                 .addComponent(tv_nomorMeja)
                 .addGap(16, 16, 16)
@@ -318,12 +379,12 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(l_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(l_atasNama)
                 .addGap(8, 8, 8)
                 .addComponent(tv_atasNama)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(s_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
                 .addComponent(b_detailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b_pilihMeja, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -338,48 +399,56 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(entriMejaScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1376, Short.MAX_VALUE)
+                .addComponent(entriMejaScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1328, Short.MAX_VALUE)
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(infoMejaPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(infoMejaPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(entriMejaScroll, javax.swing.GroupLayout.Alignment.TRAILING)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_pilihMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pilihMejaActionPerformed
-        jDialog1.setVisible(true);
+        atasNamaDialog.setVisible(true);
     }//GEN-LAST:event_b_pilihMejaActionPerformed
-
+    
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         EntriMeja entriMeja = new EntriMeja();
-        entriMeja.setId(idMeja);
+        entriMeja.setId(selectedMeja);
         entriMeja.setAtasNama(et_atasNama.getText());
-
+        entriMeja.setNomorMeja(Integer.parseInt(tv_nomorMeja.getText()));
+        
         context.nav_entriBarang.setSelected(true);
         context.setNavigationColor();
         context.loadContent(new EntriBarangPanel(context, connection, entriMeja));
+        
+        atasNamaDialog.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+    
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        hideInfoMeja();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDialog atasNamaDialog;
     private javax.swing.JButton b_detailPesanan;
     private javax.swing.JButton b_pilihMeja;
     private javax.swing.JPanel entriMejaPanel;
     private javax.swing.JScrollPane entriMejaScroll;
     private javax.swing.JTextField et_atasNama;
+    private javax.swing.JPanel infoMejaPanel;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;

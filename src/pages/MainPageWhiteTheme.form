@@ -170,7 +170,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="2c" green="18" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Receptionist App v0.4"/>
+            <Property name="text" type="java.lang.String" value="Restaurant v0.62"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
                 <EmptyBorder bottom="0" left="0" right="0" top="6"/>
@@ -224,16 +224,13 @@
                                   <Component id="nav_beranda" max="32767" attributes="0"/>
                                   <Component id="nav_entriMeja1" alignment="0" max="32767" attributes="0"/>
                               </Group>
-                              <Group type="103" alignment="1" groupAlignment="0" attributes="0">
-                                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                                  <Component id="nav_laporan" min="-2" pref="213" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="nav_laporan" alignment="1" min="-2" pref="213" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <EmptySpace min="16" pref="16" max="-2" attributes="0"/>
               </Group>
-              <Group type="102" attributes="0">
+              <Group type="102" alignment="1" attributes="0">
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Component id="tv_profile" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
@@ -242,6 +239,8 @@
                       <Component id="tv_hakAkses" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
+                  <Component id="jButton2" min="-2" pref="36" max="-2" attributes="0"/>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -249,15 +248,18 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="tv_profile" min="-2" max="-2" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="tv_namaPengguna" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-                          <Component id="tv_hakAkses" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="tv_profile" min="-2" max="-2" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="tv_namaPengguna" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
+                              <Component id="tv_hakAkses" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
+                      <Component id="jButton2" min="-2" pref="46" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="59" max="-2" attributes="0"/>
                   <Component id="nav_beranda" min="-2" pref="48" max="-2" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="nav_entriMeja" min="-2" pref="48" max="-2" attributes="0"/>
@@ -275,9 +277,7 @@
                   <Component id="jSeparator2" min="-2" pref="2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="nav_laporan" min="-2" pref="48" max="-2" attributes="0"/>
-                  <EmptySpace pref="205" max="32767" attributes="0"/>
-                  <Component id="jButton1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace pref="231" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -559,14 +559,6 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jButton1"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
-          </Events>
-        </Component>
         <Component class="javax.swing.JRadioButton" name="nav_entriMeja1">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
@@ -611,6 +603,28 @@
             </Property>
           </Properties>
         </Component>
+        <Component class="javax.swing.JButton" name="jButton2">
+          <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/ic_exit-to-app_grey.png"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+            <Property name="borderPainted" type="boolean" value="false"/>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/ic_exit-to-app.png"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -631,8 +645,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="tv_title" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="chipsPanel" max="32767" attributes="0"/>
-                          <EmptySpace pref="904" max="32767" attributes="0"/>
+                          <Component id="chipsPanel" pref="10" max="32767" attributes="0"/>
+                          <EmptySpace pref="905" max="32767" attributes="0"/>
                           <Component id="b_keranjang" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -810,6 +824,9 @@
           <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
+      </AuxValues>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.DesignCardLayout"/>
     </Container>

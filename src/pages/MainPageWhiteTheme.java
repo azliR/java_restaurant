@@ -87,15 +87,15 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
             chipsPanel.removeAll();
             chipsPanel.setVisible(true);
 
+            b_keranjang.setVisible(panel.getClass() == EntriBarangPanel.class);
+
             if (panel.getClass() == EntriBarangPanel.class) {
                 loadChipJenisBarang((EntriBarangPanel) panel);
-                b_keranjang.setVisible(true);
 
             } else if (panel.getClass() == EntriMejaPanel.class) {
                 loadChipStatusMeja((EntriMejaPanel) panel);
 
             } else {
-                b_keranjang.setVisible(false);
                 chipsPanel.setVisible(false);
             }
         } else {
@@ -232,9 +232,9 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
         tv_namaPengguna = new javax.swing.JLabel();
         tv_hakAkses = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton1 = new javax.swing.JButton();
         nav_entriMeja1 = new common.a_SideNavigation(navRadius);
         jSeparator2 = new javax.swing.JSeparator();
+        jButton2 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jPanel3 = new common.RoundedPanel(searchRadius);
         jLabel1 = new javax.swing.JLabel();
@@ -291,7 +291,7 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
         jLabel2.setBackground(new java.awt.Color(0, 24, 44));
         jLabel2.setFont(new java.awt.Font("Product Sans", 0, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 24, 44));
-        jLabel2.setText("Receptionist App v0.4");
+        jLabel2.setText("Restaurant v0.62");
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
         jLabel3.setBackground(new java.awt.Color(0, 24, 44));
@@ -455,13 +455,6 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
 
         jSeparator1.setForeground(Colors.borderColor);
 
-        jButton1.setText("jButton1");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         nav_entriMeja1.setBackground(new java.awt.Color(255, 255, 255));
         navGroup.add(nav_entriMeja1);
         nav_entriMeja1.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
@@ -481,6 +474,19 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
 
         jSeparator2.setForeground(Colors.borderColor);
 
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_exit-to-app_grey.png"))); // NOI18N
+        jButton2.setBorder(null);
+        jButton2.setBorderPainted(false);
+        jButton2.setContentAreaFilled(false);
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton2.setFocusPainted(false);
+        jButton2.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_exit-to-app.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -499,30 +505,32 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
                                 .addComponent(nav_entriMeja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(nav_beranda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(nav_entriMeja1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jButton1)
-                                .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(16, 16, 16))
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(tv_profile)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(tv_namaPengguna)
                     .addComponent(tv_hakAkses))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tv_profile)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(tv_namaPengguna)
-                        .addGap(0, 0, 0)
-                        .addComponent(tv_hakAkses)))
-                .addGap(48, 48, 48)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(tv_profile)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addComponent(tv_namaPengguna)
+                            .addGap(0, 0, 0)
+                            .addComponent(tv_hakAkses)))
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(59, 59, 59)
                 .addComponent(nav_beranda, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(nav_entriMeja, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -540,9 +548,7 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -636,8 +642,8 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(tv_title)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chipsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 904, Short.MAX_VALUE)
+                        .addComponent(chipsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 905, Short.MAX_VALUE)
                         .addComponent(b_keranjang)))
                 .addContainerGap())
         );
@@ -715,7 +721,6 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
 
     private void nav_berandaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_berandaActionPerformed
         loadContent(new BerandaPanel());
-
     }//GEN-LAST:event_nav_berandaActionPerformed
 
     private void nav_entriMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriMejaActionPerformed
@@ -775,14 +780,6 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
 //        entriMejaPanel.revalidate();
     }//GEN-LAST:event_et_searchKeyTyped
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        int dialog = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin keluar?", "Keluar?", JOptionPane.YES_NO_OPTION);
-        if (dialog == 0) {
-            dispose();
-            new LoginPageWhiteTheme().setVisible(true);
-        }
-    }//GEN-LAST:event_jButton1ActionPerformed
-
     private void nav_entriMeja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriMeja1ActionPerformed
         loadContent(new TambahBarangPanel(connection));
 
@@ -797,6 +794,14 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_b_keranjangActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        int dialog = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin keluar?", "Keluar?", JOptionPane.YES_NO_OPTION);
+        if (dialog == 0) {
+            dispose();
+            new LoginPageWhiteTheme().setVisible(true);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -833,11 +838,11 @@ public class MainPageWhiteTheme extends javax.swing.JFrame {
     public javax.swing.JButton b_keranjang;
     private javax.swing.ButtonGroup chipGroup;
     private javax.swing.JPanel chipsPanel;
-    private javax.swing.JPanel content;
+    public javax.swing.JPanel content;
     private javax.swing.JTextField et_search;
     private javax.swing.JButton exit;
     private javax.swing.JPanel header;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

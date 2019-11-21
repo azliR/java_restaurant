@@ -45,7 +45,7 @@ public class Barang {
                 ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                Blob gambarBlob = (Blob) resultSet.getBlob(3);
+                Blob gambarBlob = (Blob) resultSet.getBlob("gambar");
                 byte gambarByte[] = gambarBlob.getBytes(1, (int) gambarBlob.length());
 
                 barang.setId(resultSet.getInt("id"));

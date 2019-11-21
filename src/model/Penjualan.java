@@ -117,6 +117,45 @@ public class Penjualan {
         return generatedId;
     }
 
+    public boolean update(Connection c) {
+        StringBuilder sql = new StringBuilder("UPDATE entri_meja SET ");
+        if (id == 0) {
+            return false;
+        }
+        if (idPengguna != 0) {
+            sql.append("id_pengguna = '").append(idPengguna).append("', ");
+        }
+        if (idMeja != 0) {
+            sql.append("id_meja = '").append(atasNama).append("', ");
+        }
+        if (idStatus != 0) {
+            sql.append("id_status = '").append(idStatus).append("', ");
+        }
+        if (atasNama != null) {
+            sql.append("atas_nama = '").append(atasNama).append("', ");
+        }
+        if (tanggalPenjualan != null) {
+            sql.append("tanggal_penjualan = '").append(tanggalPenjualan).append("', ");
+        }
+        if (total != 0) {
+            sql.append("total = '").append(total).append("', ");
+        }
+        if (keterangan != null) {
+            sql.append("keterangan = '").append(keterangan).append("', ");
+        }
+        sql.deleteCharAt(sql.length() - 2);
+        sql.append("WHERE id = '").append(id).append("'");
+
+        try (Statement s = c.createStatement()) {
+            s.executeUpdate(sql.toString());
+
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
+        }
+        return false;
+    }
+
     public int getId() {
         return id;
     }
@@ -180,5 +219,4 @@ public class Penjualan {
     public void setKeterangan(String keterangan) {
         this.keterangan = keterangan;
     }
-
 }

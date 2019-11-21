@@ -13,7 +13,7 @@
         </Property>
       </Properties>
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="atasNamaDialog.setLocationRelativeTo(MainPageWhiteTheme.parent);"/>
+        <AuxValue name="JavaCodeGenerator_LayoutCodePost" type="java.lang.String" value="atasNamaDialog.setLocationRelativeTo(pages.MainPage.parent);"/>
       </AuxValues>
 
       <Layout>

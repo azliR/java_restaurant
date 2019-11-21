@@ -15,7 +15,7 @@ import java.util.logging.Logger;
  */
 public class EntriMeja {
 
-    int id = -1, idTipeMeja = -1, nomorMeja = -1;
+    int id, idTipeMeja, nomorMeja;
     String atasNama, maksOrang, waktuPesanan;
 
     public static enum GET_TYPE {
@@ -98,10 +98,13 @@ public class EntriMeja {
 
     public boolean update(Connection c) {
         StringBuilder sql = new StringBuilder("UPDATE entri_meja SET ");
-        if (idTipeMeja != -1) {
+        if (id == 0) {
+            return false;
+        }
+        if (idTipeMeja != 0) {
             sql.append("id_tipe_meja = '").append(idTipeMeja).append("', ");
         }
-        if (nomorMeja != -1) {
+        if (nomorMeja != 0) {
             sql.append("nomor_meja = '").append(nomorMeja).append("', ");
         }
         if (atasNama != null) {
@@ -115,7 +118,7 @@ public class EntriMeja {
         }
         sql.deleteCharAt(sql.length() - 2);
         sql.append("WHERE id = '").append(id).append("'");
-        System.out.println(sql);
+
         try (Statement s = c.createStatement()) {
             s.executeUpdate(sql.toString());
 

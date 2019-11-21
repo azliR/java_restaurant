@@ -8,11 +8,11 @@ import model.DetailPenjualan;
  *
  * @author a_lpha
  */
-public class TemplateDetailPesanan extends javax.swing.JPanel {
+public class TemplateDetailPenjualan extends javax.swing.JPanel {
 
     private final int borderRadius = 16;
 
-    public TemplateDetailPesanan(Connection connection, DetailPenjualan detailPenjualan) {
+    public TemplateDetailPenjualan(Connection connection, DetailPenjualan detailPenjualan) {
         initComponents();
 
         Barang barang = new Barang().get(connection, detailPenjualan.getIdBarang());
@@ -33,8 +33,7 @@ public class TemplateDetailPesanan extends javax.swing.JPanel {
         tv_subTotal = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
-        setBorder(new RoundedBorder(borderRadius)
-        );
+        setOpaque(false);
 
         tv_no.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_no.setText("1");

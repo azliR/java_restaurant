@@ -1,7 +1,7 @@
 package panel;
 
 import common.RoundedButton;
-import common.TemplateDetailPesanan;
+import common.TemplateDetailPenjualan;
 import common.TemplatePenjualan;
 import java.awt.GridLayout;
 import java.sql.Connection;
@@ -11,7 +11,7 @@ import javax.swing.DefaultListModel;
 import model.DetailPenjualan;
 import model.Penjualan;
 import model.Pesanan;
-import pages.MainPageWhiteTheme;
+import pages.MainPage;
 import styles.Colors;
 
 /**
@@ -20,7 +20,7 @@ import styles.Colors;
  */
 public class EntriPesananPanel extends javax.swing.JPanel {
 
-    private final List<TemplatePenjualan> templatePesanans = new ArrayList<>();
+    private final List<TemplatePenjualan> templatePenjualans = new ArrayList<>();
     private final DefaultListModel<Pesanan> listModel = new DefaultListModel<>();
 
     public List<Pesanan> pesanans = new ArrayList<>();
@@ -31,10 +31,10 @@ public class EntriPesananPanel extends javax.swing.JPanel {
     private Penjualan selectedPesanan;
 
     private GridLayout gridLayout;
-    private final MainPageWhiteTheme context;
+    private final MainPage context;
     private final Connection connection;
 
-    public EntriPesananPanel(MainPageWhiteTheme context, Connection connection) {
+    public EntriPesananPanel(MainPage context, Connection connection) {
         this.context = context;
         this.connection = connection;
 
@@ -54,11 +54,12 @@ public class EntriPesananPanel extends javax.swing.JPanel {
     }
 
     public void loadBarang(List<Penjualan> penjualans) {
+        templatePenjualans.clear();
         entriPesananPanel.removeAll();
 
         penjualans.forEach((_penjualan) -> {
             TemplatePenjualan templatePenjualan = new TemplatePenjualan(connection, this, _penjualan);
-            templatePesanans.add(templatePenjualan);
+            templatePenjualans.add(templatePenjualan);
             entriPesananPanel.add(templatePenjualan);
         });
         entriPesananPanel.revalidate();
@@ -67,7 +68,7 @@ public class EntriPesananPanel extends javax.swing.JPanel {
     public void showDetailPesanan(TemplatePenjualan templatePenjualan, Penjualan penjualan) {
         selectedPesanan = penjualan;
 
-        templatePesanans.forEach(((_templateBarang) -> {
+        templatePenjualans.forEach(((_templateBarang) -> {
             _templateBarang.setSelected(_templateBarang == templatePenjualan);
         }));
 
@@ -75,7 +76,7 @@ public class EntriPesananPanel extends javax.swing.JPanel {
 
         List<DetailPenjualan> detailPenjualans = new DetailPenjualan().get(connection, penjualan.getId());
         detailPenjualans.forEach((_detailPenjualan) -> {
-            detailPesananListPanel.add(new TemplateDetailPesanan(connection, _detailPenjualan));
+            detailPesananListPanel.add(new TemplateDetailPenjualan(connection, _detailPenjualan));
         });
         detailPesananListPanel.revalidate();
     }
@@ -197,12 +198,11 @@ public class EntriPesananPanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addGroup(detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                        .addGroup(detailPesananPanelLayout.createSequentialGroup()
-                            .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                            .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
+                    .addGroup(detailPesananPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24))
         );
         detailPesananPanelLayout.setVerticalGroup(

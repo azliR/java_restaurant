@@ -1,6 +1,6 @@
 package receptionist;
 
-import pages.MainPageWhiteTheme;
+import pages.MainPage;
 
 /**
  *
@@ -9,6 +9,6 @@ import pages.MainPageWhiteTheme;
 public class Receptionist {
 
     public static void main(String[] args) {
-        new MainPageWhiteTheme(1).setVisible(true);
+        new MainPage(1).setVisible(true);
     }
 }

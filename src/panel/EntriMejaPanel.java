@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import model.EntriMeja;
 import model.TipeMeja;
-import pages.MainPageWhiteTheme;
+import pages.MainPage;
 import styles.Colors;
 
 /**
@@ -19,63 +19,64 @@ import styles.Colors;
  * @author a_lpha
  */
 public class EntriMejaPanel extends javax.swing.JPanel {
-    
+
     private final List<TemplateEntriMeja> templateEntriMejas = new ArrayList<>();
     private List<EntriMeja> entriMejas = new ArrayList<>();
-    
+
     private final int buttonRadius = 8;
     private final int padding = 16;
-    
+
     public int selectedMeja = -1;
-    
+
     private GridLayout gridLayout;
-    
-    private final MainPageWhiteTheme context;
+
+    private final MainPage context;
     private final Connection connection;
-    
-    public EntriMejaPanel(MainPageWhiteTheme context, Connection connection) {
+
+    public EntriMejaPanel(MainPage context, Connection connection) {
         this.connection = connection;
         this.context = context;
         initComponents();
         init();
     }
-    
+
     private void init() {
         gridLayout = new GridLayout(0, 4);
         gridLayout.setHgap(12);
         gridLayout.setVgap(12);
         entriMejaPanel.setLayout(gridLayout);
         entriMejaScroll.getVerticalScrollBar().setUnitIncrement(12);
-        
+
         infoMejaPanel.setVisible(false);
         loadEntriMeja(new EntriMeja().get(connection, EntriMeja.GET_TYPE.SEMUA));
     }
-    
+
     public void loadEntriMeja(List<EntriMeja> entriMejas) {
         entriMejaPanel.removeAll();
         templateEntriMejas.clear();
         this.entriMejas = entriMejas;
-        
+
+        if (infoMejaPanel.isVisible()) {
+            infoMejaPanel.setVisible(false);
+        }
+
         final int width = context.content.getWidth() / 4 - padding;
-        
+
         entriMejas.forEach((_entriMeja) -> {
             TemplateEntriMeja templateEntriMeja = new TemplateEntriMeja(connection, this, _entriMeja);
             templateEntriMeja.setPreferredSize(new Dimension(width, (int) templateEntriMeja.getPreferredSize().getHeight()));
             templateEntriMejas.add(templateEntriMeja);
             entriMejaPanel.add(templateEntriMeja);
         });
-        if (infoMejaPanel.isVisible()) {
-            hideInfoMeja();
-        } else {
-            entriMejaPanel.revalidate();
-        }
+        gridLayout.setColumns(4);
+        entriMejaPanel.revalidate();
     }
-    
+
     public void showInfoMeja(TemplateEntriMeja templateEntriMeja, EntriMeja entriMeja) {
         selectedMeja = entriMeja.getId();
-        
+
         final int width = (context.content.getWidth() - infoMejaPanel.getPreferredSize().width) / 3 - padding;
-        
+
         templateEntriMejas.forEach(((_templateEntriMeja) -> {
             _templateEntriMeja.setSelected(_templateEntriMeja == templateEntriMeja);
             if (!infoMejaPanel.isVisible()) {
@@ -83,17 +84,17 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 _templateEntriMeja.revalidate();
             }
         }));
-        
+
         if (!infoMejaPanel.isVisible()) {
             gridLayout.setColumns(3);
             infoMejaPanel.setVisible(true);
             entriMejaPanel.revalidate();
         }
-        
+
         tv_atasNama.setText(entriMeja.getAtasNama());
         tv_jumlahOrang.setText(entriMeja.getMaksOrang());
         tv_nomorMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
-        
+
         tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.getIdTipeMeja()).getNamaTipe());
         b_pilihMeja.setText(entriMeja.getAtasNama() != null ? "Sudah Dipesan" : "Pesan Meja");
         b_pilihMeja.setEnabled(entriMeja.getAtasNama() == null);
@@ -102,23 +103,23 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         l_atasNama.setVisible(entriMeja.getAtasNama() != null);
         s_atasNama.setVisible(entriMeja.getAtasNama() != null);
     }
-    
+
     private void hideInfoMeja() {
         selectedMeja = -1;
-        
+
         infoMejaPanel.setVisible(false);
         gridLayout.setColumns(4);
         entriMejaPanel.revalidate();
-        
+
         final int width = context.content.getWidth() / 4 - padding;
-        
+
         templateEntriMejas.forEach(((_templateEntriMeja) -> {
             _templateEntriMeja.setSelected(false);
             _templateEntriMeja.setPreferredSize(new Dimension(width, _templateEntriMeja.getHeight()));
             _templateEntriMeja.revalidate();
         }));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -215,7 +216,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        atasNamaDialog.setLocationRelativeTo(MainPageWhiteTheme.parent);
+        atasNamaDialog.setLocationRelativeTo(MainPage.parent);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -416,20 +417,20 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     private void b_pilihMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pilihMejaActionPerformed
         atasNamaDialog.setVisible(true);
     }//GEN-LAST:event_b_pilihMejaActionPerformed
-    
+
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         EntriMeja entriMeja = new EntriMeja();
         entriMeja.setId(selectedMeja);
         entriMeja.setAtasNama(et_atasNama.getText());
         entriMeja.setNomorMeja(Integer.parseInt(tv_nomorMeja.getText()));
-        
+
         context.nav_entriBarang.setSelected(true);
         context.setNavigationColor();
         context.loadContent(new EntriBarangPanel(context, connection, entriMeja));
-        
+
         atasNamaDialog.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-    
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         hideInfoMeja();
     }//GEN-LAST:event_jButton1ActionPerformed

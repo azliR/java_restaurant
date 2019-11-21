@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package panel;
 
 import common.RoundedBorder;
 import common.RoundedButton;
-import common.TemplateBarangSingle;
+import common.TemplateBarang;
 import common.a_;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -29,7 +25,8 @@ import model.EntriMeja;
 import model.JenisBarang;
 import model.Penjualan;
 import model.Pesanan;
-import pages.MainPageWhiteTheme;
+import model.Varian;
+import pages.MainPage;
 import styles.Colors;
 
 /**
@@ -39,7 +36,7 @@ import styles.Colors;
 public class EntriBarangPanel extends javax.swing.JPanel {
 
     private List<Barang> barangs = new ArrayList<>();
-    private final List<TemplateBarangSingle> templateBarangs = new ArrayList<>();
+    private final List<TemplateBarang> templateBarangs = new ArrayList<>();
     private final DefaultListModel<Pesanan> listModel = new DefaultListModel<>();
 
     public List<Pesanan> pesanans = new ArrayList<>();
@@ -53,10 +50,10 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private Barang selectedBarang;
 
     private GridLayout gridLayout;
-    private final MainPageWhiteTheme context;
+    private final MainPage context;
     private final Connection connection;
 
-    public EntriBarangPanel(MainPageWhiteTheme context, Connection connection) {
+    public EntriBarangPanel(MainPage context, Connection connection) {
         this.context = context;
         this.connection = connection;
         this.entriMeja = null;
@@ -65,7 +62,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         init();
     }
 
-    public EntriBarangPanel(MainPageWhiteTheme context, Connection connection, EntriMeja entriMeja) {
+    public EntriBarangPanel(MainPage context, Connection connection, EntriMeja entriMeja) {
         this.context = context;
         this.connection = connection;
         this.entriMeja = entriMeja;
@@ -80,7 +77,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         gridLayout.setVgap(12);
         entriBarangPanel.setLayout(gridLayout);
 
-        entriBarangScroll.getVerticalScrollBar().setUnitIncrement(12);
+        entriBarangScroll.getVerticalScrollBar().setUnitIncrement(14);
 
         if (entriMeja != null) {
             tv_nomorMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
@@ -102,20 +99,24 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         templateBarangs.clear();
         this.barangs = barangs;
 
+        if (detailBarangPanel.isVisible()) {
+            detailBarangPanel.setVisible(false);
+        }
+        if (detailPesananPanel.isVisible()) {
+            detailPesananPanel.setVisible(false);
+        }
+
         final int width = context.content.getWidth() / 2 - padding;
 
         barangs.forEach((_barang) -> {
-            TemplateBarangSingle templateBarang = new TemplateBarangSingle(connection, this, _barang);
+            TemplateBarang templateBarang = new TemplateBarang(connection, this, _barang);
             templateBarang.setPreferredSize(new Dimension(width, (int) templateBarang.getPreferredSize().getHeight()));
 
             templateBarangs.add(templateBarang);
             entriBarangPanel.add(templateBarang);
         });
-        if (detailBarangPanel.isVisible()) {
-            hideDetailBarang();
-        } else {
-            entriBarangPanel.revalidate();
-        }
+        gridLayout.setColumns(2);
+        entriBarangPanel.revalidate();
     }
 
     public void addToCart(Pesanan pesanan) {
@@ -131,7 +132,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         context.b_keranjang.setText("Rp. " + a_.convertCurrency(total));
     }
 
-    public void showDetailBarang(TemplateBarangSingle templateBarang, Barang barang) {
+    public void showDetailBarang(TemplateBarang templateBarang, Barang barang) {
         selectedBarang = barang;
 
         final int width = context.content.getWidth() - detailBarangPanel.getPreferredSize().width - padding;
@@ -183,6 +184,19 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_namaBarangSubTitle.setText(("NAMA " + new JenisBarang().get(connection, barang.getIdJenis()).getNamaJenis()).toUpperCase());
         tv_namaBarang.setText("<html>" + barang.getNamaBarang() + "</html>");
         et_jumlah.setText("1");
+
+        List<Varian> varians = new Varian().getByIdBarang(connection, barang.getId());
+        DefaultComboBoxModel<Varian> comboBoxModel = new DefaultComboBoxModel<>();
+        comboBoxModel.addAll(varians);
+
+        cb_varian.setVisible(!varians.isEmpty());
+        tv_varian.setVisible(!varians.isEmpty());
+        s_varian.setVisible(!varians.isEmpty());
+
+        if (!varians.isEmpty()) {
+            cb_varian.setModel(comboBoxModel);
+            comboBoxModel.setSelectedItem(varians.get(0));
+        }
     }
 
     private void hideDetailBarang() {
@@ -302,11 +316,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         b_tambah = new RoundedButton(circleRadius);
         b_pesan = new RoundedButton(buttonRadius);
         tv_namaBarangSubTitle = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-        jSeparator4 = new javax.swing.JSeparator();
+        tv_varian = new javax.swing.JLabel();
+        s_varian = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
         b_closeDetailBarang = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cb_varian = new javax.swing.JComboBox<>();
         jSeparator1 = new javax.swing.JSeparator();
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -326,7 +340,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
         entriBarangScroll.setBackground(new java.awt.Color(255, 255, 255));
         entriBarangScroll.setBorder(null);
-        entriBarangScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 0, 8));
@@ -422,7 +435,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                         .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel43, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
         detailPesananPanelLayout.setVerticalGroup(
@@ -512,11 +525,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_namaBarangSubTitle.setForeground(Colors.greyTextColor);
         tv_namaBarangSubTitle.setText("NAMA MAKANAN");
 
-        jLabel6.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
-        jLabel6.setForeground(Colors.greyTextColor);
-        jLabel6.setText("VARIAN");
+        tv_varian.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        tv_varian.setForeground(Colors.greyTextColor);
+        tv_varian.setText("VARIAN");
 
-        jSeparator4.setForeground(Colors.borderColor);
+        s_varian.setForeground(Colors.borderColor);
 
         jSeparator2.setForeground(Colors.borderColor);
 
@@ -533,12 +546,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(255, 255, 255));
-        jComboBox1.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        jComboBox1.setForeground(Colors.blackTextColor);
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Pedas", "Sedang", "Original" }));
-        jComboBox1.setToolTipText("");
-        jComboBox1.setOpaque(false);
+        cb_varian.setBackground(new java.awt.Color(255, 255, 255));
+        cb_varian.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cb_varian.setForeground(Colors.blackTextColor);
+        cb_varian.setToolTipText("");
+        cb_varian.setOpaque(false);
 
         javax.swing.GroupLayout detailBarangPanelLayout = new javax.swing.GroupLayout(detailBarangPanel);
         detailBarangPanel.setLayout(detailBarangPanelLayout);
@@ -547,9 +559,9 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             .addGroup(detailBarangPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jSeparator4)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tv_namaBarangSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                    .addComponent(s_varian)
+                    .addComponent(tv_varian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_namaBarangSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
                     .addGroup(detailBarangPanelLayout.createSequentialGroup()
                         .addComponent(b_kurang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -561,7 +573,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_closeDetailBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jSeparator2)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(cb_varian, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(detailBarangPanelLayout.createSequentialGroup()
                         .addComponent(tv_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))
@@ -585,11 +597,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel6)
+                .addComponent(tv_varian)
                 .addGap(8, 8, 8)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(cb_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(s_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -656,7 +668,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         }
 
         int dialog = JOptionPane.showConfirmDialog(context, "Konfirmasi Pesanan?", "Konfirmasi?", JOptionPane.YES_NO_OPTION);
-        System.out.println(dialog);
+
         if (dialog != 0) {
             return;
         }
@@ -687,10 +699,15 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
 
             if (isSucceed) {
+                if (entriMeja.update(connection)) {
+                    a_.showDialog(a_.DialogType.INSERT_SUCCESS);
+                    pesanans.clear();
+                    context.loadContent(new EntriPesananPanel(context, connection));
+                    context.setNavigationColor();
+                } else {
+                    a_.showDialog(a_.DialogType.INSERT_ERROR);
+                }
 
-                a_.showDialog(a_.DialogType.INSERT_SUCCESS);
-                pesanans.clear();
-                context.loadContent(new EntriPesananPanel(context, connection));
             } else {
                 a_.showDialog(a_.DialogType.INSERT_ERROR);
             }
@@ -728,6 +745,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private javax.swing.JButton b_kurang;
     private javax.swing.JButton b_pesan;
     private javax.swing.JButton b_tambah;
+    private javax.swing.JComboBox<Varian> cb_varian;
     private javax.swing.JPanel detailBarangPanel;
     public javax.swing.JPanel detailPesananPanel;
     private javax.swing.JPanel entriBarangPanel;
@@ -735,22 +753,21 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private javax.swing.JTextField et_jumlah;
     private javax.swing.JLabel iv_gambarBarang;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JLabel jLabel43;
-    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator32;
-    private javax.swing.JSeparator jSeparator4;
     private javax.swing.JList<Pesanan> l_daftarPesanan;
+    private javax.swing.JSeparator s_varian;
     private javax.swing.JLabel tv_detailTitle;
     private javax.swing.JLabel tv_namaBarang;
     private javax.swing.JLabel tv_namaBarangSubTitle;
     private javax.swing.JLabel tv_nomorMeja;
+    private javax.swing.JLabel tv_varian;
     // End of variables declaration//GEN-END:variables
 }

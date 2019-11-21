@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import model.Barang;
-import pages.MainPageWhiteTheme;
+import pages.MainPage;
 import services.DBHelper;
 import styles.Colors;
 
@@ -187,12 +187,12 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_b_clearActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        FileDialog fileDialog = new FileDialog((Frame) MainPageWhiteTheme.parent, "Pilih Gambar Produk", FileDialog.LOAD);
+        FileDialog fileDialog = new FileDialog((Frame) MainPage.parent, "Pilih Gambar Produk", FileDialog.LOAD);
         fileDialog.setFilenameFilter((dir, name) -> {
             return name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".png");
         });
         fileDialog.setAlwaysOnTop(true);
-        fileDialog.setLocationRelativeTo(MainPageWhiteTheme.parent);
+        fileDialog.setLocationRelativeTo(MainPage.parent);
         fileDialog.setVisible(true);
         fileDialog.toFront();
 

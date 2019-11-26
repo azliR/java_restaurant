@@ -12,6 +12,7 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
 import pages.MainPage;
 
@@ -82,9 +83,56 @@ public class a_ {
         return df.format(currency);
     }
 
-    public static String convertTimestamp(String date) throws ParseException {
+    public static String convertTimestamp(String dateString) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return new SimpleDateFormat("HH:mm:ss | dd MMM yyyy").format(sdf.parse(date));
+        Date date = sdf.parse(dateString);
+        Date currentDate = new Date();
+
+        long minutes = 1000 * 60;
+        long different = currentDate.getTime() - date.getTime();
+        long elapsedMinutes = different / minutes;
+
+        if (elapsedMinutes == 0) {
+            return "Baru saja";
+
+        } else if (elapsedMinutes < 60) {
+            return elapsedMinutes + " menit lalu";
+
+        } else {
+            long hours = minutes * 60;
+            long elapsedHour = different / hours;
+
+            if (elapsedHour < 24) {
+                return elapsedHour + " jam lalu";
+            } else {
+                long days = hours * 24;
+                long elapsedDay = different / days;
+
+                if (elapsedDay < 7) {
+                    return elapsedDay + " hari lalu";
+                } else {
+                    long weeks = days * 7;
+                    long elapsedWeek = different / weeks;
+
+                    if (elapsedDay < 30) {
+                        return elapsedWeek + " minggu lalu";
+
+                    } else {
+                        long months = days * 30;
+                        long elapsedMonth = different / months;
+
+                        if (elapsedMonth < 12) {
+                            return elapsedMonth + " bulan lalu";
+                        } else {
+                            long years = days * 365;
+                            long elapsedYear = different / years;
+
+                            return elapsedYear + " tahun lalu";
+                        }
+                    }
+                }
+            }
+        }
     }
 
     public static BufferedImage convertRoundedImage(BufferedImage image, int borderRadius) {

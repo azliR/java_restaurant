@@ -163,7 +163,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
         String hargaBarang = et_hargaBarang.getText();
         String stokBarang = et_stokBarang.getText();
 
-        if (namaBarang.isEmpty() || hargaBarang.isEmpty() || stokBarang.isEmpty()) {
+        if (namaBarang.isBlank() || hargaBarang.isBlank() || stokBarang.isBlank()) {
             a_.showDialog(a_.DialogType.EMPTY_FIELD);
             return;
         }

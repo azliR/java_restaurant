@@ -45,6 +45,7 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
         tv_jumlahBarang.setText("x2");
 
         tv_subTotal.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tv_subTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         tv_subTotal.setText("Rp. 12.000");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -52,15 +53,15 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(16, 16, 16)
+                .addGap(8, 8, 8)
                 .addComponent(tv_no)
                 .addGap(24, 24, 24)
                 .addComponent(tv_namaBarang)
-                .addGap(24, 24, 24)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 228, Short.MAX_VALUE)
                 .addComponent(tv_jumlahBarang)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(tv_subTotal)
-                .addGap(24, 24, 24))
+                .addGap(18, 18, 18)
+                .addComponent(tv_subTotal, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE)
+                .addGap(8, 8, 8))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

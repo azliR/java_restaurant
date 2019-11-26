@@ -3,10 +3,13 @@ package panel;
 import common.RoundedButton;
 import common.TemplateDetailPenjualan;
 import common.TemplatePenjualan;
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javax.swing.DefaultListModel;
 import model.DetailPenjualan;
 import model.Penjualan;
@@ -18,14 +21,13 @@ import styles.Colors;
  *
  * @author a_lpha
  */
-public class EntriPesananPanel extends javax.swing.JPanel {
+public class EntriPenjualanPanel extends javax.swing.JPanel {
 
     private final List<TemplatePenjualan> templatePenjualans = new ArrayList<>();
     private final DefaultListModel<Pesanan> listModel = new DefaultListModel<>();
 
     public List<Pesanan> pesanans = new ArrayList<>();
 
-    private final int circleRadius = 64;
     private final int buttonRadius = 8;
 
     private Penjualan selectedPesanan;
@@ -34,7 +36,11 @@ public class EntriPesananPanel extends javax.swing.JPanel {
     private final MainPage context;
     private final Connection connection;
 
-    public EntriPesananPanel(MainPage context, Connection connection) {
+    private final String serverAddress = "localhost";
+    private Scanner in;
+    private PrintWriter out;
+
+    public EntriPenjualanPanel(MainPage context, Connection connection) {
         this.context = context;
         this.connection = connection;
 
@@ -48,17 +54,19 @@ public class EntriPesananPanel extends javax.swing.JPanel {
         gridLayout.setVgap(12);
         entriPesananPanel.setLayout(gridLayout);
 
-        entriPesananScroll.getVerticalScrollBar().setUnitIncrement(12);
+        entriPenjualanScroll.getVerticalScrollBar().setUnitIncrement(12);
 
-        loadBarang(new Penjualan().get(connection));
+        loadPesanan(new Penjualan().get(connection));
     }
 
-    public void loadBarang(List<Penjualan> penjualans) {
+    public void loadPesanan(List<Penjualan> penjualans) {
         templatePenjualans.clear();
         entriPesananPanel.removeAll();
 
+        int width = context.content.getWidth() - detailPenjualanPanel.getPreferredSize().width - 16;
         penjualans.forEach((_penjualan) -> {
             TemplatePenjualan templatePenjualan = new TemplatePenjualan(connection, this, _penjualan);
+            templatePenjualan.setPreferredSize(new Dimension(width, templatePenjualan.getPreferredSize().height));
             templatePenjualans.add(templatePenjualan);
             entriPesananPanel.add(templatePenjualan);
         });
@@ -76,13 +84,17 @@ public class EntriPesananPanel extends javax.swing.JPanel {
 
         List<DetailPenjualan> detailPenjualans = new DetailPenjualan().get(connection, penjualan.getId());
         detailPenjualans.forEach((_detailPenjualan) -> {
-            detailPesananListPanel.add(new TemplateDetailPenjualan(connection, _detailPenjualan));
+            TemplateDetailPenjualan templateDetailPenjualan = new TemplateDetailPenjualan(connection, _detailPenjualan);
+            int width = detailPesananScroll.getWidth() - 8;
+            int height = templateDetailPenjualan.getPreferredSize().height;
+            templateDetailPenjualan.setPreferredSize(new Dimension(width, height));
+            detailPesananListPanel.add(templateDetailPenjualan);
         });
         detailPesananListPanel.revalidate();
     }
 
     private void hideDetailPesanan() {
-        detailPesananPanel.setVisible(false);
+        detailPenjualanPanel.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -91,14 +103,14 @@ public class EntriPesananPanel extends javax.swing.JPanel {
 
         jPanel2 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        entriPesananScroll = new common.a_ScrollPane(jPanel1);
+        entriPenjualanScroll = new common.a_ScrollPane(jPanel1);
         jPanel1 = new javax.swing.JPanel();
         entriPesananPanel = new javax.swing.JPanel();
-        detailPesananPanel = new javax.swing.JPanel();
+        detailPenjualanPanel = new javax.swing.JPanel();
         jLabel41 = new javax.swing.JLabel();
         b_konfirmasiPesanan = new RoundedButton(buttonRadius);
         b_closeDetailPesanan = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
+        detailPesananScroll = new javax.swing.JScrollPane();
         panelFlow = new javax.swing.JPanel();
         detailPesananListPanel = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -118,9 +130,9 @@ public class EntriPesananPanel extends javax.swing.JPanel {
 
         setBackground(new java.awt.Color(255, 255, 255));
 
-        entriPesananScroll.setBackground(new java.awt.Color(255, 255, 255));
-        entriPesananScroll.setBorder(null);
-        entriPesananScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        entriPenjualanScroll.setBackground(new java.awt.Color(255, 255, 255));
+        entriPenjualanScroll.setBorder(null);
+        entriPenjualanScroll.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 0, 8));
@@ -140,10 +152,10 @@ public class EntriPesananPanel extends javax.swing.JPanel {
 
         jPanel1.add(entriPesananPanel);
 
-        entriPesananScroll.setViewportView(jPanel1);
+        entriPenjualanScroll.setViewportView(jPanel1);
 
-        detailPesananPanel.setBackground(new java.awt.Color(255, 255, 255));
-        detailPesananPanel.setMinimumSize(new java.awt.Dimension(360, 360));
+        detailPenjualanPanel.setBackground(new java.awt.Color(255, 255, 255));
+        detailPenjualanPanel.setMinimumSize(new java.awt.Dimension(360, 360));
 
         jLabel41.setFont(new java.awt.Font("Google Sans", 0, 22)); // NOI18N
         jLabel41.setForeground(Colors.blackTextColor);
@@ -178,8 +190,8 @@ public class EntriPesananPanel extends javax.swing.JPanel {
             }
         });
 
-        jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane2.setBorder(null);
+        detailPesananScroll.setBackground(new java.awt.Color(255, 255, 255));
+        detailPesananScroll.setBorder(null);
 
         panelFlow.setBackground(new java.awt.Color(255, 255, 255));
         panelFlow.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
@@ -188,36 +200,38 @@ public class EntriPesananPanel extends javax.swing.JPanel {
         detailPesananListPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
         panelFlow.add(detailPesananListPanel);
 
-        jScrollPane2.setViewportView(panelFlow);
+        detailPesananScroll.setViewportView(panelFlow);
 
-        javax.swing.GroupLayout detailPesananPanelLayout = new javax.swing.GroupLayout(detailPesananPanel);
-        detailPesananPanel.setLayout(detailPesananPanelLayout);
-        detailPesananPanelLayout.setHorizontalGroup(
-            detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailPesananPanelLayout.createSequentialGroup()
+        javax.swing.GroupLayout detailPenjualanPanelLayout = new javax.swing.GroupLayout(detailPenjualanPanel);
+        detailPenjualanPanel.setLayout(detailPenjualanPanelLayout);
+        detailPenjualanPanelLayout.setHorizontalGroup(
+            detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detailPenjualanPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 260, Short.MAX_VALUE)
-                    .addGroup(detailPesananPanelLayout.createSequentialGroup()
+                .addGroup(detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(detailPesananScroll)
+                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(detailPenjualanPanelLayout.createSequentialGroup()
                         .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24))
         );
-        detailPesananPanelLayout.setVerticalGroup(
-            detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailPesananPanelLayout.createSequentialGroup()
+        detailPenjualanPanelLayout.setVerticalGroup(
+            detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(detailPenjualanPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
                     .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2)
+                .addComponent(detailPesananScroll)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
+
+        b_closeDetailPesanan.setVisible(false);
 
         jSeparator1.setForeground(Colors.borderColor);
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -228,17 +242,17 @@ public class EntriPesananPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(entriPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1538, Short.MAX_VALUE)
+                .addComponent(entriPenjualanScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1538, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(detailPesananPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(detailPenjualanPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(entriPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
-            .addComponent(detailPesananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(entriPenjualanScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(detailPenjualanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -254,15 +268,15 @@ public class EntriPesananPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_closeDetailPesanan;
     private javax.swing.JButton b_konfirmasiPesanan;
+    public javax.swing.JPanel detailPenjualanPanel;
     private javax.swing.JPanel detailPesananListPanel;
-    public javax.swing.JPanel detailPesananPanel;
+    private javax.swing.JScrollPane detailPesananScroll;
+    private javax.swing.JScrollPane entriPenjualanScroll;
     private javax.swing.JPanel entriPesananPanel;
-    private javax.swing.JScrollPane entriPesananScroll;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JPanel panelFlow;
     // End of variables declaration//GEN-END:variables

@@ -4,11 +4,13 @@ import common.RoundedBorder;
 import common.RoundedButton;
 import common.TemplateEntriMeja;
 import common.a_TextField;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import model.EntriMeja;
 import model.TipeMeja;
 import pages.MainPage;
@@ -97,6 +99,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.getIdTipeMeja()).getNamaTipe());
         b_pilihMeja.setText(entriMeja.getAtasNama() != null ? "Sudah Dipesan" : "Pesan Meja");
+        b_pilihMeja.setBackground(entriMeja.getAtasNama() != null ? Colors.primaryColor : Colors.accentColor);
         b_pilihMeja.setEnabled(entriMeja.getAtasNama() == null);
         b_detailPesanan.setVisible(entriMeja.getAtasNama() != null);
         tv_atasNama.setVisible(entriMeja.getAtasNama() != null);
@@ -127,8 +130,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         et_atasNama = new a_TextField("Atas Nama");
-        jLabel5 = new javax.swing.JLabel();
-        jButton2 = new RoundedButton(buttonRadius);
+        tv_hint = new javax.swing.JLabel();
+        b_okeAtasNama = new RoundedButton(buttonRadius);
         entriMejaScroll = new common.a_ScrollPane(jPanel2);
         jPanel2 = new javax.swing.JPanel();
         entriMejaPanel = new javax.swing.JPanel();
@@ -159,21 +162,27 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         jPanel3.setPreferredSize(new java.awt.Dimension(318, 220));
 
         et_atasNama.setBorder(null);
-
-        jLabel5.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        jLabel5.setForeground(Colors.greyTextColor);
-        jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel5.setText("<html>Masukkan nama pelanggan yang memesan meja ini</html>");
-
-        jButton2.setBackground(Colors.accentColor);
-        jButton2.setForeground(new java.awt.Color(255, 255, 255));
-        jButton2.setText("Oke");
-        jButton2.setBorder(null);
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.setFocusPainted(false);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        et_atasNama.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                et_atasNamaActionPerformed(evt);
+            }
+        });
+
+        tv_hint.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tv_hint.setForeground(Colors.greyTextColor);
+        tv_hint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tv_hint.setText("<html>Masukkan nama pelanggan yang memesan meja ini</html>");
+
+        b_okeAtasNama.setBackground(Colors.accentColor);
+        b_okeAtasNama.setFont(new java.awt.Font("Product Sans Medium", 0, 14)); // NOI18N
+        b_okeAtasNama.setForeground(new java.awt.Color(255, 255, 255));
+        b_okeAtasNama.setText("Oke");
+        b_okeAtasNama.setBorder(null);
+        b_okeAtasNama.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        b_okeAtasNama.setFocusPainted(false);
+        b_okeAtasNama.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_okeAtasNamaActionPerformed(evt);
             }
         });
 
@@ -187,8 +196,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                     .addComponent(et_atasNama)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                        .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tv_hint, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -197,9 +206,9 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addGap(36, 36, 36)
                 .addComponent(et_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tv_hint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -216,7 +225,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        atasNamaDialog.setLocationRelativeTo(MainPage.parent);
+        atasNamaDialog.setLocationRelativeTo(pages.MainPage.parent);
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -418,7 +427,14 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog.setVisible(true);
     }//GEN-LAST:event_b_pilihMejaActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void b_okeAtasNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_okeAtasNamaActionPerformed
+        if (et_atasNama.getText().isBlank()) {
+            tv_hint.setText("Masukkan nama pelanggan untuk melanjutkan!");
+            tv_hint.setIcon(new ImageIcon(getClass().getResource("/images/ic_alert-circle.png")));
+            tv_hint.setForeground(Color.RED);
+            return;
+        }
+
         EntriMeja entriMeja = new EntriMeja();
         entriMeja.setId(selectedMeja);
         entriMeja.setAtasNama(et_atasNama.getText());
@@ -429,26 +445,29 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         context.loadContent(new EntriBarangPanel(context, connection, entriMeja));
 
         atasNamaDialog.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_b_okeAtasNamaActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         hideInfoMeja();
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void et_atasNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_atasNamaActionPerformed
+        b_okeAtasNama.doClick();
+    }//GEN-LAST:event_et_atasNamaActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog atasNamaDialog;
     private javax.swing.JButton b_detailPesanan;
+    private javax.swing.JButton b_okeAtasNama;
     private javax.swing.JButton b_pilihMeja;
     private javax.swing.JPanel entriMejaPanel;
     private javax.swing.JScrollPane entriMejaScroll;
     private javax.swing.JTextField et_atasNama;
     private javax.swing.JPanel infoMejaPanel;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -459,6 +478,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     private javax.swing.JLabel l_atasNama;
     private javax.swing.JSeparator s_atasNama;
     private javax.swing.JLabel tv_atasNama;
+    private javax.swing.JLabel tv_hint;
     private javax.swing.JLabel tv_jumlahOrang;
     private javax.swing.JLabel tv_nomorMeja;
     private javax.swing.JLabel tv_tipeMeja;

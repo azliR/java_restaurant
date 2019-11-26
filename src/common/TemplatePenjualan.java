@@ -11,7 +11,7 @@ import model.DetailPenjualan;
 import model.EntriMeja;
 import model.Penjualan;
 import model.StatusPesanan;
-import panel.EntriPesananPanel;
+import panel.EntriPenjualanPanel;
 import styles.Colors;
 
 /**
@@ -33,13 +33,13 @@ public class TemplatePenjualan extends RoundedPanel {
     private final Color activeBackgroundColor = Colors.blueBackgroundColor;
     private final Color activeTextColor = Colors.accentColor;
 
-    private final EntriPesananPanel context;
+    private final EntriPenjualanPanel context;
 
     private final Penjualan penjualan;
 
     private Connection connection;
 
-    public TemplatePenjualan(Connection connection, EntriPesananPanel context, Penjualan penjualan) {
+    public TemplatePenjualan(Connection connection, EntriPenjualanPanel context, Penjualan penjualan) {
         super(16);
         initComponents();
         this.context = context;
@@ -140,7 +140,7 @@ public class TemplatePenjualan extends RoundedPanel {
         tv_total.setText("Rp. 47.000");
 
         tv_tanggalPenjualan.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        tv_tanggalPenjualan.setText("18.00 | 08 Agustus 2019");
+        tv_tanggalPenjualan.setText("18.00  |  08 Agustus 2019");
 
         detailPenjualanPanel.setBackground(new java.awt.Color(255, 255, 255));
         detailPenjualanPanel.setOpaque(false);
@@ -215,7 +215,7 @@ public class TemplatePenjualan extends RoundedPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        showDetailPesanan();
+        context.showDetailPesanan(this, penjualan);
     }//GEN-LAST:event_formMouseClicked
 
     private void b_expandDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_expandDetailActionPerformed
@@ -223,13 +223,13 @@ public class TemplatePenjualan extends RoundedPanel {
     }//GEN-LAST:event_b_expandDetailActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
-        if (!b_expandDetail.isSelected()) {
+        if (getBackground() != activeBackgroundColor) {
             setBorder(new RoundedBorder(borderRadius, borderInsets, Colors.accentColor));
         }
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
-        if (!b_expandDetail.isSelected()) {
+        if (getBackground() != activeBackgroundColor) {
             setBorder(new RoundedBorder(borderRadius, borderInsets, Colors.borderColor));
         }
     }//GEN-LAST:event_formMouseExited

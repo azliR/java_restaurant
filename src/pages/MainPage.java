@@ -6,11 +6,15 @@ import common.a_Chip;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Frame;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
@@ -21,10 +25,11 @@ import model.EntriMeja;
 import model.HakAkses;
 import model.JenisBarang;
 import model.Pengguna;
+import model.Penjualan;
 import panel.BerandaPanel;
 import panel.EntriBarangPanel;
 import panel.EntriMejaPanel;
-import panel.EntriPesananPanel;
+import panel.EntriPenjualanPanel;
 import panel.EntriTransaksiPanel;
 import panel.LaporanPanel;
 import panel.TambahBarangPanel;
@@ -52,6 +57,10 @@ public class MainPage extends javax.swing.JFrame {
     private Component selectedComponent = new BerandaPanel();
     public static Component parent;
 
+    private final String serverAddress = "localhost";
+    public Scanner in;
+    public PrintWriter out;
+
     public MainPage(int idPengguna) {
         parent = this;
         pengguna = new Pengguna().get(connection, idPengguna);
@@ -66,7 +75,7 @@ public class MainPage extends javax.swing.JFrame {
         loadContent(new BerandaPanel());
     }
 
-    public void loadContent(Component panel) {
+    public final void loadContent(Component panel) {
         boolean isCanceled = false;
         if (selectedComponent.getClass() == EntriBarangPanel.class) {
             if (((EntriBarangPanel) selectedComponent).pesanans.size() > 0) {
@@ -100,6 +109,46 @@ public class MainPage extends javax.swing.JFrame {
             }
         } else {
             nav_entriBarang.setSelected(true);
+        }
+    }
+
+    public void run() {
+        try (Socket socket = new Socket(serverAddress, 59001)) {
+            in = new Scanner(socket.getInputStream());
+            out = new PrintWriter(socket.getOutputStream(), true);
+
+            while (in.hasNextLine()) {
+                String line = in.nextLine();
+
+                if (line.startsWith("SUBMIT_ID")) {
+                    out.println(pengguna.getId());
+
+                } else if (line.startsWith("PESANAN_ADDED")) {
+                    if (pengguna.getId() != Integer.parseInt(line.substring(13))) {
+                        if (selectedComponent instanceof EntriPenjualanPanel) {
+                            ((EntriPenjualanPanel) selectedComponent).loadPesanan(new Penjualan().get(connection));
+
+                        } else {
+                            int dialog = JOptionPane.showConfirmDialog(parent, "Terdapat pesanan baru tersedia. Ingin melihat detailnya?", "Pesanan Baru Tersedia", JOptionPane.YES_NO_OPTION);
+
+                            if (dialog == 0) {
+                                loadContent(new EntriPenjualanPanel(this, connection));
+                                setNavigationColor();
+                            } else {
+                                nav_entriOrder.setForeground(Color.RED);
+                            }
+                        }
+                    }
+                }
+
+            }
+            out.close();
+            in.close();
+            socket.close();
+
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(parent, "Aplikasi tidak dapat tersambung ke server. Silahkan cek sambungan Anda atau coba kembali dalam beberapa menit", "Tidak dapat tersambung ke server", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -204,6 +253,7 @@ public class MainPage extends javax.swing.JFrame {
     public void dispose() {
         try {
             connection.close();
+
         } catch (SQLException ex) {
             Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -628,7 +678,7 @@ public class MainPage extends javax.swing.JFrame {
         });
 
         chipsPanel.setBackground(new java.awt.Color(255, 255, 255));
-        chipsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 4, 0));
+        chipsPanel.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 4, 0));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -638,14 +688,16 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(tv_title)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(chipsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 905, Short.MAX_VALUE)
-                        .addComponent(b_keranjang)))
-                .addContainerGap())
+                        .addComponent(chipsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(b_keranjang)
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(24, 111, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -734,7 +786,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_nav_entriBarangActionPerformed
 
     private void nav_entriOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriOrderActionPerformed
-        loadContent(new EntriPesananPanel(this, connection));
+        loadContent(new EntriPenjualanPanel(this, connection));
 
     }//GEN-LAST:event_nav_entriOrderActionPerformed
 
@@ -760,7 +812,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_et_searchFocusGained
 
     private void et_searchFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_et_searchFocusLost
-        if (et_search.getText().isEmpty()) {
+        if (et_search.getText().isBlank()) {
             et_search.setText("Telusuri Pesanan");
             et_search.setForeground(new Color(111, 112, 112));
 
@@ -866,7 +918,7 @@ public class MainPage extends javax.swing.JFrame {
     public javax.swing.JRadioButton nav_entriBarang;
     private javax.swing.JRadioButton nav_entriMeja;
     private javax.swing.JRadioButton nav_entriMeja1;
-    private javax.swing.JRadioButton nav_entriOrder;
+    public javax.swing.JRadioButton nav_entriOrder;
     private javax.swing.JRadioButton nav_entriTransaksi;
     private javax.swing.JRadioButton nav_laporan;
     private javax.swing.JLabel tv_hakAkses;

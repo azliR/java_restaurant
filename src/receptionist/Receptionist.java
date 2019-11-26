@@ -9,6 +9,8 @@ import pages.MainPage;
 public class Receptionist {
 
     public static void main(String[] args) {
-        new MainPage(1).setVisible(true);
+        MainPage mainPage = new MainPage(2);
+        mainPage.setVisible(true);
+        mainPage.run();
     }
 }

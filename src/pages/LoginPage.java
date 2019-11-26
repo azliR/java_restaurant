@@ -317,7 +317,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         String namaPengguna = et_namaPengguna.getText();
         char[] kataSandi = et_kataSandi.getPassword();
-        if (namaPengguna.isEmpty() || kataSandi.length <= 0) {
+        if (namaPengguna.isBlank() || kataSandi.length <= 0) {
             tv_error.setVisible(true);
             tv_error.setText("Isi semua data yang diperlukan!");
             return;
@@ -326,14 +326,15 @@ public class LoginPage extends javax.swing.JFrame {
 
         if (id != -1) {
             tv_loading.setVisible(true);
+
             Timer start = new Timer(200, (ActionEvent ae) -> {
                 dispose();
             });
-
             Timer loading = new Timer(800, (ActionEvent ae) -> {
                 new MainPage(id).setVisible(true);
                 start.start();
             });
+
             start.setRepeats(false);
             loading.setRepeats(false);
             loading.start();

@@ -53,8 +53,7 @@ public class EntriMeja {
                 break;
         }
 
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 EntriMeja entriMeja = new EntriMeja();
@@ -78,8 +77,7 @@ public class EntriMeja {
         EntriMeja entriMeja = new EntriMeja();
         String sql = "SELECT * FROM entri_meja WHERE id='" + id + "'";
 
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
                 entriMeja.setId(resultSet.getInt("id"));
@@ -119,7 +117,7 @@ public class EntriMeja {
         sql.deleteCharAt(sql.length() - 2);
         sql.append("WHERE id = '").append(id).append("'");
 
-        try (Statement s = c.createStatement()) {
+        try ( Statement s = c.createStatement()) {
             s.executeUpdate(sql.toString());
 
             return true;

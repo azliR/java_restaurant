@@ -1,6 +1,7 @@
 package receptionist;
 
-import pages.MainPage;
+import pages.LoginPage;
+import styles.Fonts;
 
 /**
  *
@@ -9,8 +10,10 @@ import pages.MainPage;
 public class Receptionist {
 
     public static void main(String[] args) {
-        MainPage mainPage = new MainPage(2);
-        mainPage.setVisible(true);
-        mainPage.run();
+        Fonts.registerFont(Receptionist.class);
+//        MainPage mainPage = new MainPage(2);
+//        mainPage.setVisible(true);
+//        mainPage.run();
+        new LoginPage().setVisible(true);
     }
 }

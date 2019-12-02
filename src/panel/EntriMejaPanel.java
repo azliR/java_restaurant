@@ -155,8 +155,9 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         jSeparator1 = new javax.swing.JSeparator();
 
         atasNamaDialog.setTitle("Atas Nama");
-        atasNamaDialog.setPreferredSize(new java.awt.Dimension(318, 220));
-        atasNamaDialog.setSize(new java.awt.Dimension(318, 220));
+        atasNamaDialog.setBackground(new java.awt.Color(255, 255, 255));
+        atasNamaDialog.setPreferredSize(new java.awt.Dimension(334, 232));
+        atasNamaDialog.setSize(new java.awt.Dimension(334, 232));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setPreferredSize(new java.awt.Dimension(318, 220));
@@ -197,7 +198,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tv_hint, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE))
+                    .addComponent(tv_hint, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
@@ -216,9 +217,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog.getContentPane().setLayout(atasNamaDialogLayout);
         atasNamaDialogLayout.setHorizontalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(atasNamaDialogLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         atasNamaDialogLayout.setVerticalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

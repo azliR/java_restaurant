@@ -80,6 +80,7 @@ public class a_ {
         dfs.setGroupingSeparator('.');
 
         df.setDecimalFormatSymbols(dfs);
+
         return df.format(currency);
     }
 

@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import javax.swing.BorderFactory;
 import javax.swing.JRadioButton;
+import styles.Colors;
 
 /**
  *
@@ -25,6 +27,7 @@ public class a_SideNavigation extends JRadioButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 if (!isSelected()) {
                     setBackground(new java.awt.Color(245, 245, 245));
+                    setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, new java.awt.Color(245, 245, 245)));
                 }
             }
 
@@ -32,9 +35,15 @@ public class a_SideNavigation extends JRadioButton {
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (!isSelected()) {
                     setBackground(new java.awt.Color(255, 255, 255));
+                    setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, Colors.primaryColor));
                 }
             }
         });
+    }
+
+    @Override
+    public void setContentAreaFilled(boolean b) {
+        super.setContentAreaFilled(false);
     }
 
     @Override

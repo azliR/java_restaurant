@@ -18,6 +18,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Barang;
@@ -50,7 +51,7 @@ public class MainPage extends javax.swing.JFrame {
     private int yMouse;
     private final int searchRadius = 14;
     private final int circleRadius = 36;
-    private final int navRadius = 16;
+    private final int navRadius = 52;
 
     private boolean isSearchFilled = false;
 
@@ -113,7 +114,7 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     public void run() {
-        try (Socket socket = new Socket(serverAddress, 59001)) {
+        try ( Socket socket = new Socket(serverAddress, 59001)) {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -164,10 +165,12 @@ public class MainPage extends javax.swing.JFrame {
             if (!button.isSelected()) {
                 button.setForeground(inactiveTextColor);
                 button.setBackground(inactiveBackgroundColor);
+                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, Colors.primaryColor));
 
             } else {
                 button.setForeground(activeTextColor);
                 button.setBackground(activeBackgroundColor);
+                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, activeBackgroundColor));
 
                 tv_title.setText(button.getText());
             }
@@ -396,11 +399,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_beranda.setForeground(Colors.accentColor);
         nav_beranda.setSelected(true);
         nav_beranda.setText("Beranda");
-        nav_beranda.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_beranda.setBorder(null);
+        nav_beranda.setBorderPainted(true);
         nav_beranda.setFocusPainted(false);
         nav_beranda.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_home-variant-outline_grey.png"))); // NOI18N
         nav_beranda.setIconTextGap(20);
-        nav_beranda.setOpaque(false);
         nav_beranda.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_home-variant.png"))); // NOI18N
         nav_beranda.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -413,11 +416,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriMeja.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_entriMeja.setForeground(Colors.greyTextColor);
         nav_entriMeja.setText("Entri Meja");
-        nav_entriMeja.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_entriMeja.setBorder(null);
+        nav_entriMeja.setBorderPainted(true);
         nav_entriMeja.setFocusPainted(false);
         nav_entriMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_table-chair_grey.png"))); // NOI18N
         nav_entriMeja.setIconTextGap(20);
-        nav_entriMeja.setOpaque(false);
         nav_entriMeja.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_table-chair.png"))); // NOI18N
         nav_entriMeja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -430,11 +433,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriBarang.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_entriBarang.setForeground(Colors.greyTextColor);
         nav_entriBarang.setText("Entri Barang");
-        nav_entriBarang.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_entriBarang.setBorder(null);
+        nav_entriBarang.setBorderPainted(true);
         nav_entriBarang.setFocusPainted(false);
         nav_entriBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_package-variant-closed_grey.png"))); // NOI18N
         nav_entriBarang.setIconTextGap(20);
-        nav_entriBarang.setOpaque(false);
         nav_entriBarang.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_package-variant.png"))); // NOI18N
         nav_entriBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -447,11 +450,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriOrder.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_entriOrder.setForeground(Colors.greyTextColor);
         nav_entriOrder.setText("Entri Order");
-        nav_entriOrder.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_entriOrder.setBorder(null);
+        nav_entriOrder.setBorderPainted(true);
         nav_entriOrder.setFocusPainted(false);
         nav_entriOrder.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_file-document-edit-outline_grey.png"))); // NOI18N
         nav_entriOrder.setIconTextGap(20);
-        nav_entriOrder.setOpaque(false);
         nav_entriOrder.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_file-document-edit.png"))); // NOI18N
         nav_entriOrder.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -464,11 +467,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriTransaksi.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_entriTransaksi.setForeground(Colors.greyTextColor);
         nav_entriTransaksi.setText("Entri Transaksi");
-        nav_entriTransaksi.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_entriTransaksi.setBorder(null);
+        nav_entriTransaksi.setBorderPainted(true);
         nav_entriTransaksi.setFocusPainted(false);
         nav_entriTransaksi.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_cash-register_grey.png"))); // NOI18N
         nav_entriTransaksi.setIconTextGap(20);
-        nav_entriTransaksi.setOpaque(false);
         nav_entriTransaksi.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_cash-register.png"))); // NOI18N
         nav_entriTransaksi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -481,11 +484,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_laporan.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_laporan.setForeground(Colors.greyTextColor);
         nav_laporan.setText("Laporan");
-        nav_laporan.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_laporan.setBorder(null);
+        nav_laporan.setBorderPainted(true);
         nav_laporan.setFocusPainted(false);
         nav_laporan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chart-line_grey.png"))); // NOI18N
         nav_laporan.setIconTextGap(20);
-        nav_laporan.setOpaque(false);
         nav_laporan.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chart-areaspline.png"))); // NOI18N
         nav_laporan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -510,11 +513,11 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriMeja1.setFont(new java.awt.Font("Roboto Medium", 0, 13)); // NOI18N
         nav_entriMeja1.setForeground(Colors.greyTextColor);
         nav_entriMeja1.setText("Tambah Barang");
-        nav_entriMeja1.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 16, 4, 16));
+        nav_entriMeja1.setBorder(null);
+        nav_entriMeja1.setBorderPainted(true);
         nav_entriMeja1.setFocusPainted(false);
         nav_entriMeja1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_table-chair_grey.png"))); // NOI18N
         nav_entriMeja1.setIconTextGap(20);
-        nav_entriMeja1.setOpaque(false);
         nav_entriMeja1.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_table-chair.png"))); // NOI18N
         nav_entriMeja1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -543,19 +546,16 @@ public class MainPage extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 16, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(nav_entriTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
-                                .addComponent(nav_entriOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nav_entriBarang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nav_entriMeja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nav_beranda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(nav_entriMeja1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(nav_entriTransaksi, javax.swing.GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
+                        .addComponent(nav_entriOrder, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nav_entriBarang, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nav_entriMeja, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nav_beranda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(nav_entriMeja1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(16, 16, 16))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
@@ -654,8 +654,7 @@ public class MainPage extends javax.swing.JFrame {
             .addComponent(et_search, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        tv_title.setFont(new java.awt.Font("Google Sans", 0, 16)); // NOI18N
-        tv_title.setForeground(new java.awt.Color(0, 0, 0));
+        tv_title.setFont(new java.awt.Font("Google Sans", 0, 20));
         tv_title.setText("Drive Saya");
 
         jSeparator4.setForeground(Colors.borderColor);
@@ -697,7 +696,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 111, Short.MAX_VALUE))))
+                        .addGap(24, 127, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -777,27 +776,22 @@ public class MainPage extends javax.swing.JFrame {
 
     private void nav_entriMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriMejaActionPerformed
         loadContent(new EntriMejaPanel(this, connection));
-
     }//GEN-LAST:event_nav_entriMejaActionPerformed
 
     private void nav_entriBarangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriBarangActionPerformed
         loadContent(new EntriBarangPanel(this, connection));
-
     }//GEN-LAST:event_nav_entriBarangActionPerformed
 
     private void nav_entriOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriOrderActionPerformed
         loadContent(new EntriPenjualanPanel(this, connection));
-
     }//GEN-LAST:event_nav_entriOrderActionPerformed
 
     private void nav_entriTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriTransaksiActionPerformed
         loadContent(new EntriTransaksiPanel());
-
     }//GEN-LAST:event_nav_entriTransaksiActionPerformed
 
     private void nav_laporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_laporanActionPerformed
         loadContent(new LaporanPanel());
-
     }//GEN-LAST:event_nav_laporanActionPerformed
 
     private void et_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_et_searchActionPerformed
@@ -834,7 +828,6 @@ public class MainPage extends javax.swing.JFrame {
 
     private void nav_entriMeja1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriMeja1ActionPerformed
         loadContent(new TambahBarangPanel(connection));
-
     }//GEN-LAST:event_nav_entriMeja1ActionPerformed
 
     private void b_keranjangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_keranjangActionPerformed
@@ -858,7 +851,7 @@ public class MainPage extends javax.swing.JFrame {
     public static void main(String args[]) {
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

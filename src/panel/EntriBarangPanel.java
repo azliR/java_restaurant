@@ -669,12 +669,12 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
     private void b_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_tambahActionPerformed
         if (!isOrdered()) {
-            int currentTotal = Integer.parseInt(et_jumlah.getText());
+            int jumlah = Integer.parseInt(et_jumlah.getText());
             int hargaBarang = selectedBarang.getHarga();
 
-            currentTotal++;
-            hargaBarang *= currentTotal;
-            et_jumlah.setText(String.valueOf(currentTotal));
+            jumlah++;
+            hargaBarang *= jumlah;
+            et_jumlah.setText(String.valueOf(jumlah));
             b_pesan.setText("Rp. " + a_.convertCurrency(hargaBarang));
         }
     }//GEN-LAST:event_b_tambahActionPerformed
@@ -751,13 +751,13 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
     private void b_kurangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_kurangActionPerformed
         if (!isOrdered()) {
-            int currentTotal = Integer.parseInt(et_jumlah.getText());
+            int jumlah = Integer.parseInt(et_jumlah.getText());
             int hargaBarang = selectedBarang.getHarga();
 
-            if (currentTotal > 1) {
-                currentTotal--;
-                hargaBarang *= currentTotal;
-                et_jumlah.setText(String.valueOf(currentTotal));
+            if (jumlah > 1) {
+                jumlah--;
+                hargaBarang *= jumlah;
+                et_jumlah.setText(String.valueOf(jumlah));
                 b_pesan.setText("Rp. " + a_.convertCurrency(hargaBarang));
             }
         }

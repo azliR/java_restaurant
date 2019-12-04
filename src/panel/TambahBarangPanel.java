@@ -169,10 +169,10 @@ public class TambahBarangPanel extends javax.swing.JPanel {
         }
 
         Barang barang = new Barang();
-        barang.setNamaBarang(namaBarang);
-        barang.setHarga(Integer.parseInt(hargaBarang));
-        barang.setStokBarang(true);
-        barang.setIdJenis(idJenisBarang);
+        barang.namaBarang = namaBarang;
+        barang.harga = Integer.parseInt(hargaBarang);
+        barang.stokBarang = true;
+        barang.idJenis = idJenisBarang;
 
         if (barang.insert(connection, gambarFile)) {
             a_.showDialog(a_.DialogType.INSERT_SUCCESS);

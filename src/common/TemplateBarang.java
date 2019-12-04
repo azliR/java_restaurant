@@ -11,6 +11,7 @@ import model.Barang;
 import model.Varian;
 import panel.EntriBarangPanel;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -42,11 +43,11 @@ public class TemplateBarang extends RoundedPanel {
         this.connection = connection;
         initComponents();
 
-        tv_image.setIcon(new ImageIcon(a_.convertRoundedImage(a_.toBufferedImage(new ImageIcon(barang.getGambar()).getImage(), new Rectangle(220, 140)), borderRadius)));
-        tv_hargaBarang.setText("Rp. " + a_.convertCurrency(barang.getHarga()));
-        tv_namaBarang.setText("<html>" + barang.getNamaBarang() + "</html>");
+        tv_image.setIcon(new ImageIcon(a_.convertRoundedImage(a_.toBufferedImage(new ImageIcon(barang.gambar).getImage(), new Rectangle(220, 140)), borderRadius)));
+        tv_hargaBarang.setText("Rp. " + a_.convertCurrency(barang.harga));
+        tv_namaBarang.setText("<html>" + barang.namaBarang + "</html>");
 
-        List<Varian> varians = new Varian().getByIdBarang(connection, barang.getId());
+        List<Varian> varians = new Varian().getByIdBarang(connection, barang.id);
         varians.forEach((_varian) -> {
             JLabel chip = new JLabel();
             chip.setFont(new Font("Roboto Medium", 0, 10));
@@ -54,7 +55,7 @@ public class TemplateBarang extends RoundedPanel {
             chip.setBorder(new RoundedBorder(30, chipInsets, inactiveBorderColor));
             chip.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-            chip.setText(_varian.getNamaVarian().toUpperCase());
+            chip.setText(_varian.namaVarian.toUpperCase());
             variansPanel.add(chip);
         });
     }
@@ -100,7 +101,8 @@ public class TemplateBarang extends RoundedPanel {
         tv_namaBarang.setForeground(Colors.blackTextColor);
         tv_namaBarang.setText("<html>Coca Cola Zero</html>");
 
-        tv_hargaBarang.setFont(new java.awt.Font("Product Sans Medium", 0, 18)); // NOI18N
+        tv_hargaBarang.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(18f)
+        );
         tv_hargaBarang.setForeground(new java.awt.Color(0, 0, 0));
         tv_hargaBarang.setText("Rp. 8.000");
 

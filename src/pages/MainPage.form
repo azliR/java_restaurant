@@ -387,11 +387,11 @@
             <Property name="borderPainted" type="boolean" value="true"/>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_package-variant-closed_grey.png"/>
+              <Image iconType="3" name="/images/ic_food_grey.png"/>
             </Property>
             <Property name="iconTextGap" type="int" value="20"/>
             <Property name="selectedIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_package-variant.png"/>
+              <Image iconType="3" name="/images/ic_food.png"/>
             </Property>
           </Properties>
           <Events>
@@ -738,7 +738,7 @@
         <Component class="javax.swing.JLabel" name="tv_title">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new java.awt.Font(&quot;Google Sans&quot;, 0, 20)" type="code"/>
+              <Connection code="new java.awt.Font(&quot;Google Sans&quot;, 0, 18)" type="code"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Drive Saya"/>
           </Properties>

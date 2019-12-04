@@ -10,11 +10,13 @@ import java.awt.GridLayout;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import model.EntriMeja;
 import model.TipeMeja;
 import pages.MainPage;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -28,7 +30,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     private final int buttonRadius = 8;
     private final int padding = 16;
 
-    public int selectedMeja = -1;
+    private EntriMeja selectedMeja = new EntriMeja();
 
     private GridLayout gridLayout;
 
@@ -75,7 +77,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     }
 
     public void showInfoMeja(TemplateEntriMeja templateEntriMeja, EntriMeja entriMeja) {
-        selectedMeja = entriMeja.getId();
+        selectedMeja = entriMeja;
 
         final int width = (context.content.getWidth() - infoMejaPanel.getPreferredSize().width) / 3 - padding;
 
@@ -93,22 +95,27 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             entriMejaPanel.revalidate();
         }
 
-        tv_atasNama.setText(entriMeja.getAtasNama());
-        tv_jumlahOrang.setText(entriMeja.getMaksOrang());
-        tv_nomorMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
+        tv_atasNama.setText(entriMeja.atasNama);
+        tv_jumlahOrang.setText(String.valueOf(entriMeja.jumlahOrang));
+        tv_nomorMeja.setText(String.valueOf(entriMeja.nomorMeja));
 
-        tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.getIdTipeMeja()).getNamaTipe());
-        b_pilihMeja.setText(entriMeja.getAtasNama() != null ? "Sudah Dipesan" : "Pesan Meja");
-        b_pilihMeja.setBackground(entriMeja.getAtasNama() != null ? Colors.primaryColor : Colors.accentColor);
-        b_pilihMeja.setEnabled(entriMeja.getAtasNama() == null);
-        b_detailPesanan.setVisible(entriMeja.getAtasNama() != null);
-        tv_atasNama.setVisible(entriMeja.getAtasNama() != null);
-        l_atasNama.setVisible(entriMeja.getAtasNama() != null);
-        s_atasNama.setVisible(entriMeja.getAtasNama() != null);
+        tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.idTipeMeja).namaTipe);
+        b_pilihMeja.setText(entriMeja.atasNama != null ? "Sudah Dipesan" : "Pesan Meja");
+        b_pilihMeja.setBackground(entriMeja.atasNama != null ? Colors.primaryColor : Colors.accentColor);
+        b_pilihMeja.setEnabled(entriMeja.atasNama == null);
+        b_detailPesanan.setVisible(entriMeja.atasNama != null);
+
+        tv_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
+        l_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
+        s_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
+
+        tv_atasNama.setVisible(entriMeja.atasNama != null);
+        l_atasNama.setVisible(entriMeja.atasNama != null);
+        s_atasNama.setVisible(entriMeja.atasNama != null);
     }
 
     private void hideInfoMeja() {
-        selectedMeja = -1;
+        selectedMeja = new EntriMeja();
 
         infoMejaPanel.setVisible(false);
         gridLayout.setColumns(4);
@@ -130,8 +137,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog = new javax.swing.JDialog();
         jPanel3 = new javax.swing.JPanel();
         et_atasNama = new a_TextField("Atas Nama");
-        tv_hint = new javax.swing.JLabel();
+        tv_jumlah = new javax.swing.JLabel();
         b_okeAtasNama = new RoundedButton(buttonRadius);
+        cb_jumlahOrang = new javax.swing.JComboBox<>();
+        tv_hint = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         entriMejaScroll = new common.a_ScrollPane(jPanel2);
         jPanel2 = new javax.swing.JPanel();
         entriMejaPanel = new javax.swing.JPanel();
@@ -144,23 +154,22 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_tipeMeja = new javax.swing.JLabel();
         tv_atasNama = new javax.swing.JLabel();
         b_pilihMeja = new RoundedButton(buttonRadius);
-        jLabel8 = new javax.swing.JLabel();
+        l_jumlahOrang = new javax.swing.JLabel();
         tv_jumlahOrang = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
         jSeparator3 = new javax.swing.JSeparator();
         s_atasNama = new javax.swing.JSeparator();
-        jSeparator5 = new javax.swing.JSeparator();
+        s_jumlahOrang = new javax.swing.JSeparator();
         b_detailPesanan = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
-        atasNamaDialog.setTitle("Atas Nama");
+        atasNamaDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        atasNamaDialog.setTitle("Pesan Meja");
         atasNamaDialog.setBackground(new java.awt.Color(255, 255, 255));
-        atasNamaDialog.setPreferredSize(new java.awt.Dimension(334, 232));
-        atasNamaDialog.setSize(new java.awt.Dimension(334, 232));
+        atasNamaDialog.setSize(new java.awt.Dimension(384, 312));
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel3.setPreferredSize(new java.awt.Dimension(318, 220));
 
         et_atasNama.setBorder(null);
         et_atasNama.addActionListener(new java.awt.event.ActionListener() {
@@ -169,13 +178,15 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             }
         });
 
-        tv_hint.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
-        tv_hint.setForeground(Colors.greyTextColor);
-        tv_hint.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tv_hint.setText("<html>Masukkan nama pelanggan yang memesan meja ini</html>");
+        tv_jumlah.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        );
+        tv_jumlah.setForeground(Colors.greyTextColor);
+        tv_jumlah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tv_jumlah.setText("Jumlah Orang");
 
         b_okeAtasNama.setBackground(Colors.accentColor);
-        b_okeAtasNama.setFont(new java.awt.Font("Product Sans Medium", 0, 14)); // NOI18N
+        b_okeAtasNama.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(14f)
+        );
         b_okeAtasNama.setForeground(new java.awt.Color(255, 255, 255));
         b_okeAtasNama.setText("Oke");
         b_okeAtasNama.setBorder(null);
@@ -187,37 +198,69 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             }
         });
 
+        cb_jumlahOrang.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        );
+        cb_jumlahOrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Orang" }));
+
+        tv_hint.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
+        tv_hint.setForeground(Colors.greyTextColor);
+        tv_hint.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+
+        jLabel4.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(20f)
+        );
+        jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        jLabel4.setText("Pesan Meja");
+        jLabel4.setIconTextGap(16);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(et_atasNama)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tv_hint, javax.swing.GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tv_hint, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(et_atasNama, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                .addComponent(tv_jumlah)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(cb_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 134, Short.MAX_VALUE)))))
+                .addGap(36, 36, 36))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel4)
+                .addGap(24, 24, 24)
                 .addComponent(et_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tv_hint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(tv_hint)
+                .addGap(24, 24, 24)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cb_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(tv_jumlah))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(28, 28, 28))
         );
+
+        tv_hint.setVisible(false);
 
         javax.swing.GroupLayout atasNamaDialogLayout = new javax.swing.GroupLayout(atasNamaDialog.getContentPane());
         atasNamaDialog.getContentPane().setLayout(atasNamaDialogLayout);
         atasNamaDialogLayout.setHorizontalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(atasNamaDialogLayout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 11, Short.MAX_VALUE))
         );
         atasNamaDialogLayout.setVerticalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,7 +328,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_atasNama.setText("Rizal Hadiyansah");
 
         b_pilihMeja.setBackground(Colors.accentColor);
-        b_pilihMeja.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
+        b_pilihMeja.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
+        );
         b_pilihMeja.setForeground(new java.awt.Color(255, 255, 255));
         b_pilihMeja.setText("Pesan Meja");
         b_pilihMeja.setBorder(null);
@@ -297,9 +341,9 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             }
         });
 
-        jLabel8.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
-        jLabel8.setForeground(Colors.greyTextColor);
-        jLabel8.setText("JUMLAH ORANG");
+        l_jumlahOrang.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        l_jumlahOrang.setForeground(Colors.greyTextColor);
+        l_jumlahOrang.setText("JUMLAH ORANG");
 
         tv_jumlahOrang.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_jumlahOrang.setForeground(Colors.blackTextColor);
@@ -311,16 +355,22 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         s_atasNama.setForeground(new java.awt.Color(218, 220, 224));
 
-        jSeparator5.setForeground(new java.awt.Color(218, 220, 224));
+        s_jumlahOrang.setForeground(new java.awt.Color(218, 220, 224));
 
         b_detailPesanan.setBackground(Colors.primaryColor);
-        b_detailPesanan.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
+        b_detailPesanan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
+        );
         b_detailPesanan.setForeground(Colors.blackTextColor);
         b_detailPesanan.setText("Detail Pesanan");
         b_detailPesanan.setBorder(new RoundedBorder(buttonRadius)
         );
         b_detailPesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         b_detailPesanan.setFocusPainted(false);
+        b_detailPesanan.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                b_detailPesananActionPerformed(evt);
+            }
+        });
 
         jButton1.setBackground(new java.awt.Color(255, 255, 255));
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close_grey.png"))); // NOI18N
@@ -343,7 +393,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jSeparator2)
-                    .addComponent(jSeparator5)
+                    .addComponent(s_jumlahOrang)
                     .addComponent(jSeparator3)
                     .addComponent(b_pilihMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
                     .addComponent(s_atasNama)
@@ -351,7 +401,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                     .addComponent(tv_nomorMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_tipeMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(l_jumlahOrang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_jumlahOrang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(l_atasNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_atasNama, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -382,11 +432,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel8)
+                .addComponent(l_jumlahOrang)
                 .addGap(8, 8, 8)
                 .addComponent(tv_jumlahOrang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(s_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_atasNama)
                 .addGap(8, 8, 8)
@@ -424,6 +474,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
     private void b_pilihMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pilihMejaActionPerformed
         atasNamaDialog.setVisible(true);
+        String[] jumlahOrang = new String[selectedMeja.maksOrang];
+        for (int i = 0; i < selectedMeja.maksOrang; i++) {
+            jumlahOrang[i] = (i + 1) + " Orang";
+        }
+        cb_jumlahOrang.setModel(new DefaultComboBoxModel<>(jumlahOrang));
     }//GEN-LAST:event_b_pilihMejaActionPerformed
 
     private void b_okeAtasNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_okeAtasNamaActionPerformed
@@ -434,14 +489,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             return;
         }
 
-        EntriMeja entriMeja = new EntriMeja();
-        entriMeja.setId(selectedMeja);
-        entriMeja.setAtasNama(et_atasNama.getText());
-        entriMeja.setNomorMeja(Integer.parseInt(tv_nomorMeja.getText()));
+        selectedMeja.atasNama = et_atasNama.getText();
 
         context.nav_entriBarang.setSelected(true);
         context.setNavigationColor();
-        context.loadContent(new EntriBarangPanel(context, connection, entriMeja));
+        context.loadContent(new EntriBarangPanel(context, connection, selectedMeja));
 
         atasNamaDialog.dispose();
     }//GEN-LAST:event_b_okeAtasNamaActionPerformed
@@ -454,11 +506,18 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         b_okeAtasNama.doClick();
     }//GEN-LAST:event_et_atasNamaActionPerformed
 
+    private void b_detailPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_detailPesananActionPerformed
+        context.loadContent(new EntriPenjualanPanel(context, connection, selectedMeja.idPenjualan));
+        context.nav_entriOrder.setSelected(true);
+        context.setNavigationColor();
+    }//GEN-LAST:event_b_detailPesananActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JDialog atasNamaDialog;
     private javax.swing.JButton b_detailPesanan;
     private javax.swing.JButton b_okeAtasNama;
     private javax.swing.JButton b_pilihMeja;
+    private javax.swing.JComboBox<String> cb_jumlahOrang;
     private javax.swing.JPanel entriMejaPanel;
     private javax.swing.JScrollPane entriMejaScroll;
     private javax.swing.JTextField et_atasNama;
@@ -467,17 +526,19 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel4;
     public javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
-    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel l_atasNama;
+    private javax.swing.JLabel l_jumlahOrang;
     private javax.swing.JSeparator s_atasNama;
+    private javax.swing.JSeparator s_jumlahOrang;
     private javax.swing.JLabel tv_atasNama;
     private javax.swing.JLabel tv_hint;
+    private javax.swing.JLabel tv_jumlah;
     private javax.swing.JLabel tv_jumlahOrang;
     private javax.swing.JLabel tv_nomorMeja;
     private javax.swing.JLabel tv_tipeMeja;

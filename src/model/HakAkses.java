@@ -13,27 +13,21 @@ import java.util.logging.Logger;
  */
 public class HakAkses {
 
-    int id;
-    String namaAkses;
+    public int id;
+    public String namaAkses;
 
     public HakAkses() {
-    }
-
-    public HakAkses(int id, String hakAkses) {
-        this.id = id;
-        this.namaAkses = hakAkses;
     }
 
     public HakAkses get(Connection connection, int id) {
         HakAkses hakAkses = new HakAkses();
         String sql = "SELECT * FROM hak_akses WHERE id='" + id + "'";
 
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                hakAkses.setId(resultSet.getInt("id"));
-                hakAkses.setNamaAkses(resultSet.getString("nama_akses"));
+                hakAkses.id = resultSet.getInt("id");
+                hakAkses.namaAkses = resultSet.getString("nama_akses");
             }
             resultSet.close();
             statement.close();
@@ -42,21 +36,4 @@ public class HakAkses {
         }
         return hakAkses;
     }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNamaAkses() {
-        return namaAkses;
-    }
-
-    public void setNamaAkses(String namaAkses) {
-        this.namaAkses = namaAkses;
-    }
-
 }

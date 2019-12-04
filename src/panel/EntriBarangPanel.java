@@ -28,6 +28,7 @@ import model.Pesanan;
 import model.Varian;
 import pages.MainPage;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -80,7 +81,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         daftarPesananScroll.getVerticalScrollBar().setUnitIncrement(14);
 
         if (entriMeja != null) {
-            tv_nomorMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
+            tv_nomorMeja.setText(String.valueOf(entriMeja.nomorMeja));
         }
 
         detailBarangPanel.setVisible(false);
@@ -134,7 +135,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         b_pesan.setBorder(new RoundedBorder(buttonRadius));
 
         int total = 0;
-        total = pesanans.stream().map((_pesanan) -> _pesanan.getHargaBarang() * _pesanan.getJumlahBarang()).map((subTotal) -> subTotal).reduce(total, Integer::sum);
+        total = pesanans.stream().map((_pesanan) -> _pesanan.hargaBarang * _pesanan.jumlahBarang).map((subTotal) -> subTotal).reduce(total, Integer::sum);
         context.b_keranjang.setText("Rp. " + a_.convertCurrency(total));
     }
 
@@ -143,7 +144,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         daftarPesananPanel.remove(templatePesanan);
 
         int total = 0;
-        total = pesanans.stream().map((_pesanan) -> _pesanan.getHargaBarang() * _pesanan.getJumlahBarang()).map((subTotal) -> subTotal).reduce(total, Integer::sum);
+        total = pesanans.stream().map((_pesanan) -> _pesanan.hargaBarang * _pesanan.jumlahBarang).map((subTotal) -> subTotal).reduce(total, Integer::sum);
         context.b_keranjang.setText("Rp. " + a_.convertCurrency(total));
     }
 
@@ -190,21 +191,21 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             b_pesan.setBackground(Colors.primaryColor);
             b_pesan.setBorder(new RoundedBorder(buttonRadius));
         } else {
-            b_pesan.setText("Rp. " + a_.convertCurrency(barang.getHarga()));
+            b_pesan.setText("Rp. " + a_.convertCurrency(barang.harga));
             b_pesan.setEnabled(true);
             b_pesan.setBackground(Colors.accentColor);
             b_pesan.setBorder(null);
         }
 
-        Image image = new ImageIcon(barang.getGambar()).getImage();
+        Image image = new ImageIcon(barang.gambar).getImage();
         BufferedImage bufferedImage = a_.toBufferedImage(image, new Rectangle(220, 140));
 
         iv_gambarBarang.setIcon(new ImageIcon(a_.convertRoundedImage(bufferedImage, 16)));
-        tv_namaBarangSubTitle.setText(("NAMA " + new JenisBarang().get(connection, barang.getIdJenis()).getNamaJenis()).toUpperCase());
-        tv_namaBarang.setText("<html>" + barang.getNamaBarang() + "</html>");
+        tv_namaBarangSubTitle.setText(("NAMA " + new JenisBarang().get(connection, barang.idJenis).namaJenis).toUpperCase());
+        tv_namaBarang.setText("<html>" + barang.namaBarang + "</html>");
         et_jumlah.setText("1");
 
-        List<Varian> varians = new Varian().getByIdBarang(connection, barang.getId());
+        List<Varian> varians = new Varian().getByIdBarang(connection, barang.id);
         DefaultComboBoxModel<Varian> comboBoxModel = new DefaultComboBoxModel<>();
         comboBoxModel.addAll(varians);
 
@@ -285,7 +286,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         final boolean[] isOrdered = {false};
 
         pesanans.forEach(((_pesanan) -> {
-            if (_pesanan.getIdBarang() == selectedBarang.getId()) {
+            if (_pesanan.idBarang == selectedBarang.id) {
                 isOrdered[0] = true;
             }
         }));
@@ -403,7 +404,8 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_nomorMeja.setText("01");
 
         b_konfirmasiPesanan.setBackground(Colors.accentColor);
-        b_konfirmasiPesanan.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
+        b_konfirmasiPesanan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
+        );
         b_konfirmasiPesanan.setForeground(new java.awt.Color(255, 255, 255));
         b_konfirmasiPesanan.setText("Konfirmasi Pesanan");
         b_konfirmasiPesanan.setBorder(null);
@@ -532,7 +534,8 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         });
 
         b_pesan.setBackground(Colors.accentColor);
-        b_pesan.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
+        b_pesan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
+        );
         b_pesan.setForeground(new java.awt.Color(255, 255, 255));
         b_pesan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_cart-plus.png"))); // NOI18N
         b_pesan.setText("Pesan Barang");
@@ -573,7 +576,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        cb_varian.setBackground(new java.awt.Color(255, 255, 255));
         cb_varian.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         cb_varian.setForeground(Colors.blackTextColor);
         cb_varian.setToolTipText("");
@@ -670,7 +672,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private void b_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_tambahActionPerformed
         if (!isOrdered()) {
             int jumlah = Integer.parseInt(et_jumlah.getText());
-            int hargaBarang = selectedBarang.getHarga();
+            int hargaBarang = selectedBarang.harga;
 
             jumlah++;
             hargaBarang *= jumlah;
@@ -681,10 +683,10 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
     private void b_pesanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pesanActionPerformed
         Pesanan pesanan = new Pesanan();
-        pesanan.setIdBarang(selectedBarang.getId());
-        pesanan.setNamaBarang(selectedBarang.getNamaBarang());
-        pesanan.setHargaBarang(selectedBarang.getHarga());
-        pesanan.setJumlahBarang(Integer.parseInt(et_jumlah.getText()));
+        pesanan.idBarang = selectedBarang.id;
+        pesanan.namaBarang = selectedBarang.namaBarang;
+        pesanan.hargaBarang = selectedBarang.harga;
+        pesanan.jumlahBarang = Integer.parseInt(et_jumlah.getText());
         addToCart(pesanan);
     }//GEN-LAST:event_b_pesanActionPerformed
 
@@ -701,14 +703,14 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         }
 
         int total = 0;
-        total = pesanans.stream().map((_pesanan) -> _pesanan.getHargaBarang() * _pesanan.getJumlahBarang()).map((subTotal) -> subTotal).reduce(total, Integer::sum);
+        total = pesanans.stream().map((_pesanan) -> _pesanan.hargaBarang * _pesanan.jumlahBarang).map((subTotal) -> subTotal).reduce(total, Integer::sum);
 
         Penjualan penjualan = new Penjualan();
-        penjualan.setIdMeja(entriMeja.getId());
-        penjualan.setIdPengguna(context.pengguna.getId());
-        penjualan.setIdStatus(1);
-        penjualan.setAtasNama(entriMeja.getAtasNama());
-        penjualan.setTotal(total);
+        penjualan.idMeja = entriMeja.id;
+        penjualan.idPengguna = context.pengguna.id;
+        penjualan.idStatus = 1;
+        penjualan.atasNama = entriMeja.atasNama;
+        penjualan.total = total;
 
         int idPenjualan = penjualan.insert(connection);
 
@@ -716,9 +718,9 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             boolean isSucceed = true;
             for (Pesanan _pesanan : pesanans) {
                 DetailPenjualan detailPenjualan = new DetailPenjualan();
-                detailPenjualan.setIdBarang(_pesanan.getIdBarang());
-                detailPenjualan.setIdPenjualan(idPenjualan);
-                detailPenjualan.setJumlahBarang(_pesanan.getJumlahBarang());
+                detailPenjualan.idBarang = _pesanan.idBarang;
+                detailPenjualan.idPenjualan = idPenjualan;
+                detailPenjualan.jumlahBarang = _pesanan.jumlahBarang;
 
                 if (!detailPenjualan.insert(connection)) {
                     isSucceed = false;
@@ -728,7 +730,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             if (isSucceed) {
                 if (entriMeja.update(connection)) {
                     if (context.out != null) {
-                        context.out.println("PESANAN_ADDED" + context.pengguna.getId());
+                        context.out.println("PESANAN_ADDED" + context.pengguna.id);
                     }
 
                     a_.showDialog(a_.DialogType.INSERT_SUCCESS);
@@ -752,7 +754,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private void b_kurangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_kurangActionPerformed
         if (!isOrdered()) {
             int jumlah = Integer.parseInt(et_jumlah.getText());
-            int hargaBarang = selectedBarang.getHarga();
+            int hargaBarang = selectedBarang.harga;
 
             if (jumlah > 1) {
                 jumlah--;

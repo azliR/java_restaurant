@@ -65,13 +65,13 @@ public class MainPage extends javax.swing.JFrame {
     public MainPage(int idPengguna) {
         parent = this;
         pengguna = new Pengguna().get(connection, idPengguna);
-        idHakAkses = pengguna.getIdHakAkses();
+        idHakAkses = pengguna.idHakAkses;
 
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         initComponents();
 
-        tv_namaPengguna.setText(pengguna.getNamaPengguna());
-        tv_hakAkses.setText(new HakAkses().get(connection, idHakAkses).getNamaAkses());
+        tv_namaPengguna.setText(pengguna.namaPengguna);
+        tv_hakAkses.setText(new HakAkses().get(connection, idHakAkses).namaAkses);
 
         loadContent(new BerandaPanel());
     }
@@ -122,10 +122,10 @@ public class MainPage extends javax.swing.JFrame {
                 String line = in.nextLine();
 
                 if (line.startsWith("SUBMIT_ID")) {
-                    out.println(pengguna.getId());
+                    out.println(pengguna.id);
 
                 } else if (line.startsWith("PESANAN_ADDED")) {
-                    if (pengguna.getId() != Integer.parseInt(line.substring(13))) {
+                    if (pengguna.id != Integer.parseInt(line.substring(13))) {
                         if (selectedComponent instanceof EntriPenjualanPanel) {
                             ((EntriPenjualanPanel) selectedComponent).loadPesanan(new Penjualan().get(connection));
 
@@ -215,9 +215,9 @@ public class MainPage extends javax.swing.JFrame {
         jenisBarangs.add(new JenisBarang(0, "Semua"));
         jenisBarangs.addAll(new JenisBarang().get(connection));
         jenisBarangs.forEach((_jenisBarang) -> {
-            a_Chip chip = new a_Chip(_jenisBarang.getNamaJenis());
+            a_Chip chip = new a_Chip(_jenisBarang.namaJenis);
             chipGroup.add(chip);
-            if (_jenisBarang.getId() == 0) {
+            if (_jenisBarang.id == 0) {
                 chipGroup.setSelected(chip.getModel(), true);
                 setChipSelected(chip);
             }
@@ -230,10 +230,10 @@ public class MainPage extends javax.swing.JFrame {
                     setChipSelected((a_Chip) _chip);
                 });
 
-                if (_jenisBarang.getId() == 0) {
+                if (_jenisBarang.id == 0) {
                     entriBarangPanel.loadBarang(new Barang().get(connection));
                 } else {
-                    entriBarangPanel.loadBarang(new Barang().getByJenis(connection, _jenisBarang.getId()));
+                    entriBarangPanel.loadBarang(new Barang().getByJenis(connection, _jenisBarang.id));
                 }
             });
             chipsPanel.add(chip);
@@ -436,9 +436,9 @@ public class MainPage extends javax.swing.JFrame {
         nav_entriBarang.setBorder(null);
         nav_entriBarang.setBorderPainted(true);
         nav_entriBarang.setFocusPainted(false);
-        nav_entriBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_package-variant-closed_grey.png"))); // NOI18N
+        nav_entriBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_food_grey.png"))); // NOI18N
         nav_entriBarang.setIconTextGap(20);
-        nav_entriBarang.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_package-variant.png"))); // NOI18N
+        nav_entriBarang.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_food.png"))); // NOI18N
         nav_entriBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nav_entriBarangActionPerformed(evt);
@@ -654,7 +654,7 @@ public class MainPage extends javax.swing.JFrame {
             .addComponent(et_search, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        tv_title.setFont(new java.awt.Font("Google Sans", 0, 20));
+        tv_title.setFont(new java.awt.Font("Google Sans", 0, 18));
         tv_title.setText("Drive Saya");
 
         jSeparator4.setForeground(Colors.borderColor);

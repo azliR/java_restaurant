@@ -35,7 +35,7 @@ public class TemplatePenjualan extends RoundedPanel {
 
     private final EntriPenjualanPanel context;
 
-    private final Penjualan penjualan;
+    public final Penjualan penjualan;
 
     private Connection connection;
 
@@ -46,35 +46,18 @@ public class TemplatePenjualan extends RoundedPanel {
         this.connection = connection;
         this.penjualan = penjualan;
 
-        tv_id.setText("#" + penjualan.getId());
-        tv_nomorMeja.setText("Meja " + new EntriMeja().get(connection, penjualan.getIdMeja()).getNomorMeja());
-        tv_pengguna.setText(penjualan.getAtasNama());
-        tv_status.setText(new StatusPesanan().get(connection, penjualan.getIdStatus()).getNamaStatus());
-        tv_total.setText("Rp. " + a_.convertCurrency(penjualan.getTotal()));
+        tv_id.setText("#" + penjualan.id);
+        tv_nomorMeja.setText("Meja " + new EntriMeja().get(connection, penjualan.idMeja).nomorMeja);
+        tv_pengguna.setText(penjualan.atasNama);
+        tv_status.setText(new StatusPesanan().get(connection, penjualan.idStatus).namaStatus);
+        tv_total.setText("Rp. " + a_.convertCurrency(penjualan.total));
 
         try {
-            tv_tanggalPenjualan.setText(a_.convertTimestamp(penjualan.getTanggalPenjualan()));
+            tv_tanggalPenjualan.setText(a_.convertTimestamp(penjualan.tanggalPenjualan));
 
         } catch (ParseException ex) {
             Logger.getLogger(TemplatePenjualan.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        loadDetailPenjualan(new DetailPenjualan().get(connection, penjualan.getId()));
-    }
-
-    private void loadDetailPenjualan(List<DetailPenjualan> detailPenjualans) {
-        this.templateDetailPenjualans.clear();
-        this.detailPenjualans.clear();
-        this.detailPenjualans.addAll(detailPenjualans);
-        detailPenjualanPanel.removeAll();
-
-        detailPenjualans.forEach((_detailPenjualan) -> {
-            TemplateDetailPenjualan templateDetailPenjualan = new TemplateDetailPenjualan(connection, _detailPenjualan);
-            templateDetailPenjualans.add(templateDetailPenjualan);
-            detailPenjualanPanel.add(templateDetailPenjualan);
-        });
-        detailPenjualanPanel.revalidate();
-
     }
 
     public void setSelected(boolean isSelected) {

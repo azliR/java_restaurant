@@ -136,12 +136,8 @@
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="detailPesananScroll" max="32767" attributes="0"/>
-                      <Component id="b_konfirmasiPesanan" alignment="0" min="-2" pref="380" max="-2" attributes="0"/>
-                      <Group type="102" attributes="0">
-                          <Component id="jLabel41" max="32767" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="b_closeDetailPesanan" min="-2" pref="36" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="b_konfirmasiPesanan" alignment="0" pref="380" max="32767" attributes="0"/>
+                      <Component id="jLabel41" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
@@ -151,12 +147,9 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="b_closeDetailPesanan" pref="36" max="32767" attributes="0"/>
-                      <Component id="jLabel41" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="jLabel41" min="-2" pref="36" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="detailPesananScroll" max="32767" attributes="0"/>
+                  <Component id="detailPesananScroll" pref="353" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="b_konfirmasiPesanan" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -183,15 +176,12 @@
         <Component class="javax.swing.JButton" name="b_konfirmasiPesanan">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="Colors.accentColor" type="code"/>
+              <Connection code="Colors.blueBackgroundColor" type="code"/>
             </Property>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Product Sans Medium" size="16" style="0"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Konfirmasi Pesanan"/>
+            <Property name="text" type="java.lang.String" value="Fitur Baru Segera Datang"/>
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
@@ -206,33 +196,6 @@
           </Events>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedButton(buttonRadius)"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JButton" name="b_closeDetailPesanan">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="ff" green="ff" red="ff" type="rgb"/>
-            </Property>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_close_grey.png"/>
-            </Property>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="null"/>
-            </Property>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Hand Cursor"/>
-            </Property>
-            <Property name="focusPainted" type="boolean" value="false"/>
-            <Property name="opaque" type="boolean" value="false"/>
-            <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_close.png"/>
-            </Property>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_closeDetailPesananActionPerformed"/>
-          </Events>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="b_closeDetailPesanan.setVisible(false);"/>
           </AuxValues>
         </Component>
         <Container class="javax.swing.JScrollPane" name="detailPesananScroll">

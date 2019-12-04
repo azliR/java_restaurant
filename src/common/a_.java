@@ -29,6 +29,7 @@ public class a_ {
     public static void showDialog(DialogType dialogType) {
         String title;
         String message;
+        int icon;
 
         if (null == dialogType) {
             return;
@@ -37,24 +38,28 @@ public class a_ {
                 case EMPTY_FIELD:
                     title = "Masukan tidak valid";
                     message = "Harap isi semua kolom yang dibutuhkan";
+                    icon = JOptionPane.ERROR_MESSAGE;
                     break;
 
                 case INSERT_ERROR:
                     title = "Terjadi kesalahan";
                     message = "Kesalahan saat menyimpan data ke database";
+                    icon = JOptionPane.ERROR_MESSAGE;
                     break;
 
                 case INSERT_SUCCESS:
                     title = "Berhasil";
                     message = "Data berhasil disimpan!";
+                    icon = JOptionPane.INFORMATION_MESSAGE;
                     break;
 
                 default:
                     title = "Terjadi kesalahan";
                     message = "Terjadi kesalahan saat memunculkan dialog ini. Periksa log segera!";
+                    icon = JOptionPane.ERROR_MESSAGE;
             }
         }
-        JOptionPane.showMessageDialog(MainPage.parent, message, title, JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(MainPage.parent, message, title, icon);
     }
 
     public static BufferedImage resizeImage(final Image image, int width, int height) {

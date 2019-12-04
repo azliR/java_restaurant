@@ -37,9 +37,9 @@ public class TemplateBarangGrid extends RoundedPanel {
         this.connection = connection;
         initComponents();
 
-        tv_image.setIcon(new ImageIcon(a_.convertRoundedImage(a_.toBufferedImage(new ImageIcon(barang.getGambar()).getImage(), new Rectangle(220, 140)), borderRadius)));
-        tv_hargaBarang.setText("Rp. " + a_.convertCurrency(barang.getHarga()));
-        tv_namaBarang.setText("<html>" + barang.getNamaBarang() + "</html>");
+        tv_image.setIcon(new ImageIcon(a_.convertRoundedImage(a_.toBufferedImage(new ImageIcon(barang.gambar).getImage(), new Rectangle(220, 140)), borderRadius)));
+        tv_hargaBarang.setText("Rp. " + a_.convertCurrency(barang.harga));
+        tv_namaBarang.setText("<html>" + barang.namaBarang + "</html>");
     }
 
     public void setSelected(boolean isSelected) {

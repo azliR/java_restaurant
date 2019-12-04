@@ -15,8 +15,8 @@ import java.util.logging.Logger;
  */
 public class JenisBarang {
 
-    int id;
-    String namaJenis;
+    public int id;
+    public String namaJenis;
 
     public JenisBarang() {
     }
@@ -30,13 +30,12 @@ public class JenisBarang {
         List<JenisBarang> jenisBarangs = new ArrayList<>();
         String sql = "SELECT * FROM jenis_barang";
 
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 JenisBarang jenisBarang = new JenisBarang();
-                jenisBarang.setId(resultSet.getInt("id"));
-                jenisBarang.setNamaJenis(resultSet.getString("nama_jenis"));
+                jenisBarang.id = resultSet.getInt("id");
+                jenisBarang.namaJenis = resultSet.getString("nama_jenis");
 
                 jenisBarangs.add(jenisBarang);
             }
@@ -52,12 +51,11 @@ public class JenisBarang {
         JenisBarang jenisBarang = new JenisBarang();
         String sql = "SELECT * FROM jenis_barang WHERE id='" + id + "'";
 
-        try (Statement statement = connection.createStatement();
-                ResultSet resultSet = statement.executeQuery(sql)) {
+        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                jenisBarang.setId(resultSet.getInt("id"));
-                jenisBarang.setNamaJenis(resultSet.getString("nama_jenis"));
+                jenisBarang.id = resultSet.getInt("id");
+                jenisBarang.namaJenis = resultSet.getString("nama_jenis");
             }
             resultSet.close();
             statement.close();
@@ -65,21 +63,5 @@ public class JenisBarang {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
         return jenisBarang;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getNamaJenis() {
-        return namaJenis;
-    }
-
-    public void setNamaJenis(String namaJenis) {
-        this.namaJenis = namaJenis;
     }
 }

@@ -33,8 +33,8 @@ public class TemplateEntriMeja extends RoundedPanel {
         this.connection = connection;
         initComponents();
 
-        tv_noMeja.setText(String.valueOf(entriMeja.getNomorMeja()));
-        tv_noMeja.setForeground(entriMeja.getAtasNama() != null ? activeTextColor : Color.BLACK);
+        tv_noMeja.setText(String.valueOf(entriMeja.nomorMeja));
+        tv_noMeja.setForeground(entriMeja.atasNama != null ? activeTextColor : Color.BLACK);
     }
 
     public void setSelected(boolean isSelected) {

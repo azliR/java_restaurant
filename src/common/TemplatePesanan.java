@@ -23,9 +23,9 @@ public class TemplatePesanan extends javax.swing.JPanel {
         this.pesanan = pesanan;
         initComponents();
 
-        Barang barang = new Barang().get(connection, pesanan.getIdBarang());
-        tv_namaBarang.setText(barang.getNamaBarang());
-        tv_jumlahBarang.setText("× " + pesanan.getJumlahBarang());
+        Barang barang = new Barang().get(connection, pesanan.idBarang);
+        tv_namaBarang.setText(barang.namaBarang);
+        tv_jumlahBarang.setText("× " + pesanan.jumlahBarang);
     }
 
     @SuppressWarnings("unchecked")

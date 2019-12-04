@@ -12,15 +12,15 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
 
     private final int borderRadius = 16;
 
-    public TemplateDetailPenjualan(Connection connection, DetailPenjualan detailPenjualan) {
+    public TemplateDetailPenjualan(Connection connection, DetailPenjualan detailPenjualan, int index) {
         initComponents();
 
-        Barang barang = new Barang().get(connection, detailPenjualan.getIdBarang());
+        Barang barang = new Barang().get(connection, detailPenjualan.idBarang);
 
-        tv_no.setText(String.valueOf(detailPenjualan.getId()));
-        tv_namaBarang.setText(barang.getNamaBarang());
-        tv_jumlahBarang.setText("× " + detailPenjualan.getJumlahBarang());
-        tv_subTotal.setText("Rp. " + a_.convertCurrency(barang.getHarga() * detailPenjualan.getJumlahBarang()));
+        tv_no.setText(String.valueOf(index));
+        tv_namaBarang.setText(barang.namaBarang);
+        tv_jumlahBarang.setText("× " + detailPenjualan.jumlahBarang);
+        tv_subTotal.setText("Rp. " + a_.convertCurrency(barang.harga * detailPenjualan.jumlahBarang));
     }
 
     @SuppressWarnings("unchecked")

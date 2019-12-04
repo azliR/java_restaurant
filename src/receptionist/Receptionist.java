@@ -1,6 +1,6 @@
 package receptionist;
 
-import pages.LoginPage;
+import pages.MainPage;
 import styles.Fonts;
 
 /**
@@ -14,6 +14,6 @@ public class Receptionist {
 //        MainPage mainPage = new MainPage(2);
 //        mainPage.setVisible(true);
 //        mainPage.run();
-        new LoginPage().setVisible(true);
+        new MainPage(1).setVisible(true);
     }
 }

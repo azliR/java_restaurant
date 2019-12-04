@@ -5,12 +5,12 @@ import common.TemplateDetailPenjualan;
 import common.TemplatePenjualan;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.io.PrintWriter;
+import java.awt.event.ActionEvent;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import javax.swing.DefaultListModel;
+import javax.swing.Timer;
 import model.DetailPenjualan;
 import model.Penjualan;
 import model.Pesanan;
@@ -36,16 +36,32 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
     private final MainPage context;
     private final Connection connection;
 
-    private final String serverAddress = "localhost";
-    private Scanner in;
-    private PrintWriter out;
-
     public EntriPenjualanPanel(MainPage context, Connection connection) {
         this.context = context;
         this.connection = connection;
 
         initComponents();
         init();
+    }
+
+    public EntriPenjualanPanel(MainPage context, Connection connection, int id) {
+        this.context = context;
+        this.connection = connection;
+
+        initComponents();
+        init();
+        Penjualan penjualan = new Penjualan().get(connection, id);
+        for (TemplatePenjualan templatePenjualan : templatePenjualans) {
+            if (templatePenjualan.penjualan.id == id) {
+                Timer timer = new Timer(1, (ActionEvent ae) -> {
+                    showDetailPesanan(templatePenjualan, penjualan);
+                });
+                timer.setRepeats(false);
+                timer.start();
+                selectedPesanan = penjualan;
+                return;
+            }
+        }
     }
 
     private void init() {
@@ -67,13 +83,14 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         penjualans.forEach((_penjualan) -> {
             TemplatePenjualan templatePenjualan = new TemplatePenjualan(connection, this, _penjualan);
             templatePenjualan.setPreferredSize(new Dimension(width, templatePenjualan.getPreferredSize().height));
+
             templatePenjualans.add(templatePenjualan);
             entriPesananPanel.add(templatePenjualan);
         });
         entriPesananPanel.revalidate();
     }
 
-    public void showDetailPesanan(TemplatePenjualan templatePenjualan, Penjualan penjualan) {
+    public final void showDetailPesanan(TemplatePenjualan templatePenjualan, Penjualan penjualan) {
         selectedPesanan = penjualan;
 
         templatePenjualans.forEach(((_templateBarang) -> {
@@ -82,19 +99,19 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
 
         detailPesananListPanel.removeAll();
 
-        List<DetailPenjualan> detailPenjualans = new DetailPenjualan().get(connection, penjualan.getId());
-        detailPenjualans.forEach((_detailPenjualan) -> {
-            TemplateDetailPenjualan templateDetailPenjualan = new TemplateDetailPenjualan(connection, _detailPenjualan);
+        List<DetailPenjualan> detailPenjualans = new DetailPenjualan().get(connection, penjualan.id);
+
+        int i = 1;
+        for (DetailPenjualan detailPenjualan : detailPenjualans) {
+            TemplateDetailPenjualan templateDetailPenjualan = new TemplateDetailPenjualan(connection, detailPenjualan, i);
             int width = detailPesananScroll.getWidth() - 8;
             int height = templateDetailPenjualan.getPreferredSize().height;
+
             templateDetailPenjualan.setPreferredSize(new Dimension(width, height));
             detailPesananListPanel.add(templateDetailPenjualan);
-        });
+            i++;
+        }
         detailPesananListPanel.revalidate();
-    }
-
-    private void hideDetailPesanan() {
-        detailPenjualanPanel.setVisible(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -109,7 +126,6 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         detailPenjualanPanel = new javax.swing.JPanel();
         jLabel41 = new javax.swing.JLabel();
         b_konfirmasiPesanan = new RoundedButton(buttonRadius);
-        b_closeDetailPesanan = new javax.swing.JButton();
         detailPesananScroll = new javax.swing.JScrollPane();
         panelFlow = new javax.swing.JPanel();
         detailPesananListPanel = new javax.swing.JPanel();
@@ -163,10 +179,9 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         jLabel41.setText("Detail Pesanan");
         jLabel41.setIconTextGap(18);
 
-        b_konfirmasiPesanan.setBackground(Colors.accentColor);
+        b_konfirmasiPesanan.setBackground(Colors.blueBackgroundColor);
         b_konfirmasiPesanan.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
-        b_konfirmasiPesanan.setForeground(new java.awt.Color(255, 255, 255));
-        b_konfirmasiPesanan.setText("Konfirmasi Pesanan");
+        b_konfirmasiPesanan.setText("Fitur Baru Segera Datang");
         b_konfirmasiPesanan.setBorder(null);
         b_konfirmasiPesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         b_konfirmasiPesanan.setFocusPainted(false);
@@ -174,19 +189,6 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         b_konfirmasiPesanan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_konfirmasiPesananActionPerformed(evt);
-            }
-        });
-
-        b_closeDetailPesanan.setBackground(new java.awt.Color(255, 255, 255));
-        b_closeDetailPesanan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close_grey.png"))); // NOI18N
-        b_closeDetailPesanan.setBorder(null);
-        b_closeDetailPesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        b_closeDetailPesanan.setFocusPainted(false);
-        b_closeDetailPesanan.setOpaque(false);
-        b_closeDetailPesanan.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close.png"))); // NOI18N
-        b_closeDetailPesanan.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_closeDetailPesananActionPerformed(evt);
             }
         });
 
@@ -210,28 +212,21 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(detailPesananScroll)
-                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(detailPenjualanPanelLayout.createSequentialGroup()
-                        .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
         detailPenjualanPanelLayout.setVerticalGroup(
             detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailPenjualanPanelLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
-                    .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jLabel41, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(detailPesananScroll)
+                .addComponent(detailPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 353, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
-
-        b_closeDetailPesanan.setVisible(false);
 
         jSeparator1.setForeground(Colors.borderColor);
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
@@ -261,12 +256,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_b_konfirmasiPesananActionPerformed
 
-    private void b_closeDetailPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_closeDetailPesananActionPerformed
-        hideDetailPesanan();
-    }//GEN-LAST:event_b_closeDetailPesananActionPerformed
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton b_closeDetailPesanan;
     private javax.swing.JButton b_konfirmasiPesanan;
     public javax.swing.JPanel detailPenjualanPanel;
     private javax.swing.JPanel detailPesananListPanel;

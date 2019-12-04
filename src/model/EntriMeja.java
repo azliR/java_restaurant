@@ -15,8 +15,10 @@ import java.util.logging.Logger;
  */
 public class EntriMeja {
 
-    int id, idTipeMeja, nomorMeja;
-    String atasNama, maksOrang, waktuPesanan;
+    public int id, idTipeMeja, idPenjualan;
+    public String nomorMeja, atasNama;
+    public int maksOrang, jumlahOrang;
+    public String waktuPesanan;
 
     public static enum GET_TYPE {
         SEMUA, KOSONG, TERISI, DIPESAN
@@ -25,31 +27,22 @@ public class EntriMeja {
     public EntriMeja() {
     }
 
-    public EntriMeja(int id, int idTipeMeja, int nomorMeja, String atasNama, String maksOrang, String waktuPesanan) {
-        this.id = id;
-        this.idTipeMeja = idTipeMeja;
-        this.nomorMeja = nomorMeja;
-        this.atasNama = atasNama;
-        this.maksOrang = maksOrang;
-        this.waktuPesanan = waktuPesanan;
-    }
-
     public List<EntriMeja> get(Connection connection, GET_TYPE type) {
         List<EntriMeja> entriMejas = new ArrayList<>();
         String sql = null;
 
         switch (type) {
             case SEMUA:
-                sql = "SELECT * FROM entri_meja ORDER BY nomor_meja ASC";
+                sql = "SELECT * FROM entri_meja ORDER BY id ASC";
                 break;
             case KOSONG:
-                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NULL ORDER BY nomor_meja ASC";
+                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NULL ORDER BY id ASC";
                 break;
             case TERISI:
-                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NOT NULL ORDER BY nomor_meja ASC";
+                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NOT NULL ORDER BY id ASC";
                 break;
             case DIPESAN:
-                sql = "SELECT * FROM entri_meja WHERE waktu_pesanan IS NOT NULL ORDER BY nomor_meja ASC";
+                sql = "SELECT * FROM entri_meja WHERE waktu_pesanan IS NOT NULL ORDER BY id ASC";
                 break;
         }
 
@@ -57,11 +50,14 @@ public class EntriMeja {
 
             while (resultSet.next()) {
                 EntriMeja entriMeja = new EntriMeja();
-                entriMeja.setId(resultSet.getInt("id"));
-                entriMeja.setIdTipeMeja(resultSet.getInt("id_tipe_meja"));
-                entriMeja.setNomorMeja(resultSet.getInt("nomor_meja"));
-                entriMeja.setAtasNama(resultSet.getString("atas_nama"));
-                entriMeja.setMaksOrang(resultSet.getString("maks_orang"));
+                entriMeja.id = resultSet.getInt("id");
+                entriMeja.idTipeMeja = resultSet.getInt("id_tipe_meja");
+                entriMeja.idPenjualan = resultSet.getInt("id_penjualan");
+                entriMeja.nomorMeja = resultSet.getString("nomor_meja");
+                entriMeja.atasNama = resultSet.getString("atas_nama");
+                entriMeja.maksOrang = resultSet.getInt("maks_orang");
+                entriMeja.jumlahOrang = resultSet.getInt("jumlah_orang");
+                entriMeja.waktuPesanan = resultSet.getString("waktu_pesanan");
 
                 entriMejas.add(entriMeja);
             }
@@ -80,11 +76,14 @@ public class EntriMeja {
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                entriMeja.setId(resultSet.getInt("id"));
-                entriMeja.setIdTipeMeja(resultSet.getInt("id_tipe_meja"));
-                entriMeja.setNomorMeja(resultSet.getInt("nomor_meja"));
-                entriMeja.setAtasNama(resultSet.getString("atas_nama"));
-                entriMeja.setMaksOrang(resultSet.getString("maks_orang"));
+                entriMeja.id = resultSet.getInt("id");
+                entriMeja.idTipeMeja = resultSet.getInt("id_tipe_meja");
+                entriMeja.idPenjualan = resultSet.getInt("id_penjualan");
+                entriMeja.nomorMeja = resultSet.getString("nomor_meja");
+                entriMeja.atasNama = resultSet.getString("atas_nama");
+                entriMeja.maksOrang = resultSet.getInt("maks_orang");
+                entriMeja.jumlahOrang = resultSet.getInt("jumlah_orang");
+                entriMeja.waktuPesanan = resultSet.getString("waktu_pesanan");
             }
             resultSet.close();
             statement.close();
@@ -102,14 +101,20 @@ public class EntriMeja {
         if (idTipeMeja != 0) {
             sql.append("id_tipe_meja = '").append(idTipeMeja).append("', ");
         }
-        if (nomorMeja != 0) {
+        if (idPenjualan != 0) {
+            sql.append("id_penjualan = '").append(idPenjualan).append("', ");
+        }
+        if (nomorMeja != null) {
             sql.append("nomor_meja = '").append(nomorMeja).append("', ");
         }
         if (atasNama != null) {
             sql.append("atas_nama = '").append(atasNama).append("', ");
         }
-        if (maksOrang != null) {
+        if (maksOrang != 0) {
             sql.append("maks_orang = '").append(maksOrang).append("', ");
+        }
+        if (jumlahOrang != 0) {
+            sql.append("jumlah_orang = '").append(jumlahOrang).append("', ");
         }
         if (waktuPesanan != null) {
             sql.append("waktu_pesanan = '").append(waktuPesanan).append("', ");
@@ -125,53 +130,5 @@ public class EntriMeja {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, e);
         }
         return false;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getIdTipeMeja() {
-        return idTipeMeja;
-    }
-
-    public void setIdTipeMeja(int idTipeMeja) {
-        this.idTipeMeja = idTipeMeja;
-    }
-
-    public int getNomorMeja() {
-        return nomorMeja;
-    }
-
-    public void setNomorMeja(int nomorMeja) {
-        this.nomorMeja = nomorMeja;
-    }
-
-    public String getAtasNama() {
-        return atasNama;
-    }
-
-    public void setAtasNama(String atasNama) {
-        this.atasNama = atasNama;
-    }
-
-    public String getMaksOrang() {
-        return maksOrang;
-    }
-
-    public void setMaksOrang(String maksOrang) {
-        this.maksOrang = maksOrang;
-    }
-
-    public String getWaktuPesanan() {
-        return waktuPesanan;
-    }
-
-    public void setWaktuPesanan(String waktuPesanan) {
-        this.waktuPesanan = waktuPesanan;
     }
 }

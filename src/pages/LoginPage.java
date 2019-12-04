@@ -17,6 +17,7 @@ import javax.swing.JFrame;
 import javax.swing.Timer;
 import services.DBHelper;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -44,8 +45,7 @@ public class LoginPage extends javax.swing.JFrame {
         int id = -1;
 
         String query = "SELECT id FROM pengguna WHERE nama_pengguna='" + namaPengguna + "' AND kata_sandi='" + String.valueOf(kataSandi) + "'";
-        try (Statement statement = connection.createStatement();
-                ResultSet result = statement.executeQuery(query)) {
+        try ( Statement statement = connection.createStatement();  ResultSet result = statement.executeQuery(query)) {
 
             if (result.next()) {
                 id = result.getInt("id");
@@ -118,7 +118,8 @@ public class LoginPage extends javax.swing.JFrame {
         jPanel4.setPreferredSize(new java.awt.Dimension(460, 540));
 
         b_login.setBackground(Colors.accentColor);
-        b_login.setFont(new java.awt.Font("Product Sans Medium", 0, 14)); // NOI18N
+        b_login.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(14f)
+        );
         b_login.setForeground(new java.awt.Color(255, 255, 255));
         b_login.setText("Masuk");
         b_login.setBorder(null);
@@ -380,7 +381,7 @@ public class LoginPage extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

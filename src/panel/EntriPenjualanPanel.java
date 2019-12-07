@@ -1,8 +1,7 @@
 package panel;
 
 import common.RoundedButton;
-import common.TemplateDetailPenjualan;
-import common.TemplatePenjualan;
+import common.a_ScrollPane;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +15,8 @@ import model.Penjualan;
 import model.Pesanan;
 import pages.MainPage;
 import styles.Colors;
+import template.TemplateDetailPenjualan;
+import template.TemplatePenjualan;
 
 /**
  *
@@ -42,6 +43,11 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
 
         initComponents();
         init();
+        Timer timer = new Timer(10, (ActionEvent ae) -> {
+            showDetailPesanan(templatePenjualans.get(0), selectedPesanan);
+        });
+        timer.setRepeats(false);
+        timer.start();
     }
 
     public EntriPenjualanPanel(MainPage context, Connection connection, int id) {
@@ -53,7 +59,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         Penjualan penjualan = new Penjualan().get(connection, id);
         for (TemplatePenjualan templatePenjualan : templatePenjualans) {
             if (templatePenjualan.penjualan.id == id) {
-                Timer timer = new Timer(1, (ActionEvent ae) -> {
+                Timer timer = new Timer(10, (ActionEvent ae) -> {
                     showDetailPesanan(templatePenjualan, penjualan);
                 });
                 timer.setRepeats(false);
@@ -88,11 +94,12 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
             entriPesananPanel.add(templatePenjualan);
         });
         entriPesananPanel.revalidate();
+        selectedPesanan = penjualans.get(0);
     }
 
     public final void showDetailPesanan(TemplatePenjualan templatePenjualan, Penjualan penjualan) {
         selectedPesanan = penjualan;
-
+        System.out.println(penjualan);
         templatePenjualans.forEach(((_templateBarang) -> {
             _templateBarang.setSelected(_templateBarang == templatePenjualan);
         }));
@@ -104,7 +111,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         int i = 1;
         for (DetailPenjualan detailPenjualan : detailPenjualans) {
             TemplateDetailPenjualan templateDetailPenjualan = new TemplateDetailPenjualan(connection, detailPenjualan, i);
-            int width = detailPesananScroll.getWidth() - 8;
+            int width = detailPesananScroll.getWidth() - 16;
             int height = templateDetailPenjualan.getPreferredSize().height;
 
             templateDetailPenjualan.setPreferredSize(new Dimension(width, height));
@@ -126,7 +133,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         detailPenjualanPanel = new javax.swing.JPanel();
         jLabel41 = new javax.swing.JLabel();
         b_konfirmasiPesanan = new RoundedButton(buttonRadius);
-        detailPesananScroll = new javax.swing.JScrollPane();
+        detailPesananScroll = new a_ScrollPane(panelFlow);
         panelFlow = new javax.swing.JPanel();
         detailPesananListPanel = new javax.swing.JPanel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -196,10 +203,10 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         detailPesananScroll.setBorder(null);
 
         panelFlow.setBackground(new java.awt.Color(255, 255, 255));
-        panelFlow.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
+        panelFlow.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
 
         detailPesananListPanel.setBackground(new java.awt.Color(255, 255, 255));
-        detailPesananListPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 4));
+        detailPesananListPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 6));
         panelFlow.add(detailPesananListPanel);
 
         detailPesananScroll.setViewportView(panelFlow);
@@ -212,7 +219,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
                 .addGap(24, 24, 24)
                 .addGroup(detailPenjualanPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(detailPesananScroll)
-                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                     .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
@@ -227,6 +234,8 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
                 .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
+
+        detailPesananScroll.getVerticalScrollBar().setUnitIncrement(12);
 
         jSeparator1.setForeground(Colors.borderColor);
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);

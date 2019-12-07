@@ -22,9 +22,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import model.Barang;
-import model.EntriMeja;
 import model.HakAkses;
 import model.JenisBarang;
+import model.Meja;
 import model.Pengguna;
 import model.Penjualan;
 import panel.BerandaPanel;
@@ -36,6 +36,7 @@ import panel.LaporanPanel;
 import panel.TambahBarangPanel;
 import services.DBHelper;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -51,7 +52,7 @@ public class MainPage extends javax.swing.JFrame {
     private int yMouse;
     private final int searchRadius = 14;
     private final int circleRadius = 36;
-    private final int navRadius = 52;
+    private final int navRadius = 48;
 
     private boolean isSearchFilled = false;
 
@@ -180,16 +181,16 @@ public class MainPage extends javax.swing.JFrame {
     private void loadChipStatusMeja(EntriMejaPanel entriMejaPanel) {
         entriMejaPanel.removeAll();
 
-        List<EntriMeja.GET_TYPE> entriMejas = new ArrayList<>();
-        entriMejas.add(EntriMeja.GET_TYPE.SEMUA);
-        entriMejas.add(EntriMeja.GET_TYPE.KOSONG);
-        entriMejas.add(EntriMeja.GET_TYPE.TERISI);
-        entriMejas.add(EntriMeja.GET_TYPE.DIPESAN);
+        List<Meja.GET_TYPE> mejas = new ArrayList<>();
+        mejas.add(Meja.GET_TYPE.SEMUA);
+        mejas.add(Meja.GET_TYPE.KOSONG);
+        mejas.add(Meja.GET_TYPE.TERISI);
+        mejas.add(Meja.GET_TYPE.DIPESAN);
 
-        entriMejas.forEach((_statusMeja) -> {
+        mejas.forEach((_statusMeja) -> {
             a_Chip chip = new a_Chip(_statusMeja.name());
             chipGroup.add(chip);
-            if (_statusMeja == EntriMeja.GET_TYPE.SEMUA) {
+            if (_statusMeja == Meja.GET_TYPE.SEMUA) {
                 chipGroup.setSelected(chip.getModel(), true);
                 setChipSelected(chip);
             }
@@ -202,7 +203,7 @@ public class MainPage extends javax.swing.JFrame {
                 chips.forEach((_chip) -> {
                     setChipSelected((a_Chip) _chip);
                 });
-                entriMejaPanel.loadEntriMeja(new EntriMeja().get(connection, _statusMeja));
+                entriMejaPanel.loadEntriMeja(new Meja().get(connection, _statusMeja));
             });
             chipsPanel.add(chip);
         });
@@ -348,9 +349,10 @@ public class MainPage extends javax.swing.JFrame {
         jLabel2.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
         jLabel3.setBackground(new java.awt.Color(0, 24, 44));
-        jLabel3.setFont(new java.awt.Font("URW Gothic", 0, 18)); // NOI18N
+        jLabel3.setFont(Fonts.ROBOTO_REGULAR.deriveFont(20f)
+        );
         jLabel3.setForeground(new java.awt.Color(0, 24, 44));
-        jLabel3.setText("a_");
+        jLabel3.setText("α_");
         jLabel3.setBorder(javax.swing.BorderFactory.createEmptyBorder(6, 0, 0, 0));
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
@@ -497,7 +499,8 @@ public class MainPage extends javax.swing.JFrame {
         });
 
         tv_namaPengguna.setBackground(new java.awt.Color(255, 255, 255));
-        tv_namaPengguna.setFont(new java.awt.Font("URW Gothic", 1, 18)); // NOI18N
+        tv_namaPengguna.setFont(Fonts.GOOGLE_SANS.deriveFont(18f)
+        );
         tv_namaPengguna.setForeground(new java.awt.Color(0, 24, 44));
         tv_namaPengguna.setText("a_lpha");
 
@@ -573,10 +576,10 @@ public class MainPage extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(36, 36, 36)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(tv_profile)
                         .addGroup(jPanel2Layout.createSequentialGroup()
-                            .addComponent(tv_namaPengguna)
+                            .addComponent(tv_namaPengguna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGap(0, 0, 0)
                             .addComponent(tv_hakAkses)))
                     .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -598,7 +601,7 @@ public class MainPage extends javax.swing.JFrame {
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(nav_laporan, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(231, Short.MAX_VALUE))
+                .addContainerGap(232, Short.MAX_VALUE))
         );
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -639,7 +642,7 @@ public class MainPage extends javax.swing.JFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(20, 20, 20)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(et_search, javax.swing.GroupLayout.DEFAULT_SIZE, 921, Short.MAX_VALUE)
@@ -654,13 +657,15 @@ public class MainPage extends javax.swing.JFrame {
             .addComponent(et_search, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
-        tv_title.setFont(new java.awt.Font("Google Sans", 0, 18));
+        tv_title.setFont(Fonts.GOOGLE_SANS.deriveFont(16f)
+        );
         tv_title.setText("Drive Saya");
 
         jSeparator4.setForeground(Colors.borderColor);
 
         b_keranjang.setBackground(Colors.blueBackgroundColor);
-        b_keranjang.setFont(new java.awt.Font("Product Sans Medium", 0, 14)); // NOI18N
+        b_keranjang.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        );
         b_keranjang.setForeground(Colors.accentColor);
         b_keranjang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_cart-outline_accent.png"))); // NOI18N
         b_keranjang.setText("Rp. 0");
@@ -696,7 +701,7 @@ public class MainPage extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(24, 127, Short.MAX_VALUE))))
+                        .addGap(24, 149, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -820,8 +825,8 @@ public class MainPage extends javax.swing.JFrame {
 //        String cari = et_search.getText();
 //        System.out.println(cari);
 //        entriMejaPanel.removeAll();
-//        entriMejaPanel.entriMejas.stream().filter((entriMeja) -> (String.valueOf(entriMeja.getNomorMeja()).toLowerCase().contains(cari))).forEachOrdered((entriMeja) -> {
-//            entriMejaPanel.add(new TemplateEntriMeja(connection, entriMejaPanel, entriMeja));
+//        entriMejaPanel.entriMejas.stream().filter((meja) -> (String.valueOf(meja.getNomorMeja()).toLowerCase().contains(cari))).forEachOrdered((meja) -> {
+//            entriMejaPanel.add(new TemplateEntriMeja(connection, entriMejaPanel, meja));
 //        });
 //        entriMejaPanel.revalidate();
     }//GEN-LAST:event_et_searchKeyTyped
@@ -832,7 +837,7 @@ public class MainPage extends javax.swing.JFrame {
 
     private void b_keranjangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_keranjangActionPerformed
         EntriBarangPanel entriBarangPanel = (EntriBarangPanel) selectedComponent;
-        if (entriBarangPanel.entriMeja != null) {
+        if (entriBarangPanel.meja != null) {
             entriBarangPanel.showDetailPesanan();
         } else {
             JOptionPane.showMessageDialog(parent, "Untuk menambahkan barang ke keranjang,\nsilahkan pilih meja terlebih dahulu");

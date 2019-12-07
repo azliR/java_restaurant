@@ -2,7 +2,8 @@ package panel;
 
 import common.RoundedBorder;
 import common.RoundedButton;
-import common.TemplateEntriMeja;
+import template.TemplateEntriMeja;
+import common.a_;
 import common.a_TextField;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
-import model.EntriMeja;
+import model.Meja;
 import model.TipeMeja;
 import pages.MainPage;
 import styles.Colors;
@@ -25,12 +26,12 @@ import styles.Fonts;
 public class EntriMejaPanel extends javax.swing.JPanel {
 
     private final List<TemplateEntriMeja> templateEntriMejas = new ArrayList<>();
-    private List<EntriMeja> entriMejas = new ArrayList<>();
+    private List<Meja> mejas = new ArrayList<>();
 
     private final int buttonRadius = 8;
     private final int padding = 16;
 
-    private EntriMeja selectedMeja = new EntriMeja();
+    private Meja selectedMeja = new Meja();
 
     private GridLayout gridLayout;
 
@@ -52,13 +53,13 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         entriMejaScroll.getVerticalScrollBar().setUnitIncrement(12);
 
         infoMejaPanel.setVisible(false);
-        loadEntriMeja(new EntriMeja().get(connection, EntriMeja.GET_TYPE.SEMUA));
+        loadEntriMeja(new Meja().get(connection, Meja.GET_TYPE.SEMUA));
     }
 
-    public void loadEntriMeja(List<EntriMeja> entriMejas) {
+    public void loadEntriMeja(List<Meja> mejas) {
         entriMejaPanel.removeAll();
         templateEntriMejas.clear();
-        this.entriMejas = entriMejas;
+        this.mejas = mejas;
 
         if (infoMejaPanel.isVisible()) {
             infoMejaPanel.setVisible(false);
@@ -66,7 +67,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         final int width = context.content.getWidth() / 4 - padding;
 
-        entriMejas.forEach((_entriMeja) -> {
+        mejas.forEach((_entriMeja) -> {
             TemplateEntriMeja templateEntriMeja = new TemplateEntriMeja(connection, this, _entriMeja);
             templateEntriMeja.setPreferredSize(new Dimension(width, (int) templateEntriMeja.getPreferredSize().getHeight()));
             templateEntriMejas.add(templateEntriMeja);
@@ -76,8 +77,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         entriMejaPanel.revalidate();
     }
 
-    public void showInfoMeja(TemplateEntriMeja templateEntriMeja, EntriMeja entriMeja) {
-        selectedMeja = entriMeja;
+    public void showInfoMeja(TemplateEntriMeja templateEntriMeja, Meja meja) {
+        selectedMeja = meja;
 
         final int width = (context.content.getWidth() - infoMejaPanel.getPreferredSize().width) / 3 - padding;
 
@@ -95,27 +96,28 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             entriMejaPanel.revalidate();
         }
 
-        tv_atasNama.setText(entriMeja.atasNama);
-        tv_jumlahOrang.setText(String.valueOf(entriMeja.jumlahOrang));
-        tv_nomorMeja.setText(String.valueOf(entriMeja.nomorMeja));
+        tv_atasNama.setText(meja.atasNama);
+        tv_jumlahOrang.setText(meja.jumlahOrang + " Orang");
+        tv_nomorMeja.setText(String.valueOf(meja.nomorMeja));
+        tv_maksOrang.setText(meja.maksOrang + " Orang");
 
-        tv_tipeMeja.setText(new TipeMeja().get(connection, entriMeja.idTipeMeja).namaTipe);
-        b_pilihMeja.setText(entriMeja.atasNama != null ? "Sudah Dipesan" : "Pesan Meja");
-        b_pilihMeja.setBackground(entriMeja.atasNama != null ? Colors.primaryColor : Colors.accentColor);
-        b_pilihMeja.setEnabled(entriMeja.atasNama == null);
-        b_detailPesanan.setVisible(entriMeja.atasNama != null);
+        tv_tipeMeja.setText(new TipeMeja().get(connection, meja.idTipeMeja).namaTipe);
+        b_pilihMeja.setText(meja.atasNama != null ? "Sudah Dipesan" : "Pesan Meja");
+        b_pilihMeja.setBackground(meja.atasNama != null ? Colors.primaryColor : Colors.accentColor);
+        b_pilihMeja.setEnabled(meja.atasNama == null);
+        b_detailPesanan.setVisible(meja.atasNama != null);
 
-        tv_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
-        l_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
-        s_jumlahOrang.setVisible(entriMeja.jumlahOrang != 0);
+        tv_jumlahOrang.setVisible(meja.jumlahOrang != 0);
+        l_jumlahOrang.setVisible(meja.jumlahOrang != 0);
+        s_jumlahOrang.setVisible(meja.jumlahOrang != 0);
 
-        tv_atasNama.setVisible(entriMeja.atasNama != null);
-        l_atasNama.setVisible(entriMeja.atasNama != null);
-        s_atasNama.setVisible(entriMeja.atasNama != null);
+        tv_atasNama.setVisible(meja.atasNama != null);
+        l_atasNama.setVisible(meja.atasNama != null);
+        s_atasNama.setVisible(meja.atasNama != null);
     }
 
     private void hideInfoMeja() {
-        selectedMeja = new EntriMeja();
+        selectedMeja = new Meja();
 
         infoMejaPanel.setVisible(false);
         gridLayout.setColumns(4);
@@ -162,12 +164,21 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         s_jumlahOrang = new javax.swing.JSeparator();
         b_detailPesanan = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        l_maksOrang = new javax.swing.JLabel();
+        tv_maksOrang = new javax.swing.JLabel();
+        jSeparator5 = new javax.swing.JSeparator();
         jSeparator1 = new javax.swing.JSeparator();
 
         atasNamaDialog.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         atasNamaDialog.setTitle("Pesan Meja");
         atasNamaDialog.setBackground(new java.awt.Color(255, 255, 255));
-        atasNamaDialog.setSize(new java.awt.Dimension(384, 312));
+        atasNamaDialog.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(14f)
+        );
+        atasNamaDialog.setModal(true);
+        atasNamaDialog.setPreferredSize(new java.awt.Dimension(337, 275));
+        atasNamaDialog.setResizable(false);
+        atasNamaDialog.setSize(new java.awt.Dimension(400, 300));
+        atasNamaDialog.setType(java.awt.Window.Type.POPUP);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -231,7 +242,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                                 .addComponent(tv_jumlah)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cb_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 134, Short.MAX_VALUE)))))
+                                .addGap(0, 124, Short.MAX_VALUE)))))
                 .addGap(36, 36, 36))
         );
         jPanel3Layout.setVerticalGroup(
@@ -239,7 +250,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel4)
-                .addGap(24, 24, 24)
+                .addGap(16, 16, 16)
                 .addComponent(et_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(tv_hint)
@@ -260,11 +271,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(atasNamaDialogLayout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 11, Short.MAX_VALUE))
+                .addGap(0, 0, 0))
         );
         atasNamaDialogLayout.setVerticalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         atasNamaDialog.setLocationRelativeTo(pages.MainPage.parent);
@@ -347,7 +358,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         tv_jumlahOrang.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_jumlahOrang.setForeground(Colors.blackTextColor);
-        tv_jumlahOrang.setText("1-6 Orang");
+        tv_jumlahOrang.setText("1 Orang");
 
         jSeparator2.setForeground(new java.awt.Color(218, 220, 224));
 
@@ -385,6 +396,16 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             }
         });
 
+        l_maksOrang.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        l_maksOrang.setForeground(Colors.greyTextColor);
+        l_maksOrang.setText("MAKSIMAL ORANG");
+
+        tv_maksOrang.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tv_maksOrang.setForeground(Colors.blackTextColor);
+        tv_maksOrang.setText("4 Orang");
+
+        jSeparator5.setForeground(new java.awt.Color(218, 220, 224));
+
         javax.swing.GroupLayout infoMejaPanelLayout = new javax.swing.GroupLayout(infoMejaPanel);
         infoMejaPanel.setLayout(infoMejaPanelLayout);
         infoMejaPanelLayout.setHorizontalGroup(
@@ -395,7 +416,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                     .addComponent(jSeparator2)
                     .addComponent(s_jumlahOrang)
                     .addComponent(jSeparator3)
-                    .addComponent(b_pilihMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                    .addComponent(b_pilihMeja, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
                     .addComponent(s_atasNama)
                     .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_nomorMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -409,7 +430,10 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(b_detailPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(b_detailPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(l_maksOrang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_maksOrang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jSeparator5))
                 .addGap(24, 24, 24))
         );
         infoMejaPanelLayout.setVerticalGroup(
@@ -432,6 +456,12 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(l_maksOrang)
+                .addGap(8, 8, 8)
+                .addComponent(tv_maksOrang)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(l_jumlahOrang)
                 .addGap(8, 8, 8)
                 .addComponent(tv_jumlahOrang)
@@ -443,7 +473,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addComponent(tv_atasNama)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(s_atasNama, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(b_detailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b_pilihMeja, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -473,12 +503,12 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_pilihMejaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_pilihMejaActionPerformed
-        atasNamaDialog.setVisible(true);
         String[] jumlahOrang = new String[selectedMeja.maksOrang];
         for (int i = 0; i < selectedMeja.maksOrang; i++) {
             jumlahOrang[i] = (i + 1) + " Orang";
         }
         cb_jumlahOrang.setModel(new DefaultComboBoxModel<>(jumlahOrang));
+        atasNamaDialog.setVisible(true);
     }//GEN-LAST:event_b_pilihMejaActionPerformed
 
     private void b_okeAtasNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_okeAtasNamaActionPerformed
@@ -490,6 +520,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         }
 
         selectedMeja.atasNama = et_atasNama.getText();
+        selectedMeja.jumlahOrang = a_.extractNumber(cb_jumlahOrang.getSelectedItem().toString());
 
         context.nav_entriBarang.setSelected(true);
         context.setNavigationColor();
@@ -532,14 +563,17 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
+    private javax.swing.JSeparator jSeparator5;
     private javax.swing.JLabel l_atasNama;
     private javax.swing.JLabel l_jumlahOrang;
+    private javax.swing.JLabel l_maksOrang;
     private javax.swing.JSeparator s_atasNama;
     private javax.swing.JSeparator s_jumlahOrang;
     private javax.swing.JLabel tv_atasNama;
     private javax.swing.JLabel tv_hint;
     private javax.swing.JLabel tv_jumlah;
     private javax.swing.JLabel tv_jumlahOrang;
+    private javax.swing.JLabel tv_maksOrang;
     private javax.swing.JLabel tv_nomorMeja;
     private javax.swing.JLabel tv_tipeMeja;
     // End of variables declaration//GEN-END:variables

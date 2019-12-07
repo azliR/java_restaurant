@@ -2,16 +2,14 @@ package panel;
 
 import common.RoundedBorder;
 import common.RoundedButton;
-import common.TemplateBarang;
-import common.TemplatePesanan;
+import template.TemplateBarang;
+import template.TemplatePesanan;
 import common.a_;
 import common.a_ScrollPane;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.image.BufferedImage;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import model.Barang;
 import model.DetailPenjualan;
-import model.EntriMeja;
 import model.JenisBarang;
+import model.Meja;
 import model.Penjualan;
 import model.Pesanan;
 import model.Varian;
@@ -46,7 +44,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
     private final int padding = 16;
 
-    public final EntriMeja entriMeja;
+    public final Meja meja;
     private Barang selectedBarang;
 
     private GridLayout gridLayout;
@@ -56,16 +54,16 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     public EntriBarangPanel(MainPage context, Connection connection) {
         this.context = context;
         this.connection = connection;
-        this.entriMeja = null;
+        this.meja = null;
 
         initComponents();
         init();
     }
 
-    public EntriBarangPanel(MainPage context, Connection connection, EntriMeja entriMeja) {
+    public EntriBarangPanel(MainPage context, Connection connection, Meja meja) {
         this.context = context;
         this.connection = connection;
-        this.entriMeja = entriMeja;
+        this.meja = meja;
 
         initComponents();
         init();
@@ -77,19 +75,16 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         gridLayout.setVgap(12);
         entriBarangPanel.setLayout(gridLayout);
 
-        entriBarangScroll.getVerticalScrollBar().setUnitIncrement(14);
-        daftarPesananScroll.getVerticalScrollBar().setUnitIncrement(14);
-
-        if (entriMeja != null) {
-            tv_nomorMeja.setText(String.valueOf(entriMeja.nomorMeja));
+        if (meja != null) {
+            tv_nomorMeja.setText(String.valueOf(meja.nomorMeja));
         }
 
         detailBarangPanel.setVisible(false);
         detailPesananPanel.setVisible(false);
-        b_kurang.setVisible(entriMeja != null);
-        b_tambah.setVisible(entriMeja != null);
-        b_pesan.setVisible(entriMeja != null);
-        et_jumlah.setVisible(entriMeja != null);
+        b_kurang.setVisible(meja != null);
+        b_tambah.setVisible(meja != null);
+        b_pesan.setVisible(meja != null);
+        et_jumlah.setVisible(meja != null);
         context.b_keranjang.setText("Rp. 0");
 
         loadBarang(new Barang().get(connection));
@@ -124,7 +119,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         pesanans.add(pesanan);
 
         TemplatePesanan templatePesanan = new TemplatePesanan(this, connection, pesanan);
-        int width = tv_daftarPesananTitle.getWidth() - 8;
+        int width = tv_daftarPesananTitle.getWidth() - 16;
         int height = templatePesanan.getPreferredSize().height;
         templatePesanan.setPreferredSize(new Dimension(width, height));
         daftarPesananPanel.add(templatePesanan);
@@ -134,6 +129,10 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         b_pesan.setBackground(Colors.primaryColor);
         b_pesan.setBorder(new RoundedBorder(buttonRadius));
 
+        setTotal();
+    }
+
+    public void setTotal() {
         int total = 0;
         total = pesanans.stream().map((_pesanan) -> _pesanan.hargaBarang * _pesanan.jumlahBarang).map((subTotal) -> subTotal).reduce(total, Integer::sum);
         context.b_keranjang.setText("Rp. " + a_.convertCurrency(total));
@@ -164,7 +163,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             } else {
                 _templateBarang.setSelected(false);
             }
-            if (!detailBarangPanel.isVisible() && !detailPesananPanel.isVisible()) {
+            if (!detailBarangPanel.isVisible()) {
                 _templateBarang.setPreferredSize(new Dimension(width, _templateBarang.getHeight()));
                 _templateBarang.revalidate();
             }
@@ -197,12 +196,22 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             b_pesan.setBorder(null);
         }
 
-        Image image = new ImageIcon(barang.gambar).getImage();
-        BufferedImage bufferedImage = a_.toBufferedImage(image, new Rectangle(220, 140));
+        final int maxWidth = 380;
+        final int maxHeight = 221;
+        final int borderRadius = 16;
 
-        iv_gambarBarang.setIcon(new ImageIcon(a_.convertRoundedImage(bufferedImage, 16)));
+        Image image = new ImageIcon(barang.gambar).getImage();
+        Image scaledImage = a_.scaleImage(image, maxWidth, maxHeight);
+        Image croppedImage = a_.cropImage(
+                a_.toBufferedImage(new ImageIcon(scaledImage).getImage()),
+                maxWidth,
+                maxHeight);
+        Image roundedImage = a_.convertRoundedImage(croppedImage, borderRadius);
+
+        iv_gambarBarang.setIcon(new ImageIcon(roundedImage));
         tv_namaBarangSubTitle.setText(("NAMA " + new JenisBarang().get(connection, barang.idJenis).namaJenis).toUpperCase());
         tv_namaBarang.setText("<html>" + barang.namaBarang + "</html>");
+        tv_deskripsi.setText("<html>" + barang.deskripsi + "</html>");;
         et_jumlah.setText("1");
 
         List<Varian> varians = new Varian().getByIdBarang(connection, barang.id);
@@ -212,6 +221,9 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         cb_varian.setVisible(!varians.isEmpty());
         tv_varian.setVisible(!varians.isEmpty());
         s_varian.setVisible(!varians.isEmpty());
+
+        tv_deskripsiSubTitle.setVisible(!barang.deskripsi.isBlank());
+        tv_deskripsi.setVisible(!barang.deskripsi.isBlank());
 
         if (!varians.isEmpty()) {
             cb_varian.setModel(comboBoxModel);
@@ -244,7 +256,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             if (detailBarangPanel.isVisible()) {
                 _templateBarang.setSelected(false);
             }
-            if (!detailBarangPanel.isVisible() && !detailPesananPanel.isVisible()) {
+            if (!detailPesananPanel.isVisible()) {
                 _templateBarang.setPreferredSize(new Dimension(width, _templateBarang.getHeight()));
                 _templateBarang.revalidate();
             }
@@ -312,8 +324,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         entriBarangScroll = new common.a_ScrollPane(jPanel1);
         jPanel1 = new javax.swing.JPanel();
         entriBarangPanel = new javax.swing.JPanel();
@@ -328,34 +338,26 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         daftarPesananScroll = new a_ScrollPane(jPanel3);
         jPanel3 = new javax.swing.JPanel();
         daftarPesananPanel = new javax.swing.JPanel();
+        jSeparator1 = new javax.swing.JSeparator();
         detailBarangPanel = new javax.swing.JPanel();
-        tv_detailTitle = new javax.swing.JLabel();
-        iv_gambarBarang = new javax.swing.JLabel();
+        detailBarangScrol = new a_ScrollPane(jPanel6);
+        jPanel6 = new javax.swing.JPanel();
+        tv_deskripsiSubTitle = new javax.swing.JLabel();
+        jSeparator2 = new javax.swing.JSeparator();
+        cb_varian = new javax.swing.JComboBox<>();
         tv_namaBarang = new javax.swing.JLabel();
-        b_kurang = new RoundedButton(circleRadius);
-        et_jumlah = new javax.swing.JTextField();
-        b_tambah = new RoundedButton(circleRadius);
-        b_pesan = new RoundedButton(buttonRadius);
+        tv_deskripsi = new javax.swing.JLabel();
+        s_varian = new javax.swing.JSeparator();
+        jPanel4 = new javax.swing.JPanel();
+        b_closeDetailBarang = new javax.swing.JButton();
+        iv_gambarBarang = new javax.swing.JLabel();
         tv_namaBarangSubTitle = new javax.swing.JLabel();
         tv_varian = new javax.swing.JLabel();
-        s_varian = new javax.swing.JSeparator();
-        jSeparator2 = new javax.swing.JSeparator();
-        b_closeDetailBarang = new javax.swing.JButton();
-        cb_varian = new javax.swing.JComboBox<>();
-        jSeparator1 = new javax.swing.JSeparator();
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-
-        jButton1.setText("jButton1");
+        et_jumlah = new javax.swing.JTextField();
+        b_kurang = new RoundedButton(circleRadius);
+        b_pesan = new RoundedButton(buttonRadius);
+        b_tambah = new RoundedButton(circleRadius);
+        jSeparator3 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -441,10 +443,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         jPanel3.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEADING, 0, 0));
 
         daftarPesananPanel.setBackground(new java.awt.Color(255, 255, 255));
-        daftarPesananPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 2));
+        daftarPesananPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 6));
         jPanel3.add(daftarPesananPanel);
 
         daftarPesananScroll.setViewportView(jPanel3);
+        daftarPesananScroll.getVerticalScrollBar().setUnitIncrement(14);
 
         javax.swing.GroupLayout detailPesananPanelLayout = new javax.swing.GroupLayout(detailPesananPanel);
         detailPesananPanel.setLayout(detailPesananPanelLayout);
@@ -453,7 +456,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             .addGroup(detailPesananPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(detailPesananPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(daftarPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(daftarPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
                     .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(detailPesananPanelLayout.createSequentialGroup()
                         .addComponent(jLabel42, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -464,7 +467,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                         .addComponent(jLabel41, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(b_closeDetailPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(tv_daftarPesananTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+                    .addComponent(tv_daftarPesananTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE))
                 .addGap(24, 24, 24))
         );
         detailPesananPanelLayout.setVerticalGroup(
@@ -489,32 +492,116 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                 .addGap(16, 16, 16))
         );
 
+        daftarPesananScroll.getVerticalScrollBar().setUnitIncrement(12);
+
+        jSeparator1.setForeground(Colors.borderColor);
+        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+
         detailBarangPanel.setBackground(new java.awt.Color(255, 255, 255));
 
-        tv_detailTitle.setFont(new java.awt.Font("Google Sans", 0, 22)); // NOI18N
-        tv_detailTitle.setForeground(Colors.blackTextColor);
-        tv_detailTitle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_information.png"))); // NOI18N
-        tv_detailTitle.setText("Detail Barang");
-        tv_detailTitle.setIconTextGap(16);
+        detailBarangScrol.setBackground(new java.awt.Color(255, 255, 255));
+        detailBarangScrol.setBorder(null);
+        detailBarangScrol.setOpaque(false);
 
-        iv_gambarBarang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        iv_gambarBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/a_ logo.png"))); // NOI18N
-        iv_gambarBarang.setMaximumSize(new java.awt.Dimension(260, 160));
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        tv_deskripsiSubTitle.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        tv_deskripsiSubTitle.setForeground(Colors.greyTextColor);
+        tv_deskripsiSubTitle.setText("DESKRIPSI");
+
+        jSeparator2.setForeground(Colors.borderColor);
+
+        cb_varian.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        cb_varian.setForeground(Colors.blackTextColor);
+        cb_varian.setToolTipText("");
+        cb_varian.setOpaque(false);
 
         tv_namaBarang.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_namaBarang.setForeground(Colors.blackTextColor);
         tv_namaBarang.setText("Coca Cola Zero Sugar Vanilla");
 
-        b_kurang.setBackground(Colors.accentColor);
-        b_kurang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_minus.png"))); // NOI18N
-        b_kurang.setBorder(null);
-        b_kurang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        b_kurang.setFocusPainted(false);
-        b_kurang.addActionListener(new java.awt.event.ActionListener() {
+        tv_deskripsi.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
+        tv_deskripsi.setForeground(Colors.blackTextColor);
+        tv_deskripsi.setText("Rasa hidangan istimewa, bukan berarti cara membuatnya harus susah, sajian Iga Bakar Petis ini dibuat sangatlah mudah. Rasanya sungguh khas, karena iga bakar dibumbui dengan Saus Tiram Selera dan beragam rempah serta petis. Dibungkus menggunakan daun pisang layaknya pepes, iga bakar petis akan menghasilkan aroma sedap nan menggoda saat dibakar. Rasa petis yang khas berpadu dengan gurihnya santan dan ekstrak tiram, membuat menu ini menjadi lauk paket lengkap yang wajib dicoba!");
+
+        s_varian.setForeground(Colors.borderColor);
+
+        jPanel4.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel4.setOpaque(false);
+        jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        b_closeDetailBarang.setBackground(Colors.blueBackgroundColor);
+        b_closeDetailBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close-circle_transparent.png"))); // NOI18N
+        b_closeDetailBarang.setBorder(null);
+        b_closeDetailBarang.setContentAreaFilled(false);
+        b_closeDetailBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        b_closeDetailBarang.setFocusPainted(false);
+        b_closeDetailBarang.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close-circle.png"))); // NOI18N
+        b_closeDetailBarang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_kurangActionPerformed(evt);
+                b_closeDetailBarangActionPerformed(evt);
             }
         });
+        jPanel4.add(b_closeDetailBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 5, 24, 24));
+
+        iv_gambarBarang.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        iv_gambarBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/a_ logo.png"))); // NOI18N
+        iv_gambarBarang.setMaximumSize(new java.awt.Dimension(260, 160));
+        jPanel4.add(iv_gambarBarang, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 380, 221));
+
+        tv_namaBarangSubTitle.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        tv_namaBarangSubTitle.setForeground(Colors.greyTextColor);
+        tv_namaBarangSubTitle.setText("NAMA MAKANAN");
+
+        tv_varian.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
+        tv_varian.setForeground(Colors.greyTextColor);
+        tv_varian.setText("VARIAN");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(s_varian)
+                        .addComponent(tv_varian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jSeparator2)
+                        .addComponent(cb_varian, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tv_namaBarangSubTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(tv_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(tv_deskripsiSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(tv_deskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(24, 24, 24))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tv_namaBarangSubTitle)
+                .addGap(8, 8, 8)
+                .addComponent(tv_namaBarang)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tv_varian)
+                .addGap(8, 8, 8)
+                .addComponent(cb_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(s_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(tv_deskripsiSubTitle)
+                .addGap(8, 8, 8)
+                .addComponent(tv_deskripsi)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        detailBarangScrol.setViewportView(jPanel6);
 
         et_jumlah.setFont(new java.awt.Font("Roboto", 0, 16)); // NOI18N
         et_jumlah.setForeground(Colors.blackTextColor);
@@ -522,14 +609,16 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         et_jumlah.setText("1");
         et_jumlah.setBorder(new RoundedBorder(buttonRadius));
 
-        b_tambah.setBackground(Colors.accentColor);
-        b_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_plus.png"))); // NOI18N
-        b_tambah.setBorder(null);
-        b_tambah.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        b_tambah.setFocusPainted(false);
-        b_tambah.addActionListener(new java.awt.event.ActionListener() {
+        b_kurang.setBackground(Colors.accentColor);
+        b_kurang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_minus.png"))); // NOI18N
+        b_kurang.setBorder(null);
+        b_kurang.setBorderPainted(false);
+        b_kurang.setContentAreaFilled(false);
+        b_kurang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        b_kurang.setFocusPainted(false);
+        b_kurang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_tambahActionPerformed(evt);
+                b_kurangActionPerformed(evt);
             }
         });
 
@@ -551,99 +640,58 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        tv_namaBarangSubTitle.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
-        tv_namaBarangSubTitle.setForeground(Colors.greyTextColor);
-        tv_namaBarangSubTitle.setText("NAMA MAKANAN");
-
-        tv_varian.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
-        tv_varian.setForeground(Colors.greyTextColor);
-        tv_varian.setText("VARIAN");
-
-        s_varian.setForeground(Colors.borderColor);
-
-        jSeparator2.setForeground(Colors.borderColor);
-
-        b_closeDetailBarang.setBackground(new java.awt.Color(255, 255, 255));
-        b_closeDetailBarang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close_grey.png"))); // NOI18N
-        b_closeDetailBarang.setBorder(null);
-        b_closeDetailBarang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        b_closeDetailBarang.setFocusPainted(false);
-        b_closeDetailBarang.setOpaque(false);
-        b_closeDetailBarang.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_close.png"))); // NOI18N
-        b_closeDetailBarang.addActionListener(new java.awt.event.ActionListener() {
+        b_tambah.setBackground(Colors.accentColor);
+        b_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_plus.png"))); // NOI18N
+        b_tambah.setBorder(null);
+        b_tambah.setBorderPainted(false);
+        b_tambah.setContentAreaFilled(false);
+        b_tambah.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        b_tambah.setFocusPainted(false);
+        b_tambah.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_closeDetailBarangActionPerformed(evt);
+                b_tambahActionPerformed(evt);
             }
         });
 
-        cb_varian.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cb_varian.setForeground(Colors.blackTextColor);
-        cb_varian.setToolTipText("");
-        cb_varian.setOpaque(false);
+        jSeparator3.setForeground(Colors.borderColor);
 
         javax.swing.GroupLayout detailBarangPanelLayout = new javax.swing.GroupLayout(detailBarangPanel);
         detailBarangPanel.setLayout(detailBarangPanelLayout);
         detailBarangPanelLayout.setHorizontalGroup(
             detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(detailBarangPanelLayout.createSequentialGroup()
+            .addComponent(detailBarangScrol)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, detailBarangPanelLayout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(s_varian)
-                    .addComponent(tv_varian, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(tv_namaBarangSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
-                    .addGroup(detailBarangPanelLayout.createSequentialGroup()
-                        .addComponent(b_kurang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(et_jumlah)
-                        .addGap(18, 18, 18)
-                        .addComponent(b_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(detailBarangPanelLayout.createSequentialGroup()
-                        .addComponent(tv_detailTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(b_closeDetailBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator2)
-                    .addComponent(cb_varian, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(detailBarangPanelLayout.createSequentialGroup()
-                        .addComponent(tv_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(iv_gambarBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(b_pesan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jSeparator3, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(b_pesan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(detailBarangPanelLayout.createSequentialGroup()
+                            .addComponent(b_kurang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(et_jumlah, javax.swing.GroupLayout.DEFAULT_SIZE, 272, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
+                            .addComponent(b_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(24, 24, 24))
         );
         detailBarangPanelLayout.setVerticalGroup(
             detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(detailBarangPanelLayout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tv_detailTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(b_closeDetailBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(iv_gambarBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(tv_namaBarangSubTitle)
+                .addComponent(detailBarangScrol)
+                .addGap(0, 0, 0)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(8, 8, 8)
-                .addComponent(tv_namaBarang)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tv_varian)
-                .addGap(8, 8, 8)
-                .addComponent(cb_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(s_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(detailBarangPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(et_jumlah, javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(b_kurang, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE))
+                        .addComponent(b_kurang, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(b_tambah, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(b_pesan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
 
-        jSeparator1.setForeground(Colors.borderColor);
-        jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
+        detailBarangScrol.getVerticalScrollBar().setUnitIncrement(14);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -651,22 +699,24 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(0, 0, 0)
-                .addComponent(entriBarangScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1366, Short.MAX_VALUE)
+                .addComponent(entriBarangScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 1382, Short.MAX_VALUE)
                 .addGap(0, 0, 0)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 0, 0)
                 .addComponent(detailPesananPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(detailBarangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addGap(0, 0, 0)
+                .addComponent(detailBarangPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(entriBarangScroll)
-            .addComponent(detailBarangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(detailPesananPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jSeparator1)
+            .addComponent(detailBarangPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        entriBarangScroll.getVerticalScrollBar().setUnitIncrement(14);
+        detailBarangPanel.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_tambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_tambahActionPerformed
@@ -687,6 +737,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         pesanan.namaBarang = selectedBarang.namaBarang;
         pesanan.hargaBarang = selectedBarang.harga;
         pesanan.jumlahBarang = Integer.parseInt(et_jumlah.getText());
+        pesanan.gambar = selectedBarang.gambar;
         addToCart(pesanan);
     }//GEN-LAST:event_b_pesanActionPerformed
 
@@ -706,10 +757,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         total = pesanans.stream().map((_pesanan) -> _pesanan.hargaBarang * _pesanan.jumlahBarang).map((subTotal) -> subTotal).reduce(total, Integer::sum);
 
         Penjualan penjualan = new Penjualan();
-        penjualan.idMeja = entriMeja.id;
+        penjualan.idMeja = meja.id;
         penjualan.idPengguna = context.pengguna.id;
         penjualan.idStatus = 1;
-        penjualan.atasNama = entriMeja.atasNama;
+        penjualan.atasNama = meja.atasNama;
+        penjualan.jumlahOrang = meja.jumlahOrang;
         penjualan.total = total;
 
         int idPenjualan = penjualan.insert(connection);
@@ -720,6 +772,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                 DetailPenjualan detailPenjualan = new DetailPenjualan();
                 detailPenjualan.idBarang = _pesanan.idBarang;
                 detailPenjualan.idPenjualan = idPenjualan;
+                detailPenjualan.namaBarang = _pesanan.namaBarang;
                 detailPenjualan.jumlahBarang = _pesanan.jumlahBarang;
 
                 if (!detailPenjualan.insert(connection)) {
@@ -728,7 +781,8 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
 
             if (isSucceed) {
-                if (entriMeja.update(connection)) {
+                meja.idPenjualan = idPenjualan;
+                if (meja.update(connection)) {
                     if (context.out != null) {
                         context.out.println("PESANAN_ADDED" + context.pengguna.id);
                     }
@@ -784,23 +838,26 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private javax.swing.JPanel daftarPesananPanel;
     private javax.swing.JScrollPane daftarPesananScroll;
     private javax.swing.JPanel detailBarangPanel;
+    private javax.swing.JScrollPane detailBarangScrol;
     public javax.swing.JPanel detailPesananPanel;
     private javax.swing.JPanel entriBarangPanel;
     public javax.swing.JScrollPane entriBarangScroll;
     private javax.swing.JTextField et_jumlah;
     private javax.swing.JLabel iv_gambarBarang;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator32;
     private javax.swing.JSeparator s_varian;
     private javax.swing.JLabel tv_daftarPesananTitle;
-    private javax.swing.JLabel tv_detailTitle;
+    private javax.swing.JLabel tv_deskripsi;
+    private javax.swing.JLabel tv_deskripsiSubTitle;
     private javax.swing.JLabel tv_namaBarang;
     private javax.swing.JLabel tv_namaBarangSubTitle;
     private javax.swing.JLabel tv_nomorMeja;

@@ -29,15 +29,18 @@
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Component id="jLabel1" pref="240" max="32767" attributes="0"/>
                   <Component id="et_namaBarang" alignment="0" max="32767" attributes="0"/>
-                  <Component id="et_hargaBarang" alignment="0" max="32767" attributes="0"/>
-                  <Component id="et_stokBarang" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="1" attributes="0">
+              </Group>
+              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" attributes="0">
                       <Component id="b_clear" min="-2" pref="102" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="b_simpan" min="-2" pref="88" max="-2" attributes="0"/>
                   </Group>
+                  <Component id="et_hargaBarang" min="-2" pref="240" max="-2" attributes="0"/>
+                  <Component id="et_deskripsi" min="-2" pref="240" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="473" max="32767" attributes="0"/>
+              <EmptySpace pref="177" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -45,27 +48,30 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="jLabel1" min="-2" pref="160" max="-2" attributes="0"/>
+              <Component id="jLabel1" pref="160" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="et_namaBarang" min="-2" pref="64" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="247" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
               <Component id="et_hargaBarang" min="-2" pref="64" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="et_stokBarang" min="-2" pref="64" max="-2" attributes="0"/>
+              <Component id="et_deskripsi" min="-2" pref="64" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="b_simpan" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   <Component id="b_clear" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JTextField" name="et_stokBarang">
+    <Component class="javax.swing.JTextField" name="et_deskripsi">
       <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new a_TextField(&quot;Stok Barang&quot;)"/>
+        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new a_TextField(&quot;Deskripsi&quot;)"/>
       </AuxValues>
     </Component>
     <Component class="javax.swing.JButton" name="b_clear">

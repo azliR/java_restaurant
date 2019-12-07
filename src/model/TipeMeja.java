@@ -24,15 +24,15 @@ public class TipeMeja {
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
-            TipeMeja entriMeja = new TipeMeja();
+            TipeMeja tipeMeja = new TipeMeja();
             while (resultSet.next()) {
-                entriMeja.id = resultSet.getInt("id");
-                entriMeja.namaTipe = resultSet.getString("nama_tipe");
+                tipeMeja.id = resultSet.getInt("id");
+                tipeMeja.namaTipe = resultSet.getString("nama_tipe");
             }
             resultSet.close();
             statement.close();
 
-            return entriMeja;
+            return tipeMeja;
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }

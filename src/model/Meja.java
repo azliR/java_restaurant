@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  *
  * @author a_lpha
  */
-public class EntriMeja {
+public class Meja {
 
     public int id, idTipeMeja, idPenjualan;
     public String nomorMeja, atasNama;
@@ -24,77 +24,77 @@ public class EntriMeja {
         SEMUA, KOSONG, TERISI, DIPESAN
     }
 
-    public EntriMeja() {
+    public Meja() {
     }
 
-    public List<EntriMeja> get(Connection connection, GET_TYPE type) {
-        List<EntriMeja> entriMejas = new ArrayList<>();
+    public List<Meja> get(Connection connection, GET_TYPE type) {
+        List<Meja> mejas = new ArrayList<>();
         String sql = null;
 
         switch (type) {
             case SEMUA:
-                sql = "SELECT * FROM entri_meja ORDER BY id ASC";
+                sql = "SELECT * FROM meja ORDER BY id ASC";
                 break;
             case KOSONG:
-                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NULL ORDER BY id ASC";
+                sql = "SELECT * FROM meja WHERE atas_nama IS NULL ORDER BY id ASC";
                 break;
             case TERISI:
-                sql = "SELECT * FROM entri_meja WHERE atas_nama IS NOT NULL ORDER BY id ASC";
+                sql = "SELECT * FROM meja WHERE atas_nama IS NOT NULL ORDER BY id ASC";
                 break;
             case DIPESAN:
-                sql = "SELECT * FROM entri_meja WHERE waktu_pesanan IS NOT NULL ORDER BY id ASC";
+                sql = "SELECT * FROM meja WHERE waktu_pesanan IS NOT NULL ORDER BY id ASC";
                 break;
         }
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
-                EntriMeja entriMeja = new EntriMeja();
-                entriMeja.id = resultSet.getInt("id");
-                entriMeja.idTipeMeja = resultSet.getInt("id_tipe_meja");
-                entriMeja.idPenjualan = resultSet.getInt("id_penjualan");
-                entriMeja.nomorMeja = resultSet.getString("nomor_meja");
-                entriMeja.atasNama = resultSet.getString("atas_nama");
-                entriMeja.maksOrang = resultSet.getInt("maks_orang");
-                entriMeja.jumlahOrang = resultSet.getInt("jumlah_orang");
-                entriMeja.waktuPesanan = resultSet.getString("waktu_pesanan");
+                Meja meja = new Meja();
+                meja.id = resultSet.getInt("id");
+                meja.idTipeMeja = resultSet.getInt("id_tipe_meja");
+                meja.idPenjualan = resultSet.getInt("id_penjualan");
+                meja.nomorMeja = resultSet.getString("nomor_meja");
+                meja.atasNama = resultSet.getString("atas_nama");
+                meja.maksOrang = resultSet.getInt("maks_orang");
+                meja.jumlahOrang = resultSet.getInt("jumlah_orang");
+                meja.waktuPesanan = resultSet.getString("waktu_pesanan");
 
-                entriMejas.add(entriMeja);
+                mejas.add(meja);
             }
             resultSet.close();
             statement.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
-        return entriMejas;
+        return mejas;
     }
 
-    public EntriMeja get(Connection connection, int id) {
-        EntriMeja entriMeja = new EntriMeja();
-        String sql = "SELECT * FROM entri_meja WHERE id='" + id + "'";
+    public Meja get(Connection connection, int id) {
+        Meja meja = new Meja();
+        String sql = "SELECT * FROM meja WHERE id='" + id + "'";
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                entriMeja.id = resultSet.getInt("id");
-                entriMeja.idTipeMeja = resultSet.getInt("id_tipe_meja");
-                entriMeja.idPenjualan = resultSet.getInt("id_penjualan");
-                entriMeja.nomorMeja = resultSet.getString("nomor_meja");
-                entriMeja.atasNama = resultSet.getString("atas_nama");
-                entriMeja.maksOrang = resultSet.getInt("maks_orang");
-                entriMeja.jumlahOrang = resultSet.getInt("jumlah_orang");
-                entriMeja.waktuPesanan = resultSet.getString("waktu_pesanan");
+                meja.id = resultSet.getInt("id");
+                meja.idTipeMeja = resultSet.getInt("id_tipe_meja");
+                meja.idPenjualan = resultSet.getInt("id_penjualan");
+                meja.nomorMeja = resultSet.getString("nomor_meja");
+                meja.atasNama = resultSet.getString("atas_nama");
+                meja.maksOrang = resultSet.getInt("maks_orang");
+                meja.jumlahOrang = resultSet.getInt("jumlah_orang");
+                meja.waktuPesanan = resultSet.getString("waktu_pesanan");
             }
             resultSet.close();
             statement.close();
         } catch (SQLException ex) {
             Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
-        return entriMeja;
+        return meja;
     }
 
     public boolean update(Connection c) {
-        StringBuilder sql = new StringBuilder("UPDATE entri_meja SET ");
+        StringBuilder sql = new StringBuilder("UPDATE meja SET ");
         if (id == 0) {
             return false;
         }

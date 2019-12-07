@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  */
 public class Penjualan {
 
-    public int id, idPengguna, idMeja, idStatus, total;
+    public int id, idPengguna, idMeja, idStatus, total, jumlahOrang;
     public String atasNama, tanggalPenjualan, keterangan;
 
     public Penjualan() {
@@ -35,6 +35,7 @@ public class Penjualan {
                 penjualan.idMeja = resultSet.getInt("id_meja");
                 penjualan.idStatus = resultSet.getInt("id_status");
                 penjualan.total = resultSet.getInt("total");
+                penjualan.jumlahOrang = resultSet.getInt("jumlah_orang");
                 penjualan.atasNama = resultSet.getString("atas_nama");
                 penjualan.tanggalPenjualan = resultSet.getString("tanggal_penjualan");
                 penjualan.keterangan = resultSet.getString("keterangan");
@@ -62,6 +63,7 @@ public class Penjualan {
                 penjualan.idMeja = resultSet.getInt("id_meja");
                 penjualan.idStatus = resultSet.getInt("id_status");
                 penjualan.total = resultSet.getInt("total");
+                penjualan.jumlahOrang = resultSet.getInt("jumlah_orang");
                 penjualan.atasNama = resultSet.getString("atas_nama");
                 penjualan.tanggalPenjualan = resultSet.getString("tanggal_penjualan");
                 penjualan.keterangan = resultSet.getString("keterangan");
@@ -88,6 +90,7 @@ public class Penjualan {
                 penjualan.idMeja = resultSet.getInt("id_meja");
                 penjualan.idStatus = resultSet.getInt("id_status");
                 penjualan.total = resultSet.getInt("total");
+                penjualan.jumlahOrang = resultSet.getInt("jumlah_orang");
                 penjualan.atasNama = resultSet.getString("atas_nama");
                 penjualan.tanggalPenjualan = resultSet.getString("tanggal_penjualan");
                 penjualan.keterangan = resultSet.getString("keterangan");
@@ -102,16 +105,17 @@ public class Penjualan {
 
     public int insert(Connection c) {
         int generatedId = -1;
-        String sql = "INSERT INTO penjualan VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO penjualan VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try ( PreparedStatement p = (PreparedStatement) c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             p.setInt(1, id);
             p.setInt(2, idPengguna);
             p.setInt(3, idMeja);
             p.setInt(4, idStatus);
             p.setString(5, atasNama);
-            p.setString(6, tanggalPenjualan);
-            p.setInt(7, total);
-            p.setString(8, keterangan);
+            p.setInt(6, jumlahOrang);
+            p.setString(7, tanggalPenjualan);
+            p.setInt(8, total);
+            p.setString(9, keterangan);
 
             p.executeUpdate();
 
@@ -129,7 +133,7 @@ public class Penjualan {
     }
 
     public boolean update(Connection c) {
-        StringBuilder sql = new StringBuilder("UPDATE entri_meja SET ");
+        StringBuilder sql = new StringBuilder("UPDATE penjualan SET ");
         if (id == 0) {
             return false;
         }

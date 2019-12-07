@@ -136,7 +136,7 @@
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="detailPesananScroll" max="32767" attributes="0"/>
-                      <Component id="b_konfirmasiPesanan" alignment="0" pref="380" max="32767" attributes="0"/>
+                      <Component id="b_konfirmasiPesanan" alignment="0" pref="480" max="32767" attributes="0"/>
                       <Component id="jLabel41" alignment="0" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -207,6 +207,10 @@
               <Border info="null"/>
             </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="detailPesananScroll.getVerticalScrollBar().setUnitIncrement(12);"/>
+            <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new a_ScrollPane(panelFlow)"/>
+          </AuxValues>
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
@@ -218,7 +222,9 @@
               </Properties>
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                <Property name="alignment" type="int" value="0"/>
                 <Property name="horizontalGap" type="int" value="0"/>
+                <Property name="verticalGap" type="int" value="0"/>
               </Layout>
               <SubComponents>
                 <Container class="javax.swing.JPanel" name="detailPesananListPanel">
@@ -231,7 +237,7 @@
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                     <Property name="columns" type="int" value="1"/>
                     <Property name="rows" type="int" value="0"/>
-                    <Property name="verticalGap" type="int" value="4"/>
+                    <Property name="verticalGap" type="int" value="6"/>
                   </Layout>
                 </Container>
               </SubComponents>

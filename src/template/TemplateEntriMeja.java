@@ -1,8 +1,10 @@
-package common;
+package template;
 
+import common.RoundedBorder;
+import common.RoundedPanel;
 import java.awt.Color;
 import java.sql.Connection;
-import model.EntriMeja;
+import model.Meja;
 import panel.EntriMejaPanel;
 import styles.Colors;
 
@@ -12,7 +14,7 @@ import styles.Colors;
  */
 public class TemplateEntriMeja extends RoundedPanel {
 
-    private final EntriMeja currentMeja;
+    private final Meja currentMeja;
 
     private final int borderRadius = 16;
     private final int[] borderInsets = {0, 0, 0, 0};
@@ -26,15 +28,15 @@ public class TemplateEntriMeja extends RoundedPanel {
     private final EntriMejaPanel context;
     private final Connection connection;
 
-    public TemplateEntriMeja(Connection connection, EntriMejaPanel context, EntriMeja entriMeja) {
+    public TemplateEntriMeja(Connection connection, EntriMejaPanel context, Meja meja) {
         super(16);
         this.context = context;
-        this.currentMeja = entriMeja;
+        this.currentMeja = meja;
         this.connection = connection;
         initComponents();
 
-        tv_noMeja.setText(String.valueOf(entriMeja.nomorMeja));
-        tv_noMeja.setForeground(entriMeja.atasNama != null ? activeTextColor : Color.BLACK);
+        tv_noMeja.setText(String.valueOf(meja.nomorMeja));
+        tv_noMeja.setForeground(meja.atasNama != null ? activeTextColor : Color.BLACK);
     }
 
     public void setSelected(boolean isSelected) {

@@ -7,7 +7,7 @@ import common.a_TextField;
 import java.awt.Color;
 import java.awt.FileDialog;
 import java.awt.Frame;
-import java.awt.image.BufferedImage;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Connection;
@@ -35,8 +35,8 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     private final int[] borderInsets = {8, 8, 8, 8};
     private final Color borderColor = Colors.borderColor;
 
-    private final int imageWidth = 240;
-    private final int imageHeight = 140;
+    private final int maxImageWidth = 480;
+    private final int maxImageHeight = 280;
 
     private File gambarFile;
 
@@ -57,7 +57,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     private void clear() {
         et_namaBarang.setText(null);
         et_hargaBarang.setText(null);
-        et_stokBarang.setText(null);
+        et_deskripsi.setText(null);
     }
 
     public static String getExtension(File f) {
@@ -75,7 +75,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        et_stokBarang = new a_TextField("Stok Barang");
+        et_deskripsi = new a_TextField("Deskripsi");
         b_clear = new javax.swing.JButton();
         b_simpan = new RoundedButton(buttonRadius);
         et_namaBarang = new a_TextField("Nama Barang");
@@ -130,40 +130,44 @@ public class TambahBarangPanel extends javax.swing.JPanel {
                 .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 240, Short.MAX_VALUE)
-                    .addComponent(et_namaBarang)
-                    .addComponent(et_hargaBarang)
-                    .addComponent(et_stokBarang)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(et_namaBarang))
+                .addGap(56, 56, 56)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(b_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(b_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(473, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(b_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(et_hargaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(et_deskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(177, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(et_namaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(247, 247, 247))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(43, 43, 43)
                 .addComponent(et_hargaBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(et_stokBarang, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(et_deskripsi, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(b_simpan, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(b_clear, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void b_simpanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_simpanActionPerformed
         String namaBarang = et_namaBarang.getText();
         String hargaBarang = et_hargaBarang.getText();
-        String stokBarang = et_stokBarang.getText();
+        String deskripsi = et_deskripsi.getText();
 
-        if (namaBarang.isBlank() || hargaBarang.isBlank() || stokBarang.isBlank()) {
+        if (namaBarang.isBlank() || hargaBarang.isBlank() || deskripsi.isBlank()) {
             a_.showDialog(a_.DialogType.EMPTY_FIELD);
             return;
         }
@@ -173,6 +177,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
         barang.harga = Integer.parseInt(hargaBarang);
         barang.stokBarang = true;
         barang.idJenis = idJenisBarang;
+        barang.deskripsi = deskripsi;
 
         if (barang.insert(connection, gambarFile)) {
             a_.showDialog(a_.DialogType.INSERT_SUCCESS);
@@ -198,35 +203,24 @@ public class TambahBarangPanel extends javax.swing.JPanel {
 
         String fileDirectory = fileDialog.getDirectory() + fileDialog.getFile();
 
-        if (fileDialog.getFile() != null) {
-            fileDialog.dispose();
-            try {
-                File selectedFile = new File(fileDirectory);
+        if (fileDialog.getFile() == null) {
+            return;
+        }
+        fileDialog.dispose();
+        try {
+            File selectedFile = new File(fileDirectory);
 
-                BufferedImage image = ImageIO.read(selectedFile);
-                File resizedImageFile = new File(System.getProperty("user.dir") + "/bin.png");
+            Image image = ImageIO.read(selectedFile);
 
-                int width = image.getWidth();
-                int height = image.getHeight();
+            Image resizedImage = a_.scaleImage(image, maxImageWidth, maxImageHeight);
 
-                double currentRatio = (double) width / height;
-                double aspectRatio = (double) imageWidth / imageHeight;
+            File resizedImageFile = new File(System.getProperty("user.dir") + "/bin.png");
+            ImageIO.write(a_.toBufferedImage(resizedImage), "png", resizedImageFile);
 
-                if (currentRatio < aspectRatio) {
-                    height = (int) (height * ((double) imageWidth / width));
-                    width = imageWidth;
-                } else {
-                    width = (int) (width / ((double) height / imageHeight));
-                    height = imageHeight;
-                }
-                BufferedImage resizedImage = a_.resizeImage(image, width, height);
-                ImageIO.write(resizedImage, "png", resizedImageFile);
-
-                gambarFile = resizedImageFile;
-                jLabel1.setIcon(new ImageIcon(resizedImage));
-            } catch (IOException ex) {
-                Logger.getLogger(TambahBarangPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            gambarFile = resizedImageFile;
+            jLabel1.setIcon(new ImageIcon(resizedImage));
+        } catch (IOException ex) {
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jLabel1MouseClicked
 
@@ -237,9 +231,9 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_clear;
     private javax.swing.JButton b_simpan;
+    private javax.swing.JTextField et_deskripsi;
     private javax.swing.JTextField et_hargaBarang;
     private javax.swing.JTextField et_namaBarang;
-    private javax.swing.JTextField et_stokBarang;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

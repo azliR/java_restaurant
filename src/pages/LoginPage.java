@@ -155,7 +155,7 @@ public class LoginPage extends javax.swing.JFrame {
 
         tv_error.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         tv_error.setForeground(new java.awt.Color(217, 48, 37));
-        tv_error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_alert-circle.png"))); // NOI18N
+        tv_error.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_alert-circle_16.png"))); // NOI18N
         tv_error.setText("Tidak dapat terhubung dengan jaringan server");
         tv_error.setIconTextGap(6);
 

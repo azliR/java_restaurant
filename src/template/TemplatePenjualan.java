@@ -1,5 +1,8 @@
-package common;
+package template;
 
+import common.RoundedBorder;
+import common.RoundedPanel;
+import common.a_;
 import java.awt.Color;
 import java.sql.Connection;
 import java.text.ParseException;
@@ -8,11 +11,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.DetailPenjualan;
-import model.EntriMeja;
+import model.Meja;
 import model.Penjualan;
-import model.StatusPesanan;
 import panel.EntriPenjualanPanel;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -47,9 +50,9 @@ public class TemplatePenjualan extends RoundedPanel {
         this.penjualan = penjualan;
 
         tv_id.setText("#" + penjualan.id);
-        tv_nomorMeja.setText("Meja " + new EntriMeja().get(connection, penjualan.idMeja).nomorMeja);
+        tv_nomorMeja.setText("Meja " + new Meja().get(connection, penjualan.idMeja).nomorMeja);
         tv_pengguna.setText(penjualan.atasNama);
-        tv_status.setText(new StatusPesanan().get(connection, penjualan.idStatus).namaStatus);
+//        tv_status.setText(new StatusPesanan().get(connection, penjualan.idStatus).namaStatus);
         tv_total.setText("Rp. " + a_.convertCurrency(penjualan.total));
 
         try {
@@ -71,13 +74,6 @@ public class TemplatePenjualan extends RoundedPanel {
         tv_total.setForeground(isSelected ? activeTextColor : inactiveTextColor);
     }
 
-    private void showDetailPesanan() {
-        setSelected(!b_expandDetail.isSelected());
-        detailPenjualanPanel.setVisible(!b_expandDetail.isSelected());
-        b_expandDetail.setSelected(!b_expandDetail.isSelected());
-        revalidate();
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -85,11 +81,10 @@ public class TemplatePenjualan extends RoundedPanel {
         tv_id = new javax.swing.JLabel();
         tv_nomorMeja = new javax.swing.JLabel();
         tv_pengguna = new javax.swing.JLabel();
-        tv_status = new javax.swing.JLabel();
         tv_total = new javax.swing.JLabel();
         tv_tanggalPenjualan = new javax.swing.JLabel();
-        detailPenjualanPanel = new javax.swing.JPanel();
-        b_expandDetail = new javax.swing.JButton();
+        p_statusColor = new RoundedPanel(16);
+        tv_status = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(new RoundedBorder(borderRadius)
@@ -107,103 +102,85 @@ public class TemplatePenjualan extends RoundedPanel {
             }
         });
 
-        tv_id.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tv_id.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        );
         tv_id.setText("#114");
 
-        tv_nomorMeja.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tv_nomorMeja.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        );
         tv_nomorMeja.setText("Meja 8");
 
-        tv_pengguna.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tv_pengguna.setFont(Fonts.ROBOTO_REGULAR.deriveFont(12f)
+        );
         tv_pengguna.setText("a_lpha");
 
-        tv_status.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
-        tv_status.setText("Sedang Disiapkan");
-
-        tv_total.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tv_total.setFont(Fonts.ROBOTO_REGULAR.deriveFont(12f)
+        );
         tv_total.setText("Rp. 47.000");
 
-        tv_tanggalPenjualan.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        tv_tanggalPenjualan.setText("18.00  |  08 Agustus 2019");
+        tv_tanggalPenjualan.setFont(Fonts.ROBOTO_REGULAR.deriveFont(12f)
+        );
+        tv_tanggalPenjualan.setText("26 menit yang lalu");
 
-        detailPenjualanPanel.setBackground(new java.awt.Color(255, 255, 255));
-        detailPenjualanPanel.setOpaque(false);
-        detailPenjualanPanel.setLayout(new java.awt.GridLayout(0, 1));
+        p_statusColor.setBackground(new java.awt.Color(255, 204, 51));
 
-        b_expandDetail.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chevron-down_grey.png"))); // NOI18N
-        b_expandDetail.setBorderPainted(false);
-        b_expandDetail.setContentAreaFilled(false);
-        b_expandDetail.setFocusPainted(false);
-        b_expandDetail.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chevron-down.png"))); // NOI18N
-        b_expandDetail.setRolloverSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chevron-up.png"))); // NOI18N
-        b_expandDetail.setSelectedIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_chevron-up_grey.png"))); // NOI18N
-        b_expandDetail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                b_expandDetailActionPerformed(evt);
-            }
-        });
+        tv_status.setBackground(new java.awt.Color(255, 204, 0));
+        tv_status.setFont(new java.awt.Font("Roboto Medium", 0, 14)); // NOI18N
+        tv_status.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tv_status.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_clock-alert-outline_20.png"))); // NOI18N
+
+        javax.swing.GroupLayout p_statusColorLayout = new javax.swing.GroupLayout(p_statusColor);
+        p_statusColor.setLayout(p_statusColorLayout);
+        p_statusColorLayout.setHorizontalGroup(
+            p_statusColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tv_status, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
+        );
+        p_statusColorLayout.setVerticalGroup(
+            p_statusColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tv_status, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(1, 1, 1)
-                .addComponent(detailPenjualanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(1, 1, 1))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(tv_tanggalPenjualan, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(tv_id, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(tv_nomorMeja, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(tv_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_total, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(tv_pengguna, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16)
-                        .addComponent(tv_status, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(70, 70, 70)
-                        .addComponent(tv_total))
+                        .addComponent(tv_pengguna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(36, 36, 36)
+                        .addComponent(tv_tanggalPenjualan))
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(b_expandDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(tv_nomorMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(27, 27, 27)
+                        .addComponent(p_statusColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(24, 24, 24))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(p_statusColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_nomorMeja, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(tv_id, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tv_id)
-                    .addComponent(tv_nomorMeja)
-                    .addComponent(tv_pengguna)
                     .addComponent(tv_total)
-                    .addComponent(tv_status))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(b_expandDetail, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(tv_tanggalPenjualan)
-                        .addGap(18, 18, 18)))
-                .addComponent(detailPenjualanPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(8, 8, 8))
+                    .addComponent(tv_tanggalPenjualan)
+                    .addComponent(tv_pengguna))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
-
-        detailPenjualanPanel.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
         context.showDetailPesanan(this, penjualan);
     }//GEN-LAST:event_formMouseClicked
-
-    private void b_expandDetailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_expandDetailActionPerformed
-        showDetailPesanan();
-    }//GEN-LAST:event_b_expandDetailActionPerformed
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if (getBackground() != activeBackgroundColor) {
@@ -218,8 +195,7 @@ public class TemplatePenjualan extends RoundedPanel {
     }//GEN-LAST:event_formMouseExited
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton b_expandDetail;
-    private javax.swing.JPanel detailPenjualanPanel;
+    private javax.swing.JPanel p_statusColor;
     private javax.swing.JLabel tv_id;
     private javax.swing.JLabel tv_nomorMeja;
     private javax.swing.JLabel tv_pengguna;

@@ -16,7 +16,9 @@ import java.util.logging.Logger;
  */
 public class DetailPenjualan {
 
-    public int id, idPenjualan, idBarang, jumlahBarang;
+    public int id, idPenjualan, idBarang;
+    public String namaBarang;
+    public int jumlahBarang;
 
     public DetailPenjualan() {
     }
@@ -32,6 +34,7 @@ public class DetailPenjualan {
                 detailPenjualan.id = resultSet.getInt("id");
                 detailPenjualan.idPenjualan = resultSet.getInt("id_penjualan");
                 detailPenjualan.idBarang = resultSet.getInt("id_barang");
+                detailPenjualan.namaBarang = resultSet.getString("nama_barang");
                 detailPenjualan.jumlahBarang = resultSet.getInt("jumlah_barang");
 
                 detailPenjualans.add(detailPenjualan);
@@ -55,6 +58,7 @@ public class DetailPenjualan {
                 detailPenjualan.id = resultSet.getInt("id");
                 detailPenjualan.idPenjualan = resultSet.getInt("id_penjualan");
                 detailPenjualan.idBarang = resultSet.getInt("id_barang");
+                detailPenjualan.namaBarang = resultSet.getString("nama_barang");
                 detailPenjualan.jumlahBarang = resultSet.getInt("jumlah_barang");
 
                 detailPenjualans.add(detailPenjualan);
@@ -68,12 +72,13 @@ public class DetailPenjualan {
     }
 
     public boolean insert(Connection c) {
-        String sql = "INSERT INTO detail_penjualan VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO detail_penjualan VALUES (?, ?, ?, ?, ?)";
         try ( PreparedStatement p = (PreparedStatement) c.prepareStatement(sql)) {
             p.setInt(1, id);
             p.setInt(2, idPenjualan);
             p.setInt(3, idBarang);
-            p.setInt(4, jumlahBarang);
+            p.setString(4, namaBarang);
+            p.setInt(5, jumlahBarang);
 
             p.executeUpdate();
             p.close();

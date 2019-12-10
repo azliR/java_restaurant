@@ -604,6 +604,9 @@ public class MainPage extends javax.swing.JFrame {
                 .addContainerGap(232, Short.MAX_VALUE))
         );
 
+        nav_entriMeja1.setVisible(pengguna.idHakAkses == 1);
+        jSeparator2.setVisible(pengguna.idHakAkses == 1);
+
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel3.setBackground(new java.awt.Color(241, 243, 244));
@@ -671,10 +674,10 @@ public class MainPage extends javax.swing.JFrame {
         b_keranjang.setText("Rp. 0");
         b_keranjang.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 14, 0, 14));
         b_keranjang.setBorderPainted(false);
+        b_keranjang.setContentAreaFilled(false);
         b_keranjang.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         b_keranjang.setFocusPainted(false);
         b_keranjang.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        b_keranjang.setOpaque(false);
         b_keranjang.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 b_keranjangActionPerformed(evt);

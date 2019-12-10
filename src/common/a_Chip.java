@@ -2,8 +2,8 @@ package common;
 
 import java.awt.Color;
 import java.awt.Cursor;
-import java.awt.Font;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -19,7 +19,7 @@ public class a_Chip extends RoundedButton {
 
     public a_Chip(String text) {
         super(32);
-        setFont(new Font("Roboto Medium", 0, 10));
+        setFont(Fonts.ROBOTO_MEDIUM.deriveFont(10f));
         setBackground(isSelected() ? activeBackgroundColor : inactiveBackgroundColor);
         setForeground(isSelected() ? activeTextColor : inactiveTextColor);
         setText(text.toUpperCase());

@@ -89,6 +89,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="new RoundedBorder(buttonRadius, borderInsets, borderColor)&#xa;    " type="code"/>
         </Property>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -110,6 +111,7 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="null"/>
         </Property>
+        <Property name="contentAreaFilled" type="boolean" value="false"/>
         <Property name="focusPainted" type="boolean" value="false"/>
       </Properties>
       <Events>

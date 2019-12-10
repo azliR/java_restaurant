@@ -32,26 +32,34 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              <Component id="jSeparator1" max="32767" attributes="0"/>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="tv_id" alignment="0" max="32767" attributes="0"/>
-                  <Component id="tv_total" alignment="0" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Component id="tv_pengguna" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
-                      <Component id="tv_tanggalPenjualan" min="-2" max="-2" attributes="0"/>
+                      <Component id="tv_atasNama" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Component id="tv_nomorMeja" max="32767" attributes="0"/>
-                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="p_statusColor" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="tv_tanggalPenjualan" pref="218" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tv_nomorMeja" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="tv_total" alignment="0" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -59,43 +67,68 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                  <Component id="p_statusColor" max="32767" attributes="0"/>
-                  <Component id="tv_nomorMeja" alignment="1" max="32767" attributes="0"/>
-                  <Component id="tv_id" alignment="1" max="32767" attributes="0"/>
-              </Group>
-              <EmptySpace type="unrelated" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="tv_total" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tv_tanggalPenjualan" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="tv_pengguna" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="tv_nomorMeja" min="-2" pref="24" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="tv_atasNama" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="tv_total" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="16" max="32767" attributes="0"/>
+              <Component id="tv_tanggalPenjualan" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="tv_id">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(14f)&#xd;&#xa;" type="code"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="#114"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="tv_nomorMeja">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(14f)&#xd;&#xa;" type="code"/>
+          <Connection code="Fonts.GOOGLE_SANS.deriveFont(16f)&#xd;&#xa;" type="code"/>
         </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.blackTextColor" type="code"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="2"/>
         <Property name="text" type="java.lang.String" value="Meja 8"/>
+        <Property name="horizontalTextPosition" type="int" value="4"/>
+        <Property name="iconTextGap" type="int" value="14"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="tv_pengguna">
+    <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(12f)&#xd;&#xa;" type="code"/>
+          <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.greyTextColor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="ATAS NAMA"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel3">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.greyTextColor" type="code"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="TOTAL"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="tv_atasNama">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.blackTextColor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="a_lpha"/>
       </Properties>
@@ -103,7 +136,10 @@
     <Component class="javax.swing.JLabel" name="tv_total">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(12f)&#xd;&#xa;" type="code"/>
+          <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.blackTextColor" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Rp. 47.000"/>
       </Properties>
@@ -113,47 +149,19 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(12f)&#xd;&#xa;" type="code"/>
         </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.greyTextColor" type="code"/>
+        </Property>
+        <Property name="horizontalAlignment" type="int" value="0"/>
         <Property name="text" type="java.lang.String" value="26 menit yang lalu"/>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="p_statusColor">
+    <Component class="javax.swing.JSeparator" name="jSeparator1">
       <Properties>
-        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="33" green="cc" red="ff" type="rgb"/>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="Colors.borderColor" type="code"/>
         </Property>
       </Properties>
-      <AuxValues>
-        <AuxValue name="JavaCodeGenerator_CreateCodeCustom" type="java.lang.String" value="new RoundedPanel(16)"/>
-      </AuxValues>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="tv_status" alignment="1" pref="36" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="tv_status" alignment="1" pref="26" max="32767" attributes="0"/>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JLabel" name="tv_status">
-          <Properties>
-            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="0" green="cc" red="ff" type="rgb"/>
-            </Property>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Roboto Medium" size="14" style="0"/>
-            </Property>
-            <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_clock-alert-outline_20.png"/>
-            </Property>
-          </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
+    </Component>
   </SubComponents>
 </Form>

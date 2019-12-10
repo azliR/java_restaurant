@@ -2,7 +2,6 @@ package panel;
 
 import common.RoundedBorder;
 import common.RoundedButton;
-import template.TemplateEntriMeja;
 import common.a_;
 import common.a_TextField;
 import java.awt.Color;
@@ -18,6 +17,7 @@ import model.TipeMeja;
 import pages.MainPage;
 import styles.Colors;
 import styles.Fonts;
+import template.TemplateEntriMeja;
 
 /**
  *
@@ -175,9 +175,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(14f)
         );
         atasNamaDialog.setModal(true);
-        atasNamaDialog.setPreferredSize(new java.awt.Dimension(337, 275));
         atasNamaDialog.setResizable(false);
-        atasNamaDialog.setSize(new java.awt.Dimension(400, 300));
+        atasNamaDialog.setSize(new java.awt.Dimension(390, 300));
         atasNamaDialog.setType(java.awt.Window.Type.POPUP);
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -209,9 +208,10 @@ public class EntriMejaPanel extends javax.swing.JPanel {
             }
         });
 
-        cb_jumlahOrang.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        cb_jumlahOrang.setFont(Fonts.ROBOTO_REGULAR.deriveFont(14f)
         );
         cb_jumlahOrang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1 Orang" }));
+        cb_jumlahOrang.setBorder(javax.swing.BorderFactory.createEmptyBorder(4, 8, 4, 8));
 
         tv_hint.setFont(new java.awt.Font("Roboto", 0, 12)); // NOI18N
         tv_hint.setForeground(Colors.greyTextColor);
@@ -242,7 +242,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                                 .addComponent(tv_jumlah)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(cb_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 124, Short.MAX_VALUE)))))
+                                .addGap(0, 132, Short.MAX_VALUE)))))
                 .addGap(36, 36, 36))
         );
         jPanel3Layout.setVerticalGroup(
@@ -258,7 +258,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cb_jumlahOrang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(tv_jumlah))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 37, Short.MAX_VALUE)
                 .addComponent(b_okeAtasNama, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28))
         );
@@ -269,9 +269,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         atasNamaDialog.getContentPane().setLayout(atasNamaDialogLayout);
         atasNamaDialogLayout.setHorizontalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(atasNamaDialogLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         atasNamaDialogLayout.setVerticalGroup(
             atasNamaDialogLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -439,11 +437,11 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         infoMejaPanelLayout.setVerticalGroup(
             infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(infoMejaPanelLayout.createSequentialGroup()
-                .addGap(24, 24, 24)
+                .addGap(16, 16, 16)
                 .addGroup(infoMejaPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                .addGap(24, 24, 24)
                 .addComponent(jLabel2)
                 .addGap(8, 8, 8)
                 .addComponent(tv_nomorMeja)
@@ -513,8 +511,9 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
     private void b_okeAtasNamaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_okeAtasNamaActionPerformed
         if (et_atasNama.getText().isBlank()) {
+            tv_hint.setVisible(true);
             tv_hint.setText("Masukkan nama pelanggan untuk melanjutkan!");
-            tv_hint.setIcon(new ImageIcon(getClass().getResource("/images/ic_alert-circle.png")));
+            tv_hint.setIcon(new ImageIcon(getClass().getResource("/images/ic_alert-circle_16.png")));
             tv_hint.setForeground(Color.RED);
             return;
         }

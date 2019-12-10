@@ -153,7 +153,7 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="tv_daftarPesananTitle" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="daftarPesananScroll" max="32767" attributes="0"/>
+                  <Component id="daftarPesananScroll" pref="435" max="32767" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="b_konfirmasiPesanan" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -347,15 +347,13 @@
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                       <Component id="jSeparator3" pref="380" max="32767" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="b_pesan" max="32767" attributes="0"/>
-                          <Group type="102" attributes="0">
-                              <Component id="b_kurang" min="-2" pref="36" max="-2" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="et_jumlah" pref="272" max="32767" attributes="0"/>
-                              <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="b_tambah" min="-2" pref="36" max="-2" attributes="0"/>
-                          </Group>
+                      <Component id="b_pesan" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="b_kurang" min="-2" pref="36" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="et_jumlah" pref="272" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <Component id="b_tambah" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
@@ -365,7 +363,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <Component id="detailBarangScrol" max="32767" attributes="0"/>
+                  <Component id="detailBarangScrol" pref="0" max="32767" attributes="0"/>
                   <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
                   <Component id="jSeparator3" min="-2" pref="2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
@@ -376,7 +374,7 @@
                       </Group>
                       <Component id="b_tambah" min="-2" pref="36" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Component id="b_pesan" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
@@ -411,33 +409,41 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Group type="103" alignment="0" groupAlignment="0" attributes="0">
-                                  <Component id="s_varian" max="32767" attributes="0"/>
-                                  <Component id="tv_varian" alignment="1" max="32767" attributes="0"/>
-                                  <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="cb_varian" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel4" max="32767" attributes="0"/>
-                                  <Component id="tv_namaBarangSubTitle" alignment="0" min="-2" pref="380" max="-2" attributes="0"/>
-                                  <Component id="tv_namaBarang" min="-2" pref="260" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tv_deskripsiSubTitle" max="32767" attributes="0"/>
-                                  <Component id="tv_deskripsi" min="-2" pref="380" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="s_varian" alignment="0" max="32767" attributes="0"/>
+                              <Component id="tv_varian" alignment="1" max="32767" attributes="0"/>
+                              <Component id="jSeparator2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="cb_varian" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jPanel4" alignment="0" max="32767" attributes="0"/>
+                              <Component id="tv_namaBarangSubTitle" alignment="1" max="32767" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Group type="103" groupAlignment="1" attributes="0">
+                                      <Component id="tv_namaBarang" alignment="0" min="-2" pref="260" max="-2" attributes="0"/>
+                                      <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
+                                          <Component id="tv_deskripsiSubTitle" max="32767" attributes="0"/>
+                                          <Component id="tv_deskripsi" min="-2" pref="380" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                           <Component id="jPanel4" min="-2" pref="221" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
                           <Component id="tv_namaBarangSubTitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           <Component id="tv_namaBarang" min="-2" max="-2" attributes="0"/>
@@ -453,7 +459,9 @@
                           <Component id="tv_deskripsiSubTitle" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           <Component id="tv_deskripsi" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="16" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                          <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="68" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -602,6 +610,33 @@
                     <Property name="text" type="java.lang.String" value="VARIAN"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(12f)&#xa;    " type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/ic_menu-down.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Selengkapnya"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new RoundedBorder(32, new int[]{4, 16, 4, 8}, Colors.borderColor)&#xa;    " type="code"/>
+                    </Property>
+                    <Property name="contentAreaFilled" type="boolean" value="false"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                    <Property name="focusPainted" type="boolean" value="false"/>
+                    <Property name="horizontalTextPosition" type="int" value="2"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jToggleButton1StateChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jToggleButton1ActionPerformed"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -664,11 +699,9 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
+            <Property name="contentAreaFilled" type="boolean" value="false"/>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
-            </Property>
-            <Property name="disabledIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/images/ic_check_accent.png"/>
             </Property>
             <Property name="focusPainted" type="boolean" value="false"/>
             <Property name="horizontalTextPosition" type="int" value="10"/>

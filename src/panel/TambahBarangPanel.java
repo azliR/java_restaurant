@@ -95,6 +95,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
         b_clear.setText("Bersihkan");
         b_clear.setBorder(new RoundedBorder(buttonRadius, borderInsets, borderColor)
         );
+        b_clear.setContentAreaFilled(false);
         b_clear.setFocusPainted(false);
         b_clear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -107,6 +108,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
         b_simpan.setForeground(new java.awt.Color(255, 255, 255));
         b_simpan.setText("Simpan");
         b_simpan.setBorder(null);
+        b_simpan.setContentAreaFilled(false);
         b_simpan.setFocusPainted(false);
         b_simpan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

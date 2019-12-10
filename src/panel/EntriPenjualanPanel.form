@@ -45,7 +45,7 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
-              <Component id="entriPenjualanScroll" pref="1538" max="32767" attributes="0"/>
+              <Component id="entriPenjualanScroll" pref="1394" max="32767" attributes="0"/>
               <EmptySpace min="0" pref="0" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
@@ -56,7 +56,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="entriPenjualanScroll" pref="491" max="32767" attributes="0"/>
+          <Component id="entriPenjualanScroll" max="32767" attributes="0"/>
           <Component id="detailPenjualanPanel" max="32767" attributes="0"/>
           <Component id="jSeparator1" max="32767" attributes="0"/>
       </Group>
@@ -126,6 +126,7 @@
         </Property>
       </Properties>
       <AuxValues>
+        <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="detailPenjualanPanel.setVisible(false);"/>
         <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="1"/>
       </AuxValues>
 
@@ -135,9 +136,13 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="detailPesananScroll" max="32767" attributes="0"/>
-                      <Component id="b_konfirmasiPesanan" alignment="0" pref="480" max="32767" attributes="0"/>
-                      <Component id="jLabel41" alignment="0" max="32767" attributes="0"/>
+                      <Component id="detailPesananScroll" min="-2" pref="480" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel41" min="-2" pref="321" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="b_closeDetailPesanan" min="-2" pref="36" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="b_konfirmasiPesanan" alignment="0" min="-2" pref="480" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="24" max="-2" attributes="0"/>
               </Group>
@@ -147,9 +152,12 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-                  <Component id="jLabel41" min="-2" pref="36" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="detailPesananScroll" pref="353" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jLabel41" min="-2" pref="36" max="-2" attributes="0"/>
+                      <Component id="b_closeDetailPesanan" min="-2" pref="36" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="detailPesananScroll" pref="421" max="32767" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="b_konfirmasiPesanan" min="-2" pref="40" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
@@ -206,6 +214,7 @@
             <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
               <Border info="null"/>
             </Property>
+            <Property name="horizontalScrollBarPolicy" type="int" value="31"/>
           </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="detailPesananScroll.getVerticalScrollBar().setUnitIncrement(12);"/>
@@ -219,31 +228,357 @@
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="ff" green="ff" red="ff" type="rgb"/>
                 </Property>
+                <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+                  <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
+                    <EmptyBorder bottom="0" left="0" right="16" top="0"/>
+                  </Border>
+                </Property>
               </Properties>
 
-              <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
-                <Property name="alignment" type="int" value="0"/>
-                <Property name="horizontalGap" type="int" value="0"/>
-                <Property name="verticalGap" type="int" value="0"/>
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jSeparator3" alignment="1" max="32767" attributes="0"/>
+                      <Component id="jSeparator2" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="tv_id" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="tv_status" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="tv_jumlahOrang" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jSeparator4" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="tv_atasNama" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jSeparator5" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="tv_total" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jSeparator6" alignment="1" max="32767" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Component id="l_daftarPesanan" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Component id="detailPesananFlow" max="32767" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tv_id" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="jSeparator2" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tv_atasNama" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="jSeparator5" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tv_status" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="jSeparator3" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tv_jumlahOrang" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="jSeparator4" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="tv_total" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="jSeparator6" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                          <Component id="l_daftarPesanan" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="detailPesananFlow" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                          <Component id="jToggleButton1" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Container class="javax.swing.JPanel" name="detailPesananListPanel">
+                <Container class="javax.swing.JPanel" name="detailPesananFlow">
                   <Properties>
                     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
                   </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="detailPesananFlow.setVisible(false);"/>
+                  </AuxValues>
 
-                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-                    <Property name="columns" type="int" value="1"/>
-                    <Property name="rows" type="int" value="0"/>
-                    <Property name="verticalGap" type="int" value="6"/>
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.DesignFlowLayout">
+                    <Property name="alignment" type="int" value="0"/>
+                    <Property name="horizontalGap" type="int" value="0"/>
+                    <Property name="verticalGap" type="int" value="0"/>
                   </Layout>
+                  <SubComponents>
+                    <Container class="javax.swing.JPanel" name="detailPesananListPanel">
+                      <Properties>
+                        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                        </Property>
+                      </Properties>
+
+                      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+                        <Property name="columns" type="int" value="1"/>
+                        <Property name="rows" type="int" value="0"/>
+                        <Property name="verticalGap" type="int" value="6"/>
+                      </Layout>
+                    </Container>
+                  </SubComponents>
                 </Container>
+                <Component class="javax.swing.JLabel" name="l_daftarPesanan">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Roboto Medium" size="11" style="0"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="DAFTAR PESANAN"/>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_AddingCodePost" type="java.lang.String" value="l_daftarPesanan.setVisible(false);"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel2">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="ID"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel3">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="STATUS PESANAN"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator2">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.borderColor" type="code"/>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator3">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.borderColor" type="code"/>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="tv_status">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Menunggu Pembayaran"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="tv_id">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="#115"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel4">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="JUMLAH ORANG"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="tv_jumlahOrang">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="4 Orang"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator4">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.borderColor" type="code"/>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel5">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="ATAS NAMA"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator5">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.borderColor" type="code"/>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="tv_atasNama">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xa;    " type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="a_lpha"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="tv_total">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Rp. 46.000"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="jLabel6">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(11f)&#xd;&#xa;" type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.greyTextColor" type="code"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="TOTAL"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JSeparator" name="jSeparator6">
+                  <Properties>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.borderColor" type="code"/>
+                    </Property>
+                    <Property name="opaque" type="boolean" value="true"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(12f)&#xa;    " type="code"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="Colors.blackTextColor" type="code"/>
+                    </Property>
+                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                      <Image iconType="3" name="/images/ic_menu-down.png"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Selengkapnya"/>
+                    <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                      <Connection code="new RoundedBorder(32, new int[]{4, 16, 4, 8}, Colors.borderColor)&#xa;    " type="code"/>
+                    </Property>
+                    <Property name="contentAreaFilled" type="boolean" value="false"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                    <Property name="focusPainted" type="boolean" value="false"/>
+                    <Property name="horizontalTextPosition" type="int" value="2"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jToggleButton1StateChanged"/>
+                  </Events>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
         </Container>
+        <Component class="javax.swing.JButton" name="b_closeDetailPesanan">
+          <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/ic_close_grey.png"/>
+            </Property>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="null"/>
+            </Property>
+            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+              <Color id="Hand Cursor"/>
+            </Property>
+            <Property name="focusPainted" type="boolean" value="false"/>
+            <Property name="opaque" type="boolean" value="false"/>
+            <Property name="rolloverIcon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/images/ic_close.png"/>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="b_closeDetailPesananActionPerformed"/>
+          </Events>
+        </Component>
       </SubComponents>
     </Container>
     <Component class="javax.swing.JSeparator" name="jSeparator1">

@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 import styles.Colors;
+import styles.Fonts;
 
 /**
  *
@@ -23,8 +24,7 @@ public class a_TextField extends JTextField {
 
     public a_TextField() {
         super();
-        borderFocusLost("Nama");
-        setFont(new Font("Roboto", 0, 16));
+        setFont(Fonts.ROBOTO_REGULAR.deriveFont(16f));
         setForeground(new Color(0, 0, 0));
         setCaretColor(new Color(0, 0, 0));
         addFocusListener(new FocusAdapter() {
@@ -63,11 +63,11 @@ public class a_TextField extends JTextField {
 
     private void borderFocusGained(String name) {
         setBorder(BorderFactory.createTitledBorder(new RoundedBorder(borderRadius, inset, focusGainedColor),
-                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Roboto", 0, 12), focusGainedColor));
+                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(12f), focusGainedColor));
     }
 
     private void borderFocusLost(String name) {
         setBorder(BorderFactory.createTitledBorder(new RoundedBorder(borderRadius, inset, focusLostColor),
-                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, new Font("Roboto", 0, 12), focusLostTextColor));
+                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(12f), focusLostTextColor));
     }
 }

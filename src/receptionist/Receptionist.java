@@ -1,5 +1,6 @@
 package receptionist;
 
+import javax.swing.UIManager;
 import pages.MainPage;
 import styles.Fonts;
 
@@ -15,5 +16,15 @@ public class Receptionist {
 //        mainPage.setVisible(true);
 //        mainPage.run();
         new MainPage(1).setVisible(true);
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
     }
 }

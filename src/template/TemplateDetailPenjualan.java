@@ -87,8 +87,8 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
                         .addGap(36, 36, 36)
                         .addComponent(tv_subTotal))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(tv_namaBarang)
-                        .addGap(0, 133, Short.MAX_VALUE)))
+                        .addComponent(tv_namaBarang, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(0, 78, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -99,7 +99,7 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(iv_gambar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(7, 7, 7)
+                        .addGap(10, 10, 10)
                         .addComponent(tv_namaBarang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

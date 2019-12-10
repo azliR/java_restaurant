@@ -30,7 +30,7 @@ public class Barang {
 
     public Barang get(Connection connection, int id) {
         Barang barang = new Barang();
-        String sql = "SELECT * FROM barang WHERE id='" + id + "'";
+        String sql = "SELECT * FROM barang WHERE id='" + id + "' ORDER BY nama_barang ASC";
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
@@ -56,7 +56,7 @@ public class Barang {
 
     public List<Barang> getByJenis(Connection connection, int idJenis) {
         List<Barang> barangs = new ArrayList<>();
-        String sql = "SELECT * FROM barang WHERE id_jenis='" + idJenis + "'";
+        String sql = "SELECT * FROM barang WHERE id_jenis='" + idJenis + "' ORDER BY nama_barang ASC";
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 
@@ -85,7 +85,7 @@ public class Barang {
 
     public List<Barang> get(Connection connection) {
         List<Barang> barangs = new ArrayList<>();
-        String sql = "SELECT * FROM barang";
+        String sql = "SELECT * FROM barang ORDER BY nama_barang ASC";
 
         try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
 

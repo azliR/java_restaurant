@@ -1,5 +1,5 @@
 # Restaurant Material App
-From me, for everyone
+from Google, by me, for everyone
 
 Created using Java Swing and includes a database. This application uses a clean and beautiful theme, namely Material 2.0 created by Google. If you like it, use it, if not leave it. As simple as that.
 

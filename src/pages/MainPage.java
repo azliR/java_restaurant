@@ -115,7 +115,7 @@ public class MainPage extends javax.swing.JFrame {
     }
 
     public void run() {
-        try ( Socket socket = new Socket(serverAddress, 59001)) {
+        try (Socket socket = new Socket(serverAddress, 59001)) {
             in = new Scanner(socket.getInputStream());
             out = new PrintWriter(socket.getOutputStream(), true);
 
@@ -795,7 +795,7 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_nav_entriOrderActionPerformed
 
     private void nav_entriTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriTransaksiActionPerformed
-        loadContent(new EntriTransaksiPanel());
+        loadContent(new EntriTransaksiPanel(null, null, null));
     }//GEN-LAST:event_nav_entriTransaksiActionPerformed
 
     private void nav_laporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_laporanActionPerformed

@@ -19,6 +19,7 @@ public class Fonts {
     public static Font PRODUCT_SANS_MEDIUM;
 
     public static Font ROBOTO_REGULAR;
+    public static Font ROBOTO_LIGHT;
     public static Font ROBOTO_MEDIUM;
 
     public static void registerFont(Class c) {
@@ -29,6 +30,7 @@ public class Fonts {
             PRODUCT_SANS_MEDIUM = Font.createFont(Font.TRUETYPE_FONT, c.getResourceAsStream("/fonts/ProductSans-Medium.ttf"));
 
             ROBOTO_REGULAR = Font.createFont(Font.TRUETYPE_FONT, c.getResourceAsStream("/fonts/Roboto-Regular.ttf"));
+            ROBOTO_LIGHT = Font.createFont(Font.TRUETYPE_FONT, c.getResourceAsStream("/fonts/Roboto-Light.ttf"));
             ROBOTO_MEDIUM = Font.createFont(Font.TRUETYPE_FONT, c.getResourceAsStream("/fonts/Roboto-Medium.ttf"));
 
             GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();

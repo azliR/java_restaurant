@@ -5,11 +5,8 @@ import common.RoundedPanel;
 import common.a_;
 import java.awt.Color;
 import java.sql.Connection;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import model.DetailPenjualan;
 import model.Meja;
 import model.Penjualan;
@@ -23,7 +20,8 @@ import styles.Fonts;
  */
 public class TemplatePenjualan extends RoundedPanel {
 
-    private final List<TemplateDetailPenjualan> templateDetailPenjualans = new ArrayList<>();
+    private final List<TemplateDetailPenjualan> templateDetailPenjualans
+            = new ArrayList<>();
     private final List<DetailPenjualan> detailPenjualans = new ArrayList<>();
 
     private final int borderRadius = 16;
@@ -42,50 +40,61 @@ public class TemplatePenjualan extends RoundedPanel {
 
     private Connection connection;
 
-    public TemplatePenjualan(Connection connection, EntriPenjualanPanel context, Penjualan penjualan) {
+    public TemplatePenjualan(Connection connection, EntriPenjualanPanel context,
+            Penjualan penjualan) {
         super(16);
         initComponents();
         this.context = context;
         this.connection = connection;
         this.penjualan = penjualan;
 
-        tv_nomorMeja.setText("Meja " + new Meja().get(connection, penjualan.idMeja).nomorMeja);
+        tv_nomorMeja.setText("Meja " + new Meja().get(connection,
+                penjualan.idMeja).nomorMeja);
         tv_atasNama.setText(penjualan.atasNama);
         tv_total.setText("Rp. " + a_.convertCurrency(penjualan.total));
+        tv_tanggalPenjualan.setText(a_.convertSimpleTimestamp(
+                penjualan.tanggalPenjualan));
 
         switch (penjualan.idStatus) {
             case 1:
-                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_clock-alert-outline.png")));
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource("/images/ic_clock-alert-outline.png")));
                 break;
             case 2:
-                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_clock-outline.png")));
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource("/images/ic_clock-outline.png")));
                 break;
             case 3:
-                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_credit-card-clock-outline.png")));
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource("/images/ic_credit-card-clock-outline.png")));
                 break;
             case 4:
-                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_checkbox-marked-circle-outline.png")));
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource(
+                                "/images/ic_checkbox-marked-circle-outline.png")));
                 break;
             case 5:
-                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_alert-circle-outline.png")));
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource("/images/ic_alert-circle-outline.png")));
+                break;
+            case 6:
+                tv_nomorMeja.setIcon(new javax.swing.ImageIcon(getClass()
+                        .getResource("/images/ic_cancel.png")));
                 break;
             default:
                 System.err.println("Cannot find icon for status");
         }
-
-        try {
-            tv_tanggalPenjualan.setText(a_.convertTimestamp(penjualan.tanggalPenjualan));
-
-        } catch (ParseException ex) {
-            Logger.getLogger(TemplatePenjualan.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     public void setSelected(boolean isSelected) {
-        setBackground(isSelected ? activeBackgroundColor : inactiveBackgroundColor);
-        setBorder(new RoundedBorder(borderRadius, borderInsets, isSelected ? activeBorderColor : inactiveBorderColor));
-        tv_nomorMeja.setForeground(isSelected ? activeTextColor : inactiveTextColor);
-        jSeparator1.setBackground(isSelected ? activeBackgroundColor : inactiveBackgroundColor);
+        setBackground(isSelected ? activeBackgroundColor
+                : inactiveBackgroundColor);
+        setBorder(new RoundedBorder(borderRadius, borderInsets, isSelected
+                ? activeBorderColor : inactiveBorderColor));
+        tv_nomorMeja.setForeground(isSelected ? activeTextColor
+                : inactiveTextColor);
+        jSeparator1.setBackground(isSelected ? activeBackgroundColor
+                : inactiveBackgroundColor);
 //        jSeparator3.setBackground(isSelected ? activeBackgroundColor : inactiveBackgroundColor);
     }
 
@@ -206,13 +215,15 @@ public class TemplatePenjualan extends RoundedPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if (getBackground() != activeBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, Colors.accentColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    Colors.accentColor));
         }
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         if (getBackground() != activeBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, Colors.borderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    Colors.borderColor));
         }
     }//GEN-LAST:event_formMouseExited
 

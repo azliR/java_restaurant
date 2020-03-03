@@ -104,7 +104,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
         final int width = context.content.getWidth() / 2 - padding;
 
-        barangs.forEach((_barang) -> {
+        barangs.stream().forEach((_barang) -> {
             TemplateBarang templateBarang = new TemplateBarang(connection, this, _barang);
             templateBarang.setPreferredSize(new Dimension(width, (int) templateBarang.getPreferredSize().getHeight()));
 
@@ -138,13 +138,13 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         if (isOrdered) {
             b_pesan.setText("Lihat Keranjang");
             b_pesan.setBackground(Colors.primaryColor);
-            b_pesan.setForeground(Colors.accentColor);
+            b_pesan.setForeground(Colors.primaryColor);
             b_pesan.setIcon(null);
             b_pesan.setBorder(new RoundedBorder(buttonRadius));
 
         } else {
             b_pesan.setText("Rp. " + a_.convertCurrency(harga));
-            b_pesan.setBackground(Colors.accentColor);
+            b_pesan.setBackground(Colors.primaryColor);
             b_pesan.setForeground(Colors.primaryColor);
             b_pesan.setIcon(new ImageIcon(getClass().getResource("/images/ic_cart-plus.png")));
             b_pesan.setBorder(null);
@@ -226,18 +226,10 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         DefaultComboBoxModel<Varian> comboBoxModel = new DefaultComboBoxModel<>();
         comboBoxModel.addAll(varians);
 
-        cb_varian.setVisible(!varians.isEmpty());
-        tv_varian.setVisible(!varians.isEmpty());
-        s_varian.setVisible(!varians.isEmpty());
+        tv_deskripsiSubTitle.setVisible(barang.deskripsi != null && !barang.deskripsi.isBlank());
+        tv_deskripsi.setVisible(barang.deskripsi != null && !barang.deskripsi.isBlank());
 
-        tv_deskripsiSubTitle.setVisible(!barang.deskripsi.isBlank());
-        tv_deskripsi.setVisible(!barang.deskripsi.isBlank());
-
-        if (!varians.isEmpty()) {
-            cb_varian.setModel(comboBoxModel);
-            comboBoxModel.setSelectedItem(varians.get(0));
-        }
-
+        jToggleButton1.setVisible(barang.deskripsi != null && !barang.deskripsi.isBlank());
         jToggleButton1.setSelected(false);
     }
 
@@ -354,15 +346,12 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         jPanel6 = new javax.swing.JPanel();
         tv_deskripsiSubTitle = new javax.swing.JLabel();
         jSeparator2 = new javax.swing.JSeparator();
-        cb_varian = new javax.swing.JComboBox<>();
         tv_namaBarang = new javax.swing.JLabel();
         tv_deskripsi = new javax.swing.JLabel();
-        s_varian = new javax.swing.JSeparator();
         jPanel4 = new javax.swing.JPanel();
         b_closeDetailBarang = new javax.swing.JButton();
         iv_gambarBarang = new javax.swing.JLabel();
         tv_namaBarangSubTitle = new javax.swing.JLabel();
-        tv_varian = new javax.swing.JLabel();
         jToggleButton1 = new javax.swing.JToggleButton();
         et_jumlah = new javax.swing.JTextField();
         b_kurang = new RoundedButton(circleRadius);
@@ -416,7 +405,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_nomorMeja.setForeground(Colors.blackTextColor);
         tv_nomorMeja.setText("01");
 
-        b_konfirmasiPesanan.setBackground(Colors.accentColor);
+        b_konfirmasiPesanan.setBackground(Colors.primaryColor);
         b_konfirmasiPesanan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
         );
         b_konfirmasiPesanan.setForeground(new java.awt.Color(255, 255, 255));
@@ -497,7 +486,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(tv_daftarPesananTitle)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(daftarPesananScroll, javax.swing.GroupLayout.DEFAULT_SIZE, 435, Short.MAX_VALUE)
+                .addComponent(daftarPesananScroll)
                 .addGap(18, 18, 18)
                 .addComponent(b_konfirmasiPesanan, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
@@ -522,11 +511,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
 
         jSeparator2.setForeground(Colors.borderColor);
 
-        cb_varian.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
-        cb_varian.setForeground(Colors.blackTextColor);
-        cb_varian.setToolTipText("");
-        cb_varian.setOpaque(false);
-
         tv_namaBarang.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_namaBarang.setForeground(Colors.blackTextColor);
         tv_namaBarang.setText("Coca Cola Zero Sugar Vanilla");
@@ -534,8 +518,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_deskripsi.setFont(new java.awt.Font("Roboto", 0, 14)); // NOI18N
         tv_deskripsi.setForeground(Colors.blackTextColor);
         tv_deskripsi.setText("Rasa hidangan istimewa, bukan berarti cara membuatnya harus susah, sajian Iga Bakar Petis ini dibuat sangatlah mudah. Rasanya sungguh khas, karena iga bakar dibumbui dengan Saus Tiram Selera dan beragam rempah serta petis. Dibungkus menggunakan daun pisang layaknya pepes, iga bakar petis akan menghasilkan aroma sedap nan menggoda saat dibakar. Rasa petis yang khas berpadu dengan gurihnya santan dan ekstrak tiram, membuat menu ini menjadi lauk paket lengkap yang wajib dicoba!");
-
-        s_varian.setForeground(Colors.borderColor);
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setOpaque(false);
@@ -563,10 +545,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         tv_namaBarangSubTitle.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
         tv_namaBarangSubTitle.setForeground(Colors.greyTextColor);
         tv_namaBarangSubTitle.setText("NAMA MAKANAN");
-
-        tv_varian.setFont(new java.awt.Font("Roboto Medium", 0, 11)); // NOI18N
-        tv_varian.setForeground(Colors.greyTextColor);
-        tv_varian.setText("VARIAN");
 
         jToggleButton1.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(12f)
         );
@@ -597,10 +575,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             .addGroup(jPanel6Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(s_varian, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tv_varian, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jSeparator2, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(cb_varian, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(tv_namaBarangSubTitle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel6Layout.createSequentialGroup()
@@ -627,19 +602,13 @@ public class EntriBarangPanel extends javax.swing.JPanel {
                 .addComponent(tv_namaBarang)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(tv_varian)
-                .addGap(8, 8, 8)
-                .addComponent(cb_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(s_varian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(16, 16, 16)
                 .addComponent(tv_deskripsiSubTitle)
                 .addGap(8, 8, 8)
                 .addComponent(tv_deskripsi)
                 .addGap(8, 8, 8)
                 .addComponent(jToggleButton1)
-                .addGap(0, 68, Short.MAX_VALUE))
+                .addGap(0, 137, Short.MAX_VALUE))
         );
 
         detailBarangScrol.setViewportView(jPanel6);
@@ -650,7 +619,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
         et_jumlah.setText("1");
         et_jumlah.setBorder(new RoundedBorder(buttonRadius));
 
-        b_kurang.setBackground(Colors.accentColor);
+        b_kurang.setBackground(Colors.primaryColor);
         b_kurang.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_minus.png"))); // NOI18N
         b_kurang.setBorder(null);
         b_kurang.setBorderPainted(false);
@@ -663,7 +632,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        b_pesan.setBackground(Colors.accentColor);
+        b_pesan.setBackground(Colors.primaryColor);
         b_pesan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
         );
         b_pesan.setForeground(new java.awt.Color(255, 255, 255));
@@ -681,7 +650,7 @@ public class EntriBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        b_tambah.setBackground(Colors.accentColor);
+        b_tambah.setBackground(Colors.primaryColor);
         b_tambah.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/ic_plus.png"))); // NOI18N
         b_tambah.setBorder(null);
         b_tambah.setBorderPainted(false);
@@ -888,7 +857,6 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private javax.swing.JButton b_kurang;
     private javax.swing.JButton b_pesan;
     private javax.swing.JButton b_tambah;
-    private javax.swing.JComboBox<Varian> cb_varian;
     private javax.swing.JPanel daftarPesananPanel;
     private javax.swing.JScrollPane daftarPesananScroll;
     private javax.swing.JPanel detailBarangPanel;
@@ -909,13 +877,11 @@ public class EntriBarangPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator32;
     private javax.swing.JToggleButton jToggleButton1;
-    private javax.swing.JSeparator s_varian;
     private javax.swing.JLabel tv_daftarPesananTitle;
     private javax.swing.JLabel tv_deskripsi;
     private javax.swing.JLabel tv_deskripsiSubTitle;
     private javax.swing.JLabel tv_namaBarang;
     private javax.swing.JLabel tv_namaBarangSubTitle;
     private javax.swing.JLabel tv_nomorMeja;
-    private javax.swing.JLabel tv_varian;
     // End of variables declaration//GEN-END:variables
 }

@@ -42,8 +42,12 @@ public class a_PasswordField extends JPasswordField {
         });
     }
 
-    private void changeBorderColor(String name, Color borderColor, Color textColor) {
-        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(borderRadius, inset, borderColor),
-                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(12f), textColor));
+    private void changeBorderColor(String name, Color borderColor,
+            Color textColor) {
+        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(
+                borderRadius, inset, borderColor),
+                name, TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(
+                        12f), textColor));
     }
 }

@@ -28,7 +28,8 @@ public class TemplateEntriMeja extends RoundedPanel {
     private final EntriMejaPanel context;
     private final Connection connection;
 
-    public TemplateEntriMeja(Connection connection, EntriMejaPanel context, Meja meja) {
+    public TemplateEntriMeja(Connection connection, EntriMejaPanel context,
+            Meja meja) {
         super(16);
         this.context = context;
         this.currentMeja = meja;
@@ -36,17 +37,20 @@ public class TemplateEntriMeja extends RoundedPanel {
         initComponents();
 
         tv_noMeja.setText(String.valueOf(meja.nomorMeja));
-        tv_noMeja.setForeground(meja.atasNama != null ? activeTextColor : Color.BLACK);
+        tv_noMeja.setForeground(meja.atasNama != null ? activeTextColor
+                : Color.BLACK);
     }
 
     public void setSelected(boolean isSelected) {
         if (isSelected) {
             setBackground(activeBackgroundColor);
-            setBorder(new RoundedBorder(borderRadius, borderInsets, activeBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    activeBorderColor));
             tv_meja.setForeground(activeTextColor);
         } else {
             setBackground(inactiveBackgroundColor);
-            setBorder(new RoundedBorder(borderRadius, borderInsets, inactiveBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    inactiveBorderColor));
             tv_meja.setForeground(inactiveTextColor);
         }
     }
@@ -107,13 +111,15 @@ public class TemplateEntriMeja extends RoundedPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if (getBackground() != Colors.blueBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, activeBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    activeBorderColor));
         }
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         if (getBackground() != Colors.blueBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, inactiveBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    inactiveBorderColor));
         }
     }//GEN-LAST:event_formMouseExited
 

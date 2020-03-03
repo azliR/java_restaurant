@@ -67,7 +67,7 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
         tv_subTotal.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         tv_subTotal.setText("Rp. 24.000");
 
-        tv_harga.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(14f)
+        tv_harga.setFont(Fonts.ROBOTO_REGULAR.deriveFont(14f)
         );
         tv_harga.setText("Rp. 12.000");
 
@@ -99,7 +99,7 @@ public class TemplateDetailPenjualan extends javax.swing.JPanel {
                         .addGap(6, 6, 6)
                         .addComponent(iv_gambar, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
+                        .addGap(12, 12, 12)
                         .addComponent(tv_namaBarang)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)

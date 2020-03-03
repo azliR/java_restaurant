@@ -26,12 +26,10 @@ import model.HakAkses;
 import model.JenisBarang;
 import model.Meja;
 import model.Pengguna;
-import model.Penjualan;
 import panel.BerandaPanel;
 import panel.EntriBarangPanel;
 import panel.EntriMejaPanel;
 import panel.EntriPenjualanPanel;
-import panel.EntriTransaksiPanel;
 import panel.LaporanPanel;
 import panel.TambahBarangPanel;
 import services.DBHelper;
@@ -72,7 +70,8 @@ public class MainPage extends javax.swing.JFrame {
         initComponents();
 
         tv_namaPengguna.setText(pengguna.namaPengguna);
-        tv_hakAkses.setText(new HakAkses().get(connection, idHakAkses).namaAkses);
+        tv_hakAkses
+                .setText(new HakAkses().get(connection, idHakAkses).namaAkses);
 
         loadContent(new BerandaPanel());
     }
@@ -81,7 +80,9 @@ public class MainPage extends javax.swing.JFrame {
         boolean isCanceled = false;
         if (selectedComponent.getClass() == EntriBarangPanel.class) {
             if (((EntriBarangPanel) selectedComponent).pesanans.size() > 0) {
-                int input = JOptionPane.showConfirmDialog(parent, "Terdapat barang yang sudah ditambahkan kedalam keranjang.\nYakin ingin membuangnya?", "Buang Pesanan?", JOptionPane.YES_NO_OPTION);
+                int input = JOptionPane.showConfirmDialog(parent,
+                        "Terdapat barang yang sudah ditambahkan kedalam keranjang.\nYakin ingin membuangnya?",
+                        "Buang Pesanan?", JOptionPane.YES_NO_OPTION);
                 isCanceled = input == 1;
             }
         }
@@ -128,13 +129,18 @@ public class MainPage extends javax.swing.JFrame {
                 } else if (line.startsWith("PESANAN_ADDED")) {
                     if (pengguna.id != Integer.parseInt(line.substring(13))) {
                         if (selectedComponent instanceof EntriPenjualanPanel) {
-                            ((EntriPenjualanPanel) selectedComponent).loadPesanan(new Penjualan().get(connection));
+                            ((EntriPenjualanPanel) selectedComponent)
+                                    .loadPesanan();
 
                         } else {
-                            int dialog = JOptionPane.showConfirmDialog(parent, "Terdapat pesanan baru tersedia. Ingin melihat detailnya?", "Pesanan Baru Tersedia", JOptionPane.YES_NO_OPTION);
+                            int dialog = JOptionPane.showConfirmDialog(parent,
+                                    "Terdapat pesanan baru tersedia. Ingin melihat detailnya?",
+                                    "Pesanan Baru Tersedia",
+                                    JOptionPane.YES_NO_OPTION);
 
                             if (dialog == 0) {
-                                loadContent(new EntriPenjualanPanel(this, connection));
+                                loadContent(new EntriPenjualanPanel(this,
+                                        connection));
                                 setNavigationColor();
                             } else {
                                 nav_entriOrder.setForeground(Color.RED);
@@ -149,8 +155,12 @@ public class MainPage extends javax.swing.JFrame {
             socket.close();
 
         } catch (IOException ex) {
-            JOptionPane.showMessageDialog(parent, "Aplikasi tidak dapat tersambung ke server. Silahkan cek sambungan Anda atau coba kembali dalam beberapa menit", "Tidak dapat tersambung ke server", JOptionPane.ERROR_MESSAGE);
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(parent,
+                    "Aplikasi tidak dapat tersambung ke server. Silahkan cek sambungan Anda atau coba kembali dalam beberapa menit",
+                    "Tidak dapat tersambung ke server",
+                    JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null,
+                    ex);
         }
     }
 
@@ -160,18 +170,21 @@ public class MainPage extends javax.swing.JFrame {
         Color activeBackgroundColor = Colors.blueBackgroundColor;
         Color activeTextColor = Colors.accentColor;
 
-        List<AbstractButton> listButtons = Collections.list(navGroup.getElements());
+        List<AbstractButton> listButtons = Collections.list(navGroup
+                .getElements());
 
         listButtons.forEach((button) -> {
             if (!button.isSelected()) {
                 button.setForeground(inactiveTextColor);
                 button.setBackground(inactiveBackgroundColor);
-                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, Colors.primaryColor));
+                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0,
+                        Colors.primaryColor));
 
             } else {
                 button.setForeground(activeTextColor);
                 button.setBackground(activeBackgroundColor);
-                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0, activeBackgroundColor));
+                button.setBorder(BorderFactory.createMatteBorder(0, 36, 0, 0,
+                        activeBackgroundColor));
 
                 tv_title.setText(button.getText());
             }
@@ -198,12 +211,14 @@ public class MainPage extends javax.swing.JFrame {
             chip.addActionListener((ae) -> {
                 chipGroup.setSelected(chip.getModel(), true);
 
-                List<AbstractButton> chips = Collections.list(chipGroup.getElements());
+                List<AbstractButton> chips = Collections.list(chipGroup
+                        .getElements());
 
                 chips.forEach((_chip) -> {
                     setChipSelected((a_Chip) _chip);
                 });
-                entriMejaPanel.loadEntriMeja(new Meja().get(connection, _statusMeja));
+                entriMejaPanel.loadEntriMeja(new Meja().get(connection,
+                        _statusMeja));
             });
             chipsPanel.add(chip);
         });
@@ -226,7 +241,8 @@ public class MainPage extends javax.swing.JFrame {
             chip.addActionListener((ae) -> {
                 chipGroup.setSelected(chip.getModel(), true);
 
-                List<AbstractButton> chips = Collections.list(chipGroup.getElements());
+                List<AbstractButton> chips = Collections.list(chipGroup
+                        .getElements());
                 chips.forEach((_chip) -> {
                     setChipSelected((a_Chip) _chip);
                 });
@@ -234,7 +250,8 @@ public class MainPage extends javax.swing.JFrame {
                 if (_jenisBarang.id == 0) {
                     entriBarangPanel.loadBarang(new Barang().get(connection));
                 } else {
-                    entriBarangPanel.loadBarang(new Barang().getByJenis(connection, _jenisBarang.id));
+                    entriBarangPanel.loadBarang(new Barang().getByJenis(
+                            connection, _jenisBarang.id));
                 }
             });
             chipsPanel.add(chip);
@@ -248,9 +265,12 @@ public class MainPage extends javax.swing.JFrame {
         final Color inactiveBackgroundColor = Colors.primaryColor;
         final int[] insets = {9, 12, 9, 12};
 
-        chip.setBackground(chip.isSelected() ? activeBackgroundColor : inactiveBackgroundColor);
-        chip.setForeground(chip.isSelected() ? activeTextColor : inactiveTextColor);
-        chip.setBorder(new RoundedBorder(32, insets, chip.isSelected() ? activeBackgroundColor : Colors.borderColor));
+        chip.setBackground(chip.isSelected() ? activeBackgroundColor
+                : inactiveBackgroundColor);
+        chip.setForeground(chip.isSelected() ? activeTextColor
+                : inactiveTextColor);
+        chip.setBorder(new RoundedBorder(32, insets, chip.isSelected()
+                ? activeBackgroundColor : Colors.borderColor));
     }
 
     @Override
@@ -259,7 +279,8 @@ public class MainPage extends javax.swing.JFrame {
             connection.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MainPage.class.getName()).log(Level.SEVERE, null,
+                    ex);
         }
         super.dispose();
     }
@@ -795,7 +816,8 @@ public class MainPage extends javax.swing.JFrame {
     }//GEN-LAST:event_nav_entriOrderActionPerformed
 
     private void nav_entriTransaksiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_entriTransaksiActionPerformed
-        loadContent(new EntriTransaksiPanel(null, null, null));
+        JOptionPane.showMessageDialog(this,
+                "Anda harus memilih penjualan terlebih dahulu untuk melakukan transaksi");
     }//GEN-LAST:event_nav_entriTransaksiActionPerformed
 
     private void nav_laporanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nav_laporanActionPerformed
@@ -843,13 +865,16 @@ public class MainPage extends javax.swing.JFrame {
         if (entriBarangPanel.meja != null) {
             entriBarangPanel.showDetailPesanan();
         } else {
-            JOptionPane.showMessageDialog(parent, "Untuk menambahkan barang ke keranjang,\nsilahkan pilih meja terlebih dahulu");
+            JOptionPane.showMessageDialog(parent,
+                    "Untuk menambahkan barang ke keranjang,\nsilahkan pilih meja terlebih dahulu");
         }
 
     }//GEN-LAST:event_b_keranjangActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        int dialog = JOptionPane.showConfirmDialog(null, "Apakah Anda yakin ingin keluar?", "Keluar?", JOptionPane.YES_NO_OPTION);
+        int dialog = JOptionPane.showConfirmDialog(null,
+                "Apakah Anda yakin ingin keluar?", "Keluar?",
+                JOptionPane.YES_NO_OPTION);
         if (dialog == 0) {
             dispose();
             new LoginPage().setVisible(true);
@@ -862,14 +887,18 @@ public class MainPage extends javax.swing.JFrame {
          * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+            for (javax.swing.UIManager.LookAndFeelInfo info
+                    : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
             }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException | InstantiationException
+                | IllegalAccessException
+                | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainPage.class.getName()).log(
+                    java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -920,7 +949,7 @@ public class MainPage extends javax.swing.JFrame {
     private javax.swing.JRadioButton nav_entriMeja;
     private javax.swing.JRadioButton nav_entriMeja1;
     public javax.swing.JRadioButton nav_entriOrder;
-    private javax.swing.JRadioButton nav_entriTransaksi;
+    public javax.swing.JRadioButton nav_entriTransaksi;
     private javax.swing.JRadioButton nav_laporan;
     private javax.swing.JLabel tv_hakAkses;
     private javax.swing.JLabel tv_namaPengguna;

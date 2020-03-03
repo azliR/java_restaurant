@@ -55,7 +55,7 @@
                       <Component id="iv_gambar" min="-2" pref="64" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="tv_namaBarang" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -102,7 +102,7 @@
     <Component class="javax.swing.JLabel" name="tv_harga">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="Fonts.ROBOTO_MEDIUM.deriveFont(14f)&#xd;&#xa;" type="code"/>
+          <Connection code="Fonts.ROBOTO_REGULAR.deriveFont(14f)&#xd;&#xa;" type="code"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Rp. 12.000"/>
       </Properties>

@@ -62,12 +62,18 @@ public class a_TextField extends JTextField {
     }
 
     private void borderFocusGained(String name) {
-        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(borderRadius, inset, focusGainedColor),
-                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(12f), focusGainedColor));
+        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(
+                borderRadius, inset, focusGainedColor),
+                name, TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(
+                        12f), focusGainedColor));
     }
 
     private void borderFocusLost(String name) {
-        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(borderRadius, inset, focusLostColor),
-                name, TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(12f), focusLostTextColor));
+        setBorder(BorderFactory.createTitledBorder(new RoundedBorder(
+                borderRadius, inset, focusLostColor),
+                name, TitledBorder.DEFAULT_JUSTIFICATION,
+                TitledBorder.DEFAULT_POSITION, Fonts.ROBOTO_REGULAR.deriveFont(
+                        12f), focusLostTextColor));
     }
 }

@@ -3,8 +3,12 @@ package panel;
 import common.RoundedButton;
 import common.a_;
 import common.a_TextField;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.util.List;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import model.DetailPenjualan;
 import model.Penjualan;
 import styles.Colors;
@@ -31,19 +35,20 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
             loadDetailPenjualan(detailPenjualans);
             tv_atasNama.setText(penjualan.atasNama);
             tv_jumlahOrang.setText(String.valueOf(penjualan.jumlahOrang));
-            tv_tanggal.setText(penjualan.tanggalPenjualan);
+            tv_tanggal.setText(a_.convertTimestamp(penjualan.tanggalPenjualan));
             tv_total.setText("Rp. " + a_.convertCurrency(penjualan.total));
-            tv_kembalian.setText("Rp. " + a_.convertCurrency(penjualan.total));
+            tv_kembalian.setText("Rp. -" + a_.convertCurrency(penjualan.total));
         }
     }
-    
+
     private void loadDetailPenjualan(List<DetailPenjualan> detailPenjualans) {
         int i = 1;
         for (var detailPenjualan : detailPenjualans) {
             var templateDetailPenjualan = new TemplateDetailPenjualan(connection, detailPenjualan, i);
-            int width = jScrollPane1.getWidth() - 16;
+            int width = 460;
             int height = templateDetailPenjualan.getPreferredSize().height;
 
+            templateDetailPenjualan.setPreferredSize(new Dimension(width, height));
             detailPesananListPanel.add(templateDetailPenjualan);
             i++;
         }
@@ -74,15 +79,16 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
         tv_total = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
         tv_tanggal = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(null);
-        jScrollPane1.setPreferredSize(new java.awt.Dimension(100, 440));
+        jScrollPane1.setPreferredSize(new java.awt.Dimension(440, 440));
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 0));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 8));
 
         detailPesananListPanel.setBackground(new java.awt.Color(255, 255, 255));
         detailPesananListPanel.setLayout(new java.awt.GridLayout(0, 1, 0, 6));
@@ -90,12 +96,17 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
 
         jScrollPane1.setViewportView(jPanel1);
 
-        jButton1.setBackground(Colors.accentColor);
+        jButton1.setBackground(Colors.primaryColor);
         jButton1.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
         );
         jButton1.setForeground(Colors.primaryColor);
         jButton1.setText("Bayar");
         jButton1.setBorder(null);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel2.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(11f)
         );
@@ -186,6 +197,8 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
         tv_tanggal.setForeground(Colors.blackTextColor);
         tv_tanggal.setText("08:34 | 08/01/2020");
 
+        jSeparator1.setForeground(Colors.borderColor);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -197,7 +210,9 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
                         .addComponent(jLabel2)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 440, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 480, Short.MAX_VALUE)
+                            .addComponent(jSeparator1))
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -207,7 +222,7 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
                                     .addComponent(tv_atasNama)
                                     .addComponent(tv_jumlahOrang)
                                     .addComponent(jLabel6))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 244, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -274,9 +289,13 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(12, 12, 12)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, 0)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 434, Short.MAX_VALUE))))
         );
+
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(12);
     }// </editor-fold>//GEN-END:initComponents
 
     private void et_bayarKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_et_bayarKeyTyped
@@ -293,6 +312,27 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
         tv_kembalian.setText("Rp. " + a_.convertCurrency(bayar - total));
     }//GEN-LAST:event_et_bayarKeyReleased
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        final int bayar = Integer.parseInt(et_bayar.getText().isBlank() ? "0" : et_bayar.getText());
+        final var kembali = bayar - penjualan.total;
+
+        if (bayar == 0 || kembali < 0) {
+            JOptionPane.showMessageDialog(null, "Uang yang dibayar belum cukup!", "Tidak dapat melanjutkan", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        final var panel = new PrintResultPanel(
+                connection, penjualan, detailPenjualans, Integer.parseInt(et_bayar.getText()));
+        JDialog dialog = new JDialog();
+        dialog.setContentPane(panel);
+        dialog.setTitle("Struk pesanan");
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        dialog.setModal(true);
+        dialog.setSize(new Dimension(370 + 20, 1000));
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel detailPesananListPanel;
     private javax.swing.JTextField et_bayar;
@@ -308,6 +348,7 @@ public class EntriTransaksiPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JLabel tv_atasNama;
     private javax.swing.JLabel tv_jumlahOrang;
     private javax.swing.JLabel tv_kembalian;

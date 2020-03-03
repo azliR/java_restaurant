@@ -26,7 +26,7 @@ public class Penjualan {
         List<Penjualan> penjualans = new ArrayList<>();
         String sql = "SELECT * FROM penjualan ORDER BY tanggal_penjualan DESC";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Penjualan penjualan = new Penjualan();
@@ -54,7 +54,7 @@ public class Penjualan {
         List<Penjualan> penjualans = new ArrayList<>();
         String sql = "SELECT * FROM penjualan ORDER BY tanggal_penjualan DESC WHERE id_meja='" + idMeja + "'";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Penjualan penjualan = new Penjualan();
@@ -82,7 +82,7 @@ public class Penjualan {
         Penjualan penjualan = new Penjualan();
         String sql = "SELECT * FROM penjualan WHERE id='" + id + "'";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 penjualan.id = resultSet.getInt("id");
@@ -106,7 +106,7 @@ public class Penjualan {
     public int insert(Connection c) {
         int generatedId = -1;
         String sql = "INSERT INTO penjualan VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try ( PreparedStatement p = (PreparedStatement) c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        try (PreparedStatement p = (PreparedStatement) c.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             p.setInt(1, id);
             p.setInt(2, idPengguna);
             p.setInt(3, idMeja);
@@ -119,7 +119,7 @@ public class Penjualan {
 
             p.executeUpdate();
 
-            try ( ResultSet resultSet = p.getGeneratedKeys()) {
+            try (ResultSet resultSet = p.getGeneratedKeys()) {
                 if (resultSet.next()) {
                     generatedId = resultSet.getInt(1);
                 }
@@ -141,7 +141,7 @@ public class Penjualan {
             sql.append("id_pengguna = '").append(idPengguna).append("', ");
         }
         if (idMeja != 0) {
-            sql.append("id_meja = '").append(atasNama).append("', ");
+            sql.append("id_meja = '").append(idMeja).append("', ");
         }
         if (idStatus != 0) {
             sql.append("id_status = '").append(idStatus).append("', ");
@@ -161,7 +161,7 @@ public class Penjualan {
         sql.deleteCharAt(sql.length() - 2);
         sql.append("WHERE id = '").append(id).append("'");
 
-        try ( Statement s = c.createStatement()) {
+        try (Statement s = c.createStatement()) {
             s.executeUpdate(sql.toString());
 
             return true;

@@ -38,7 +38,8 @@ public class TemplateBarang extends RoundedPanel {
 
     private final Connection connection;
 
-    public TemplateBarang(Connection connection, EntriBarangPanel context, Barang barang) {
+    public TemplateBarang(Connection connection, EntriBarangPanel context,
+            Barang barang) {
         super(16);
         this.context = context;
         this.barang = barang;
@@ -70,9 +71,12 @@ public class TemplateBarang extends RoundedPanel {
     }
 
     public void setSelected(boolean isSelected) {
-        setBackground(isSelected ? activeBackgroundColor : inactiveBackgroundColor);
-        setBorder(new RoundedBorder(borderRadius, borderInsets, isSelected ? activeBorderColor : inactiveBorderColor));
-        tv_namaBarang.setForeground(isSelected ? activeTextColor : inactiveTextColor);
+        setBackground(isSelected ? activeBackgroundColor
+                : inactiveBackgroundColor);
+        setBorder(new RoundedBorder(borderRadius, borderInsets, isSelected
+                ? activeBorderColor : inactiveBorderColor));
+        tv_namaBarang.setForeground(isSelected ? activeTextColor
+                : inactiveTextColor);
     }
 
     @SuppressWarnings("unchecked")
@@ -156,13 +160,15 @@ public class TemplateBarang extends RoundedPanel {
 
     private void formMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseEntered
         if (getBackground() != Colors.blueBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, activeBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    activeBorderColor));
         }
     }//GEN-LAST:event_formMouseEntered
 
     private void formMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseExited
         if (getBackground() != Colors.blueBackgroundColor) {
-            setBorder(new RoundedBorder(borderRadius, borderInsets, inactiveBorderColor));
+            setBorder(new RoundedBorder(borderRadius, borderInsets,
+                    inactiveBorderColor));
         }
     }//GEN-LAST:event_formMouseExited
 

@@ -103,7 +103,7 @@ public class TambahBarangPanel extends javax.swing.JPanel {
             }
         });
 
-        b_simpan.setBackground(Colors.accentColor);
+        b_simpan.setBackground(Colors.primaryColor);
         b_simpan.setFont(new java.awt.Font("Product Sans Medium", 0, 14)); // NOI18N
         b_simpan.setForeground(new java.awt.Color(255, 255, 255));
         b_simpan.setText("Simpan");
@@ -194,9 +194,11 @@ public class TambahBarangPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_b_clearActionPerformed
 
     private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
-        FileDialog fileDialog = new FileDialog((Frame) MainPage.parent, "Pilih Gambar Produk", FileDialog.LOAD);
+        FileDialog fileDialog = new FileDialog((Frame) MainPage.parent,
+                "Pilih Gambar Produk", FileDialog.LOAD);
         fileDialog.setFilenameFilter((dir, name) -> {
-            return name.endsWith(".jpeg") || name.endsWith(".jpg") || name.endsWith(".png");
+            return name.endsWith(".jpeg") || name.endsWith(".jpg") || name
+                    .endsWith(".png");
         });
         fileDialog.setAlwaysOnTop(true);
         fileDialog.setLocationRelativeTo(MainPage.parent);
@@ -214,15 +216,19 @@ public class TambahBarangPanel extends javax.swing.JPanel {
 
             Image image = ImageIO.read(selectedFile);
 
-            Image resizedImage = a_.scaleImage(image, maxImageWidth, maxImageHeight);
+            Image resizedImage = a_.scaleImage(image, maxImageWidth,
+                    maxImageHeight);
 
-            File resizedImageFile = new File(System.getProperty("user.dir") + "/bin.png");
-            ImageIO.write(a_.toBufferedImage(resizedImage), "png", resizedImageFile);
+            File resizedImageFile = new File(System.getProperty("user.dir")
+                    + "/bin.png");
+            ImageIO.write(a_.toBufferedImage(resizedImage), "png",
+                    resizedImageFile);
 
             gambarFile = resizedImageFile;
             jLabel1.setIcon(new ImageIcon(resizedImage));
         } catch (IOException ex) {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null,
+                    ex);
         }
     }//GEN-LAST:event_jLabel1MouseClicked
 

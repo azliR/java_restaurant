@@ -32,7 +32,7 @@ public class Barang {
         Barang barang = new Barang();
         String sql = "SELECT * FROM barang WHERE id='" + id + "' ORDER BY nama_barang ASC";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Blob gambarBlob = (Blob) resultSet.getBlob("gambar");
@@ -58,7 +58,7 @@ public class Barang {
         List<Barang> barangs = new ArrayList<>();
         String sql = "SELECT * FROM barang WHERE id_jenis='" + idJenis + "' ORDER BY nama_barang ASC";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Blob gambarBlob = (Blob) resultSet.getBlob(3);
@@ -87,7 +87,7 @@ public class Barang {
         List<Barang> barangs = new ArrayList<>();
         String sql = "SELECT * FROM barang ORDER BY nama_barang ASC";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 Blob gambarBlob = (Blob) resultSet.getBlob(3);
@@ -114,7 +114,7 @@ public class Barang {
 
     public boolean insert(Connection c, File gambarFile) {
         String sql = "INSERT INTO barang VALUES (?, ?, ?, ?, ?, ?, ?)";
-        try ( PreparedStatement p = (PreparedStatement) c.prepareStatement(sql)) {
+        try (PreparedStatement p = (PreparedStatement) c.prepareStatement(sql)) {
             FileInputStream fileInputStream = new FileInputStream(gambarFile);
 
             p.setInt(1, id);

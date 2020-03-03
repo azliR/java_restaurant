@@ -68,8 +68,10 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         final int width = context.content.getWidth() / 4 - padding;
 
         mejas.forEach((_entriMeja) -> {
-            TemplateEntriMeja templateEntriMeja = new TemplateEntriMeja(connection, this, _entriMeja);
-            templateEntriMeja.setPreferredSize(new Dimension(width, (int) templateEntriMeja.getPreferredSize().getHeight()));
+            TemplateEntriMeja templateEntriMeja = new TemplateEntriMeja(
+                    connection, this, _entriMeja);
+            templateEntriMeja.setPreferredSize(new Dimension(width,
+                    (int) templateEntriMeja.getPreferredSize().getHeight()));
             templateEntriMejas.add(templateEntriMeja);
             entriMejaPanel.add(templateEntriMeja);
         });
@@ -80,12 +82,15 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     public void showInfoMeja(TemplateEntriMeja templateEntriMeja, Meja meja) {
         selectedMeja = meja;
 
-        final int width = (context.content.getWidth() - infoMejaPanel.getPreferredSize().width) / 3 - padding;
+        final int width = (context.content.getWidth() - infoMejaPanel
+                .getPreferredSize().width) / 3 - padding;
 
         templateEntriMejas.forEach(((_templateEntriMeja) -> {
-            _templateEntriMeja.setSelected(_templateEntriMeja == templateEntriMeja);
+            _templateEntriMeja.setSelected(_templateEntriMeja
+                    == templateEntriMeja);
             if (!infoMejaPanel.isVisible()) {
-                _templateEntriMeja.setPreferredSize(new Dimension(width, _templateEntriMeja.getHeight()));
+                _templateEntriMeja.setPreferredSize(new Dimension(width,
+                        _templateEntriMeja.getHeight()));
                 _templateEntriMeja.revalidate();
             }
         }));
@@ -101,9 +106,12 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_nomorMeja.setText(String.valueOf(meja.nomorMeja));
         tv_maksOrang.setText(meja.maksOrang + " Orang");
 
-        tv_tipeMeja.setText(new TipeMeja().get(connection, meja.idTipeMeja).namaTipe);
-        b_pilihMeja.setText(meja.atasNama != null ? "Sudah Dipesan" : "Pesan Meja");
-        b_pilihMeja.setBackground(meja.atasNama != null ? Colors.primaryColor : Colors.accentColor);
+        tv_tipeMeja.setText(
+                new TipeMeja().get(connection, meja.idTipeMeja).namaTipe);
+        b_pilihMeja.setText(meja.atasNama != null ? "Sudah Dipesan"
+                : "Pesan Meja");
+        b_pilihMeja.setBackground(meja.atasNama != null ? Colors.primaryColor
+                : Colors.primaryColor);
         b_pilihMeja.setEnabled(meja.atasNama == null);
         b_detailPesanan.setVisible(meja.atasNama != null);
 
@@ -127,7 +135,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
 
         templateEntriMejas.forEach(((_templateEntriMeja) -> {
             _templateEntriMeja.setSelected(false);
-            _templateEntriMeja.setPreferredSize(new Dimension(width, _templateEntriMeja.getHeight()));
+            _templateEntriMeja.setPreferredSize(new Dimension(width,
+                    _templateEntriMeja.getHeight()));
             _templateEntriMeja.revalidate();
         }));
     }
@@ -194,7 +203,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_jumlah.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tv_jumlah.setText("Jumlah Orang");
 
-        b_okeAtasNama.setBackground(Colors.accentColor);
+        b_okeAtasNama.setBackground(Colors.primaryColor);
         b_okeAtasNama.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(14f)
         );
         b_okeAtasNama.setForeground(new java.awt.Color(255, 255, 255));
@@ -336,7 +345,7 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         tv_atasNama.setForeground(Colors.blackTextColor);
         tv_atasNama.setText("Rizal Hadiyansah");
 
-        b_pilihMeja.setBackground(Colors.accentColor);
+        b_pilihMeja.setBackground(Colors.primaryColor);
         b_pilihMeja.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
         );
         b_pilihMeja.setForeground(new java.awt.Color(255, 255, 255));
@@ -513,17 +522,20 @@ public class EntriMejaPanel extends javax.swing.JPanel {
         if (et_atasNama.getText().isBlank()) {
             tv_hint.setVisible(true);
             tv_hint.setText("Masukkan nama pelanggan untuk melanjutkan!");
-            tv_hint.setIcon(new ImageIcon(getClass().getResource("/images/ic_alert-circle_16.png")));
+            tv_hint.setIcon(new ImageIcon(getClass().getResource(
+                    "/images/ic_alert-circle_16.png")));
             tv_hint.setForeground(Color.RED);
             return;
         }
 
         selectedMeja.atasNama = et_atasNama.getText();
-        selectedMeja.jumlahOrang = a_.extractNumber(cb_jumlahOrang.getSelectedItem().toString());
+        selectedMeja.jumlahOrang = a_.extractNumber(cb_jumlahOrang
+                .getSelectedItem().toString());
 
         context.nav_entriBarang.setSelected(true);
         context.setNavigationColor();
-        context.loadContent(new EntriBarangPanel(context, connection, selectedMeja));
+        context.loadContent(new EntriBarangPanel(context, connection,
+                selectedMeja));
 
         atasNamaDialog.dispose();
     }//GEN-LAST:event_b_okeAtasNamaActionPerformed
@@ -537,7 +549,8 @@ public class EntriMejaPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_et_atasNamaActionPerformed
 
     private void b_detailPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_detailPesananActionPerformed
-        context.loadContent(new EntriPenjualanPanel(context, connection, selectedMeja.idPenjualan));
+        context.loadContent(new EntriPenjualanPanel(context, connection,
+                selectedMeja.idPenjualan));
         context.nav_entriOrder.setSelected(true);
         context.setNavigationColor();
     }//GEN-LAST:event_b_detailPesananActionPerformed

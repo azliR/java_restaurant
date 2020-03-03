@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import model.DetailPenjualan;
 import model.Penjualan;
@@ -32,11 +33,11 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
     private final List<TemplatePenjualan> templatePenjualans = new ArrayList<>();
     private final DefaultListModel<Pesanan> listModel = new DefaultListModel<>();
 
-    public List<Pesanan> pesanans = new ArrayList<>();
-
     private final int buttonRadius = 8;
 
     private Penjualan selectedPesanan;
+    private List<DetailPenjualan> detailPenjualans = new ArrayList<>();
+    private List<Penjualan> penjualans = new ArrayList<>();
 
     private GridLayout gridLayout;
     private final MainPage context;
@@ -78,15 +79,17 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
 
         entriPenjualanScroll.getVerticalScrollBar().setUnitIncrement(12);
 
-        loadPesanan(new Penjualan().get(connection));
+        loadPesanan();
     }
 
-    public void loadPesanan(List<Penjualan> penjualans) {
+    public void loadPesanan() {
         templatePenjualans.clear();
         entriPesananPanel.removeAll();
 
+        penjualans = new Penjualan().get(connection);
+
         int width = context.content.getWidth() / 4 - 16;
-        penjualans.forEach((_penjualan) -> {
+        penjualans.stream().forEach((_penjualan) -> {
             TemplatePenjualan templatePenjualan = new TemplatePenjualan(connection, this, _penjualan);
             templatePenjualan.setPreferredSize(new Dimension(width, templatePenjualan.getPreferredSize().height));
 
@@ -113,7 +116,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
 
         detailPesananListPanel.removeAll();
 
-        List<DetailPenjualan> detailPenjualans = new DetailPenjualan().get(connection, penjualan.id);
+        detailPenjualans = new DetailPenjualan().get(connection, penjualan.id);
 
         int i = 1;
         for (DetailPenjualan detailPenjualan : detailPenjualans) {
@@ -132,8 +135,41 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         tv_jumlahOrang.setText(penjualan.jumlahOrang + " Orang");
         tv_status.setText(new StatusPesanan().get(connection, penjualan.idStatus).namaStatus);
         tv_total.setText("Rp. " + a_.convertCurrency(penjualan.total));
+        tv_tanggal.setText(a_.convertTimestamp(penjualan.tanggalPenjualan));
 
         jToggleButton1.setSelected(false);
+
+        switch (selectedPesanan.idStatus) {
+            case 1:
+                b_konfirmasiPesanan.setVisible(true);
+                b_konfirmasiPesanan.setText("Konfirmasi Pesanan");
+                break;
+            case 2:
+                b_konfirmasiPesanan.setVisible(true);
+                b_konfirmasiPesanan.setText("Update Status Pesanan");
+                break;
+            case 3:
+                b_konfirmasiPesanan.setVisible(true);
+                b_konfirmasiPesanan.setText("Transaksi");
+                break;
+            default:
+                b_konfirmasiPesanan.setVisible(false);
+        }
+    }
+
+    private void showKonfirmasiDialog(String title) {
+        final var result = JOptionPane.showConfirmDialog(this, title, "Update Status Pesanan", JOptionPane.YES_NO_OPTION);
+        if (result == 0) {
+            final var updatedPesanan = selectedPesanan;
+            updatedPesanan.idStatus++;
+//            updatedPesanan.update(connection);
+
+            penjualans.set(penjualans.indexOf(selectedPesanan), updatedPesanan);
+
+            selectedPesanan.idStatus++;
+            entriPesananPanel.revalidate();
+            entriPesananPanel.repaint();
+        }
     }
 
     private void hideDetailPesanan() {
@@ -183,6 +219,9 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         jLabel6 = new javax.swing.JLabel();
         jSeparator6 = new javax.swing.JSeparator();
         jToggleButton1 = new javax.swing.JToggleButton();
+        jLabel7 = new javax.swing.JLabel();
+        tv_tanggal = new javax.swing.JLabel();
+        jSeparator7 = new javax.swing.JSeparator();
         b_closeDetailPesanan = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
 
@@ -234,9 +273,11 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         jLabel41.setText("Detail Pesanan");
         jLabel41.setIconTextGap(18);
 
-        b_konfirmasiPesanan.setBackground(Colors.blueBackgroundColor);
-        b_konfirmasiPesanan.setFont(new java.awt.Font("Product Sans Medium", 0, 16)); // NOI18N
-        b_konfirmasiPesanan.setText("Fitur Baru Segera Datang");
+        b_konfirmasiPesanan.setBackground(Colors.primaryColor);
+        b_konfirmasiPesanan.setFont(Fonts.PRODUCT_SANS_MEDIUM.deriveFont(16f)
+        );
+        b_konfirmasiPesanan.setForeground(Colors.primaryColor);
+        b_konfirmasiPesanan.setText("Transaksi");
         b_konfirmasiPesanan.setBorder(null);
         b_konfirmasiPesanan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         b_konfirmasiPesanan.setFocusPainted(false);
@@ -347,6 +388,19 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
             }
         });
 
+        jLabel7.setFont(Fonts.ROBOTO_MEDIUM.deriveFont(11f)
+        );
+        jLabel7.setForeground(Colors.greyTextColor);
+        jLabel7.setText("DIPESAN PADA");
+
+        tv_tanggal.setFont(Fonts.ROBOTO_REGULAR.deriveFont(14f)
+        );
+        tv_tanggal.setForeground(Colors.blackTextColor);
+        tv_tanggal.setText("08:28 | 12 Agustus 2020");
+
+        jSeparator7.setForeground(Colors.borderColor);
+        jSeparator7.setOpaque(true);
+
         javax.swing.GroupLayout panelFlowLayout = new javax.swing.GroupLayout(panelFlow);
         panelFlow.setLayout(panelFlowLayout);
         panelFlowLayout.setHorizontalGroup(
@@ -384,6 +438,11 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToggleButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(panelFlowLayout.createSequentialGroup()
+                .addComponent(jLabel7)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(tv_tanggal))
+            .addComponent(jSeparator7, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         panelFlowLayout.setVerticalGroup(
             panelFlowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,6 +471,12 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
                     .addComponent(tv_jumlahOrang))
                 .addGap(16, 16, 16)
                 .addComponent(jSeparator4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(16, 16, 16)
+                .addGroup(panelFlowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(tv_tanggal))
+                .addGap(16, 16, 16)
+                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16)
                 .addGroup(panelFlowLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -502,10 +567,6 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         detailPenjualanPanel.setVisible(false);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void b_konfirmasiPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_konfirmasiPesananActionPerformed
-
-    }//GEN-LAST:event_b_konfirmasiPesananActionPerformed
-
     private void b_closeDetailPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_closeDetailPesananActionPerformed
         hideDetailPesanan();
     }//GEN-LAST:event_b_closeDetailPesananActionPerformed
@@ -524,6 +585,24 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_jToggleButton1StateChanged
 
+    private void b_konfirmasiPesananActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_b_konfirmasiPesananActionPerformed
+        switch (selectedPesanan.idStatus) {
+            case 1:
+                showKonfirmasiDialog("Konfirmasi Pesanan?");
+                break;
+            case 2:
+                b_konfirmasiPesanan.setVisible(true);
+                b_konfirmasiPesanan.setText("Update Status Pesanan");
+                break;
+            case 3:
+                context.nav_entriTransaksi.setSelected(true);
+                context.loadContent(new EntriTransaksiPanel(connection, selectedPesanan, detailPenjualans));
+                break;
+            default:
+                b_konfirmasiPesanan.setVisible(false);
+        }
+    }//GEN-LAST:event_b_konfirmasiPesananActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton b_closeDetailPesanan;
     private javax.swing.JButton b_konfirmasiPesanan;
@@ -540,6 +619,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JSeparator jSeparator1;
@@ -548,6 +628,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
+    private javax.swing.JSeparator jSeparator7;
     private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JLabel l_daftarPesanan;
     private javax.swing.JPanel panelFlow;
@@ -555,6 +636,7 @@ public class EntriPenjualanPanel extends javax.swing.JPanel {
     private javax.swing.JLabel tv_id;
     private javax.swing.JLabel tv_jumlahOrang;
     private javax.swing.JLabel tv_status;
+    private javax.swing.JLabel tv_tanggal;
     private javax.swing.JLabel tv_total;
     // End of variables declaration//GEN-END:variables
 }

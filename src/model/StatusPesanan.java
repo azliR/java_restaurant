@@ -23,7 +23,7 @@ public class StatusPesanan {
         StatusPesanan statusPesanan = new StatusPesanan();
         String sql = "SELECT * FROM status_pesanan WHERE id='" + id + "'";
 
-        try ( Statement statement = connection.createStatement();  ResultSet resultSet = statement.executeQuery(sql)) {
+        try (Statement statement = connection.createStatement(); ResultSet resultSet = statement.executeQuery(sql)) {
 
             while (resultSet.next()) {
                 statusPesanan.id = resultSet.getInt("id");

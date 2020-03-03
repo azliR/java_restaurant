@@ -20,10 +20,12 @@ public class a_Chip extends RoundedButton {
     public a_Chip(String text) {
         super(32);
         setFont(Fonts.ROBOTO_MEDIUM.deriveFont(10f));
-        setBackground(isSelected() ? activeBackgroundColor : inactiveBackgroundColor);
+        setBackground(isSelected() ? activeBackgroundColor
+                : inactiveBackgroundColor);
         setForeground(isSelected() ? activeTextColor : inactiveTextColor);
         setText(text.toUpperCase());
-        setBorder(new RoundedBorder(32, insets, isSelected() ? activeBackgroundColor : Colors.borderColor));
+        setBorder(new RoundedBorder(32, insets, isSelected()
+                ? activeBackgroundColor : Colors.borderColor));
         setFocusPainted(false);
         setCursor(new Cursor(Cursor.HAND_CURSOR));
         setContentAreaFilled(false);

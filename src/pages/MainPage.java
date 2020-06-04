@@ -73,7 +73,7 @@ public class MainPage extends javax.swing.JFrame {
         tv_hakAkses
                 .setText(new HakAkses().get(connection, idHakAkses).namaAkses);
 
-        loadContent(new BerandaPanel());
+//        loadContent(new BerandaPanel());
     }
 
     public final void loadContent(Component panel) {
